@@ -35,6 +35,7 @@ Personalized nvim config for TS Code editing
 - find-file: `<leader>ff`
 - find-in-file: `<leader>fz`
 - find-all: `<leader>fa`
+- live-grep: `<leader>fw`
 
 ### TS 
 
