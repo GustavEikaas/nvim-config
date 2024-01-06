@@ -28,7 +28,7 @@ Personalized nvim config for TS Code editing
 ### tree
 
 - toggle: `C-.`
-- focus: `C-e
+- focus: `C-e`
 
 ### telescope
 
