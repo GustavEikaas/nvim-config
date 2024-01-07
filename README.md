@@ -1,7 +1,7 @@
 Personalized nvim config for TS Code editing
 
-
 ## Prerequisites
+
 - Choco
 - Zig
 - Neovim
@@ -16,14 +16,14 @@ Personalized nvim config for TS Code editing
 - exit term: `esc + ctrl + x`
 - close term/buffer: `<leader>x`
 - cheatsheet: `<leader>ch`
-- undo: `u` 
+- undo: `u`
 - redo: `C-r`
 - toggle floating term: `A-i`
 - toggle horizontal term: `A-h`
 
 ### buffer
 
-- alternate: `tab` 
+- alternate: `tab`
 - delete line: `dd`
 
 ### tree
@@ -39,13 +39,12 @@ Personalized nvim config for TS Code editing
 - live-grep: `<leader>fw`
 - git status: `<leader>gt`
 
-### TS 
+### TS
 
+- hover type: `K`
 - go-to-definition: `<leader>D`
-- show-references:  `<leader>gr`
+- show-references: `<leader>gr`
 - rename(shallow): `<leader>ra`
 - go-to-definition: `<leader>gd`
 - comment: `<leader>/`
 - format: `<leader>fm`
-
-
