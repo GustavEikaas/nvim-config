@@ -34,6 +34,9 @@ M.mason = {
     "deno",
     "prettier",
 
+    -- rust
+    "rust-analyzer",
+
     -- c/cpp stuff
     "clangd",
     "clang-format",
