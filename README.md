@@ -24,6 +24,7 @@ Personalized nvim config for TS Code editing
 ### buffer
 
 - alternate: `tab` 
+- delete line: `dd`
 
 ### tree
 
