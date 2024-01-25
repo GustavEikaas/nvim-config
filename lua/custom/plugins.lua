@@ -1,4 +1,4 @@
-local overrides = require("custom.configs.overrides")
+local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -22,10 +22,18 @@ local plugins = {
     end, -- Override to setup mason-lspconfig
   },
 
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").setup {}
+      require("leap").create_default_mappings()
+    end,
+    lazy = false,
+  },
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason
+    opts = overrides.mason,
   },
 
   {

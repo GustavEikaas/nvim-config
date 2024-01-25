@@ -14,6 +14,7 @@ local options = {
     "vue",
     "xml",
     "yaml",
+    "vimdoc",
   },
 
   highlight = {
