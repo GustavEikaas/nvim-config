@@ -74,6 +74,41 @@ M.general = {
   },
 }
 
+M.nvim_surround = {
+  plugin = true,
+
+  n = {
+    ["cst"] = {
+      function() end,
+      "Replace html tag",
+    },
+    ["ysiwb"] = {
+      function() end,
+      "surround ()",
+    },
+    ["ys$"] = {
+      function() end,
+      "surround quotation",
+    },
+    ["ds\\]"] = {
+      function() end,
+      "delete surrounding []",
+    },
+    ["dst"] = {
+      function() end,
+      "delete html tag",
+    },
+    ["csth1<CR>"] = {
+      function() end,
+      "rename html tag",
+    },
+    ["dsf"] = {
+      function() end,
+      "delete special characters",
+    },
+  },
+}
+
 M.tabufline = {
   plugin = true,
 
