@@ -22,6 +22,13 @@ local plugins = {
     end, -- Override to setup mason-lspconfig
   },
   {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+    lazy = false,
+  },
+  {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
@@ -37,7 +44,7 @@ local plugins = {
       require("leap").setup {}
       require("leap").create_default_mappings()
     end,
-    lazy = false,
+    lazy = true,
   },
   -- override plugin configs
   {
