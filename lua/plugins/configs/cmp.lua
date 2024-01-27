@@ -107,10 +107,10 @@ local options = {
   },
   sources = {
     { name = "nvim_lsp", group_index = 1 },
-    { name = "luasnip" },
+    { name = "luasnip", group_index = 3 },
     { name = "buffer", group_index = 2 },
-    { name = "nvim_lua" },
-    { name = "path" },
+    { name = "nvim_lua", group_index = 4 },
+    { name = "path", group_index = 5 },
   },
   sorting = {
     priority_weight = 4,
