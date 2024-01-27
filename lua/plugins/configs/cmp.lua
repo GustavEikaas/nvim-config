@@ -1,5 +1,5 @@
 local cmp = require "cmp"
-local types = require("cmp.types")
+local types = require "cmp.types"
 
 dofile(vim.g.base46_cache .. "cmp")
 
@@ -45,11 +45,6 @@ local function border(hl_name)
   }
 end
 
-local function deprioritize_snippet(entry1, entry2)
-  if entry1:get_kind() == types.lsp.CompletionItemKind.Snippet then return false end
-  if entry2:get_kind() == types.lsp.CompletionItemKind.Snippet then return true end
-end
-
 local options = {
   completion = {
     completeopt = "menu,menuone",
@@ -79,7 +74,7 @@ local options = {
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-z>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Insert,
@@ -111,16 +106,15 @@ local options = {
     }),
   },
   sources = {
-    { name = "nvim_lsp" },
+    { name = "nvim_lsp", group_index = 1 },
     { name = "luasnip" },
-    { name = "buffer" },
+    { name = "buffer", group_index = 2 },
     { name = "nvim_lua" },
     { name = "path" },
   },
   sorting = {
-    priority_weight = 2,
+    priority_weight = 4,
     comparators = {
-      deprioritize_snippet,
       -- the rest of the comparators are pretty much the defaults
       cmp.config.compare.offset,
       cmp.config.compare.exact,
