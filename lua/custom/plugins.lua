@@ -46,6 +46,14 @@ local plugins = {
     end,
     lazy = true,
   },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
   -- override plugin configs
   {
     "williamboman/mason.nvim",
