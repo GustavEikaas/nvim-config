@@ -3,8 +3,10 @@ local null_ls = require "null-ls"
 local b = null_ls.builtins
 
 local sources = {
-  -- webdev stuff
+  -- webdev
   b.formatting.prettier,
+  -- c#
+  b.formatting.csharpier,
   -- Lua
   b.formatting.stylua,
   -- cpp
@@ -29,3 +31,5 @@ require("null-ls").setup {
     end
   end,
 }
+
+require("null-ls").register { name = "c#", filtetypes = { "cs" }, sources = { b.formatting.csharpier } }

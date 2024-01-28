@@ -1,5 +1,6 @@
 -- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
 -- List of all default plugins & their definitions
+
 local default_plugins = {
 
   "nvim-lua/plenary.nvim",
@@ -139,7 +140,37 @@ local default_plugins = {
       vim.g.mason_binaries_list = opts.ensure_installed
     end,
   },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function(_, opts)
+      require("mason-lspconfig").setup()
 
+      require("mason-lspconfig").setup_handlers {
+        -- The first entry (without a key) will be the default handler
+        -- and will be called for each installed server that doesn't have
+        -- a dedicated handler.
+        function(server_name) -- default handler (optional)
+          local on_attach = require("plugins.configs.lspconfig").on_attach
+          local capabilities = require("plugins.configs.lspconfig").capabilities
+          if "omnisharp_mono" then
+            require("lspconfig").omnisharp_mono.setup {
+              on_attach = on_attach,
+              capabilities = capabilities,
+              handlers = {
+                ["textDocument/definition"] = require("omnisharp_extended").handler,
+              },
+            }
+          else
+            require("lspconfig")[server_name].setup {
+              on_attach = on_attach,
+              capabilities = capabilities,
+            }
+          end
+        end,
+      }
+    end,
+    lazy = false,
+  },
   {
     "neovim/nvim-lspconfig",
     init = function()

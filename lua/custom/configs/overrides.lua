@@ -37,7 +37,7 @@ M.mason = {
 
     -- C#
     "omnisharp",
-
+    "csharpier",
     -- webdev
     "prettierd",
     "html-lsp",

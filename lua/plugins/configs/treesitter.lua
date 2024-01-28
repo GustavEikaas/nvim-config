@@ -32,6 +32,7 @@ local options = {
     "mermaid",
     "php",
     "regex",
+    "c_sharp",
   },
 
   highlight = {

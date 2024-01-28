@@ -18,7 +18,6 @@ local plugins = {
     },
     config = function()
       require "plugins.configs.lspconfig"
-      require "custom.configs.lspconfig"
     end, -- Override to setup mason-lspconfig
   },
   {
@@ -53,6 +52,10 @@ local plugins = {
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
+  },
+  {
+    "Hoffs/omnisharp-extended-lsp.nvim",
+    lazy = false,
   },
   -- override plugin configs
   {
