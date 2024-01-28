@@ -25,14 +25,50 @@ M.mason = {
   ensure_installed = {
     -- lua stuff
     "lua-language-server",
+    "luaformatter",
+    "luacheck",
     "stylua",
 
-    -- web dev stuff
-    "css-lsp",
+    -- requires go installed
+    "gopls",
+
+    -- java
+    "java-language-server",
+
+    -- C#
+    "omnisharp",
+
+    -- webdev
+    "prettierd",
     "html-lsp",
     "typescript-language-server",
     "deno",
     "prettier",
+    "htmlbeautifier",
+    "json-lsp",
+    "jq-lsp",
+    "htmlhint",
+    "htmx-lsp",
+    "astro-language-server",
+    "cssmodules-language-server",
+    "css-lsp",
+    "svelte-language-server",
+    "tailwindcss-language-server",
+
+    -- python
+    "python-lsp-server",
+
+    -- sql
+    "sql-formatter",
+
+    -- scripting
+    "azure-pipelines-language-server",
+    "bash-language-server",
+    "docker-compose-lanuage-service",
+    "dockerfile-language-server",
+    "yaml-language-server",
+    "powershell-editor-services",
+    "vim-language-server",
 
     -- rust
     "rust-analyzer",
