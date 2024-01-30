@@ -284,7 +284,14 @@ local default_plugins = {
       end
     end,
   },
-
+  {
+    "aznhe21/actions-preview.nvim",
+    keys = { "<leader>", "ca" },
+    config = function()
+      vim.keymap.set({ "v", "n" }, "ca", require("actions-preview").code_actions)
+    end,
+    lazy = true,
+  },
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
