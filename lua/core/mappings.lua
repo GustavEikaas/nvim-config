@@ -216,7 +216,8 @@ M.lspconfig = {
 
     ["<leader>ca"] = {
       function()
-        vim.lsp.buf.code_action()
+        require("actions-preview").code_actions()
+        -- vim.lsp.buf.code_action()
       end,
       "LSP code action",
     },
@@ -281,7 +282,8 @@ M.lspconfig = {
   v = {
     ["<leader>ca"] = {
       function()
-        vim.lsp.buf.code_action()
+        require("actions-preview").code_actions()
+        -- vim.lsp.buf.code_action()
       end,
       "LSP code action",
     },
