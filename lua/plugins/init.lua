@@ -152,7 +152,7 @@ local default_plugins = {
         function(server_name) -- default handler (optional)
           local on_attach = require("plugins.configs.lspconfig").on_attach
           local capabilities = require("plugins.configs.lspconfig").capabilities
-          if "omnisharp_mono" then
+          if server_name == "omnisharp_mono" then
             require("lspconfig").omnisharp_mono.setup {
               on_attach = on_attach,
               capabilities = capabilities,
