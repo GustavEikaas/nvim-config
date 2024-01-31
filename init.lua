@@ -20,6 +20,7 @@ dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
 require "plugins"
 
+-- import QOL snippets
 require "general.reload-buf"
 require "general.use-pwsh"
 require "general.auto-nvim-tree"
