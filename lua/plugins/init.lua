@@ -284,7 +284,7 @@ local default_plugins = {
       end
     end,
   },
-   {
+  {
     "aznhe21/actions-preview.nvim",
     config = function()
       require("actions-preview").setup {
