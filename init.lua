@@ -20,6 +20,9 @@ dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
 require "plugins"
 
+-- vim.keymap.set("n", "A-j", "m .+1<CR>==")
+vim.api.nvim_set_keymap("n", "<M-j>", ":m .+1<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<M-k>", ":m .-2<CR>", { noremap = true, silent = true })
 -- import QOL snippets
 require "general.reload-buf"
 require "general.use-pwsh"
