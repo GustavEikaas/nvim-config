@@ -17,11 +17,15 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       local lspconfig = require("lspconfig")
+
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       lspconfig.lua_ls.setup({
-        cmd = { "lua-language-server.cmd", "--stdio" }
+        cmd = { "lua-language-server.cmd", "--stdio" },
+        capabilities = capabilities
       })
       lspconfig.tsserver.setup({
-        cmd = { "typescript-language-server.cmd", "--stdio" }
+        cmd = { "typescript-language-server.cmd", "--stdio" },
+        capabilities = capabilities
       })
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
