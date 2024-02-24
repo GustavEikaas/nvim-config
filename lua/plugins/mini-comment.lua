@@ -1,9 +1,9 @@
 return {
-  'echasnovski/mini.comment', 
+  'echasnovski/mini.comment',
   version = false,
   config = function()
     require("mini.comment").setup({
-       mappings = {
+      mappings = {
         comment = '<leader>/',
         comment_line = '<leader>/',
         comment_visual = '<leader>/',
