@@ -6,6 +6,7 @@
   "leap.nvim": { "branch": "main", "commit": "ff5522a0986cca1bbbeaa4f6d86d23ebf58a025c" },
   "lualine.nvim": { "branch": "master", "commit": "7d131a8d3ba5016229e8a1d08bf8782acea98852" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
+  "mini.comment": { "branch": "main", "commit": "a4b7e46deb9ad2feb8902cc5dbf087eced112ee5" },
   "mini.move": { "branch": "main", "commit": "251d541a8ab745e81295a53c128829cb2bff18e3" },
   "mini.pairs": { "branch": "main", "commit": "04f58f2545ed80ac3b52dd4826e93f33e15b2af6" },
   "neo-tree.nvim": { "branch": "v3.x", "commit": "f3941c57ec85d7bdb44fa53fd858fd80f159018f" },
