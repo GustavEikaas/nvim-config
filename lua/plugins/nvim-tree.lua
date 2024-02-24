@@ -81,6 +81,7 @@ return {
         },
       },
     })
-    vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true })
+    vim.keymap.set("n", "<leader>e", ":NvimTreeFocus<CR>", { silent = true })
+    vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { silent = true })
   end,
 }
