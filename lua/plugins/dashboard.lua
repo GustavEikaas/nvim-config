@@ -11,8 +11,7 @@ return {
         \_____|\__,_|___/\__\__,_| \_/  
       ]]
 
-			logo = string.rep("\n", 8) .. logo .. "\n\n"
-			-- opts.config.header = vim.split(logo, "\n")
+		logo = string.rep("\n", 8) .. logo .. "\n\n"
     require('dashboard').setup {
       disable_move = true,
       config = {
