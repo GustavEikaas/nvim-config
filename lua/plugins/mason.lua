@@ -27,12 +27,27 @@ return {
         cmd = { "typescript-language-server.cmd", "--stdio" },
         capabilities = capabilities
       })
+      lspconfig.omnisharp.setup({
+        -- cmd = { "omnisharp.cmd", "--stdio" },
+        cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+        capabilities = capabilities,
+        enable_import_completion = true,
+        organize_imports_on_format = true,
+        enable_rozlyn_analyzers = true,
+        enable_decompilation_support = true,
+        handlers = {
+          ["textDocument/definition"] = require('omnisharp_extended').handler,
+        },
+      })
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, {})
       vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-    end
+    end,
+    dependencies = {
+      "Hoffs/omnisharp-extended-lsp.nvim"
+    }
   }
 }
