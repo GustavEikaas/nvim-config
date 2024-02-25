@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es", "yamlls" }
+        ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es", "yamlls", "rust_analyzer" }
       })
     end
   },
