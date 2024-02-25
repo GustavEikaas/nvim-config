@@ -26,7 +26,7 @@ return {
 
       lspconfig.yamlls.setup({
         capabilities = capabilities,
-        on_attach = function(client,_)
+        on_attach = function(client, _)
           client.server_capabilities.documentFormattingProvider = true
         end,
         settings = {
