@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver" }
+        ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es" }
       })
     end
   },
@@ -27,8 +27,12 @@ return {
         cmd = { "typescript-language-server.cmd", "--stdio" },
         capabilities = capabilities
       })
+      require("lspconfig").powershell_es.setup({
+        shell = "powershell.exe",
+        bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services",
+        capabilities = capabilities
+      })
       lspconfig.omnisharp.setup({
-        -- cmd = { "omnisharp.cmd", "--stdio" },
         cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
         capabilities = capabilities,
         enable_import_completion = true,
