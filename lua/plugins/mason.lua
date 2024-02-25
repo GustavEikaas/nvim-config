@@ -21,6 +21,7 @@ return {
       require("lsp-config.omnisharp").setup()
       require("lsp-config.powershell_es").setup()
       require("lsp-config.yaml").setup()
+      require("lsp-config.rust-analyzer").setup()
       -- bindings
       require("lsp-config.bindings").setup()
     end,
