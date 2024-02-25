@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
+  enabled = false,
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")

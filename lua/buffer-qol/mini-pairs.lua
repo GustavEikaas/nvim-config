@@ -1,5 +1,6 @@
 return {
   'echasnovski/mini.pairs',
+  event = "BufEnter",
   version = false,
   config = function()
     require("mini.pairs").setup({

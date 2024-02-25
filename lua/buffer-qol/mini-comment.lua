@@ -1,5 +1,6 @@
 return {
   'echasnovski/mini.comment',
+  event = "BufEnter",
   version = false,
   config = function()
     require("mini.comment").setup({

@@ -10,6 +10,7 @@ function omnisharp.setup()
     organize_imports_on_format = true,
     enable_rozlyn_analyzers = true,
     enable_decompilation_support = true,
+    enable_package_auto_restore = true,
     handlers = {
       ["textDocument/definition"] = require('omnisharp_extended').handler,
     },

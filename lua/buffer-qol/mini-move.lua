@@ -1,6 +1,7 @@
 return {
   'echasnovski/mini.move',
   version = false,
+  event = "BufEnter",
   config = function()
     require("mini.move").setup({
       mappings = {
