@@ -16,11 +16,11 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require("lsp-config.yaml").setup()
+      require("lsp-config.lua_ls").setup()
       require("lsp-config.tsserver").setup()
       require("lsp-config.omnisharp").setup()
       require("lsp-config.powershell_es").setup()
-      require("lsp-config.lua_ls").setup()
+      require("lsp-config.yaml").setup()
       -- bindings
       require("lsp-config.bindings").setup()
     end,
