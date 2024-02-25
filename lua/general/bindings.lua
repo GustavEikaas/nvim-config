@@ -9,3 +9,9 @@ vim.api.nvim_set_keymap("n", "<Right>", "", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Left>", "", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Up>", "", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Down>", "", { noremap = true, silent = true })
+
+-- Navigate splits
+vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", { noremap = true, silent = true })
