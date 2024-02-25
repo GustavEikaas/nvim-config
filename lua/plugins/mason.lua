@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es" }
+        ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es", "yamlls" }
       })
     end
   },
@@ -22,6 +22,28 @@ return {
       lspconfig.lua_ls.setup({
         cmd = { "lua-language-server.cmd", "--stdio" },
         capabilities = capabilities
+      })
+
+      lspconfig.yamlls.setup({
+        capabilities = capabilities,
+        on_attach = function(client,_)
+          client.server_capabilities.documentFormattingProvider = true
+        end,
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              ["https://json.schemastore.org/github-action.json"] = "/.github/actions/*",
+              ["https://json.schemastore.org/github-issue-forms.json"] = "/.github/ISSUE_TEMPLATE/*",
+            },
+            format = {
+              enable = true
+            },
+            schemaStore = {
+              enable = true
+            }
+          }
+        }
       })
       lspconfig.tsserver.setup({
         cmd = { "typescript-language-server.cmd", "--stdio" },
