@@ -38,8 +38,8 @@ return {
     "nvim-telescope/telescope-frecency.nvim",
     config = function()
       require("telescope").load_extension("frecency")
-      vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency<CR><Esc>")
-      vim.keymap.set("n", "<leader>fr", "<Cmd>Telescope frecency<CR><Esc>")
+      vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency<CR>")
+      vim.keymap.set("n", "<leader>fr", "<Cmd>Telescope frecency<CR>")
     end
   }
 }
