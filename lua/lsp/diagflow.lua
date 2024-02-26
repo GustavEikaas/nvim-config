@@ -1,4 +1,5 @@
 return {
   "dgagn/diagflow.nvim",
-  config = true
+  config = true,
+  event = "LspAttach"
 }
