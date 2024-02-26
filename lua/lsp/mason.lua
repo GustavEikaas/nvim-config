@@ -7,7 +7,6 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    event = "BufEnter", 
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es", "yamlls", "rust_analyzer" }
@@ -16,7 +15,6 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    event = "BufEnter",
     config = function()
       require("lsp-config.lua_ls").setup()
       require("lsp-config.tsserver").setup()
