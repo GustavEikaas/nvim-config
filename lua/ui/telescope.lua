@@ -1,6 +1,7 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
+    event = "VeryLazy",
     config = function()
       local builtin = require("telescope.builtin")
       vim.keymap.set('n', '<leader>fw', builtin.live_grep, {})
@@ -15,6 +16,7 @@ return {
   },
   {
     'nvim-telescope/telescope-ui-select.nvim',
+    event = "VeryLazy",
     config = function()
       require("telescope").setup {
         extensions = {
@@ -29,6 +31,7 @@ return {
   },
   {
     "nvim-telescope/telescope-github.nvim",
+    event = "VeryLazy",
     config = function()
       require("telescope").load_extension("gh")
       -- TODO: add keybinds
@@ -36,6 +39,7 @@ return {
   },
   {
     "nvim-telescope/telescope-frecency.nvim",
+    event = "VeryLazy",
     config = function()
       require("telescope").load_extension("frecency")
       vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency<CR>")

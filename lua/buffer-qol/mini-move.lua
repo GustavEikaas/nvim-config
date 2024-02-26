@@ -1,7 +1,7 @@
 return {
   'echasnovski/mini.move',
   version = false,
-  event = "BufEnter",
+  event = "LspAttach",
   config = function()
     require("mini.move").setup({
       mappings = {

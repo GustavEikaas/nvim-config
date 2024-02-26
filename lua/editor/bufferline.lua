@@ -1,6 +1,6 @@
 return {
   "akinsho/bufferline.nvim",
-  event = "BufEnter", -- load plugin after all configuration is set
+  event = "LspAttach", -- load plugin after all configuration is set
   config = function()
     require("bufferline").setup({})
     vim.keymap.set("n", "<tab>", ":bnext<CR>", { noremap = true, silent = true })

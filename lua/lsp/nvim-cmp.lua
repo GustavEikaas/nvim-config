@@ -6,12 +6,12 @@ end
 
 return {
   "hrsh7th/nvim-cmp",
-  event = "BufEnter",
+  event = "LspAttach",
   dependencies = {
-    { "hrsh7th/cmp-nvim-lsp",         event = "BufEnter" },
-    { "L3MON4D3/LuaSnip",             event = "BufEnter" },
-    { "saadparwaiz1/cmp_luasnip",     event = "BufEnter" },
-    { "rafamadriz/friendly-snippets", event = "BufEnter" }
+    { "hrsh7th/cmp-nvim-lsp",         event = "LspAttach" },
+    { "L3MON4D3/LuaSnip",             event = "LspAttach" },
+    { "saadparwaiz1/cmp_luasnip",     event = "LspAttach" },
+    { "rafamadriz/friendly-snippets", event = "LspAttach" }
   },
   config = function()
     local cmp = require 'cmp'

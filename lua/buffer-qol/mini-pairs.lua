@@ -1,6 +1,6 @@
 return {
   'echasnovski/mini.pairs',
-  event = "BufEnter",
+  event = "LspAttach",
   version = false,
   config = function()
     require("mini.pairs").setup({

@@ -1,6 +1,6 @@
 return {
   'echasnovski/mini.comment',
-  event = "BufEnter",
+  event = "LspAttach",
   version = false,
   config = function()
     require("mini.comment").setup({

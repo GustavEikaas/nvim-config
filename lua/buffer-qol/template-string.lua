@@ -1,5 +1,5 @@
 return {
   "axelvc/template-string.nvim",
-  event = "BufEnter",
+  event = "LspAttach",
   config = true
 }
