@@ -3,6 +3,7 @@ return {
   enabled = true,
   config = function()
     local dap = require("dap")
+    dap.set_log_level("TRACE")
     local dapui = require("dapui")
     -- dapui.setup()
     dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -20,10 +21,11 @@ return {
     vim.keymap.set("n", "<F11>", dap.step_into, {})
     vim.keymap.set("n", "<F12>", dap.step_out, {})
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
+    vim.keymap.set("n", "<F2>", dapui.eval, {})
 
     dap.adapters.coreclr = {
       type = "executable",
-      command = "C:/Users/Gustav/AppData/Local/netcoredbg/netcoredbg.exe",
+      command = vim.fn.stdpath("data") .. "\\netcoredbg\\netcoredbg.exe",
       args = { "--interpreter=vscode" }
     }
 
@@ -43,7 +45,6 @@ return {
         require("dapui").setup({
           icons = { expanded = "", collapsed = "", current_frame = "" },
           mappings = {
-            -- Use a table to apply multiple mappings
             expand = { "<CR>", "<2-LeftMouse>" },
             open = "o",
             remove = "d",
@@ -52,32 +53,30 @@ return {
             toggle = "t",
           },
           element_mappings = {},
-          expand_lines = vim.fn.has("nvim-0.7") == 1,
+          expand_lines = true,
           force_buffers = true,
           layouts = {
             {
-              -- You can change the order of elements in the sidebar
               elements = {
-                -- Provide IDs as strings or tables with "id" and "size" keys
-                { id = "breakpoints", size = 0.25},
+                { id = "breakpoints", size = 0.25 },
                 {
                   id = "scopes",
-                  size = 0.75, -- Can be float or integer > 1
+                  size = 0.75,
                 },
               },
 
               size = 10,
-              position = "bottom", -- Can be "left" or "right"
+              position = "bottom",
             },
             {
               elements = {
                 "repl",
-                "console",
-                "stacks",
-                "watches"
+                -- "console",
+                -- "stacks",
+                "watches",
               },
               size = 35,
-              position = "right", -- Can be "bottom" or "top"
+              position = "right",
             },
           },
           floating = {
