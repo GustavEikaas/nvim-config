@@ -1,6 +1,6 @@
 return {
   "vuki656/package-info.nvim",
-  event = "LspAttach",
+  event = "BufEnter package.json",
   config = function()
     require("package-info").setup({
       package_manager = 'pnpm'
