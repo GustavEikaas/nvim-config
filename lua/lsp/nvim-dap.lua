@@ -1,6 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
-  enabled = true,
+  enabled = false,
   config = function()
     local dap = require("dap")
     dap.set_log_level("TRACE")
