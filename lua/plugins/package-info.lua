@@ -1,5 +1,7 @@
 return {
   "vuki656/package-info.nvim",
+  -- Doesnt work with octo.nvim pr review
+  enabled = false,
   event = "BufEnter package.json",
   config = function()
     require("package-info").setup({
