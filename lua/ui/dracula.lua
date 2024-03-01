@@ -47,7 +47,12 @@ return {
         DiffAdd = { bg = "#273732" },
         DiffDelete = { bg = "#362B31" },
         DiffChange = { fg = "#FFB86C" },
-        TreesitterContext = { bg = "#273732"}
+        OctoPullAdditions = { bg = "#273732"},
+        OctoPullDeletions = { bg = "#362B31"},
+        OctoPullModifications = { fg = "#FFB86C"},
+        TreesitterContext = { bg = "#273732" },
+        OctoUser = { bg = "#22272E", fg = "#FFB86C" },
+        -- OctoUserViewer = {}
       },
       -- You can use overrides as table like this
       -- overrides = {

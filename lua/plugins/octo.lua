@@ -191,6 +191,5 @@ return {
         },
       },
     })
-    vim.cmd([[hi OctoEditable guibg=none]])
   end
 }
