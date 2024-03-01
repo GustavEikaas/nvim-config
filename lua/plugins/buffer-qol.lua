@@ -5,5 +5,6 @@ return {
   require("buffer-qol.mini-comment"),
   require("buffer-qol.template-string"),
   require("buffer-qol.markdown-preview"),
-  require("buffer-qol.indent-blankline")
+  require("buffer-qol.indent-blankline"),
+  require("buffer-qol.treesitter-context")
 }

@@ -1,4 +1,3 @@
-
 require "general.use-pwsh"
 require "general.reload-buf"
 require "general.bindings"

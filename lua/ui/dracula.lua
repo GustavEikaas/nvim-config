@@ -47,6 +47,7 @@ return {
         DiffAdd = { bg = "#273732" },
         DiffDelete = { bg = "#362B31" },
         DiffChange = { fg = "#FFB86C" },
+        TreesitterContext = { bg = "#273732"}
       },
       -- You can use overrides as table like this
       -- overrides = {
