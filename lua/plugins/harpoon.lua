@@ -3,8 +3,6 @@ return {
   branch = "harpoon2",
   config = function()
     local harpoon = require("harpoon")
-
-    -- REQUIRED
     harpoon:setup()
 
     local conf = require("telescope.config").values
@@ -24,7 +22,7 @@ return {
         attach_mappings = function(prompt_buffer_number, map)
           map(
             "i",
-            "<S-d>", -- your mapping here
+            "<S-d>",
             function()
               local state = require("telescope.actions.state")
               local selected_entry = state.get_selected_entry()
@@ -40,16 +38,16 @@ return {
 
     vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
       { desc = "Open harpoon window" })
-    -- REQUIRED
 
     vim.keymap.set("n", "<leader>a", function()
       harpoon:list():append()
-      vim.notify("File added")
+      vim.notify("File added 󰄳")
     end)
 
     vim.keymap.set("n", "<leader>x", function()
       harpoon:list():remove()
-      vim.notify("File removed")
+      vim.notify("File removed 󰝦")
+      vim.cmd('bd')
     end)
 
     -- Toggle previous & next buffers stored within Harpoon list
