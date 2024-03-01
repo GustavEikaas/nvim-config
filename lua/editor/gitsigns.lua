@@ -1,6 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
-  event = "LspAttach",
+  event = "BufReadPre",
   ft = { "gitcommit", "diff" },
   init = function()
     -- load gitsigns only when a git file is opened
