@@ -44,10 +44,9 @@ return {
       italic_comment = true,        -- default false
       -- overrides the default highlights with table see `:h synIDattr`
       overrides = {
-        DiffAdd = { fg = "#15ff00" },
-        -- DiffChange = { bg = "#f8ff39" },
-        DiffDelete = { fg = "#ff0000" },
-
+        DiffAdd = { bg = "#273732" },
+        DiffDelete = { bg = "#362B31" },
+        DiffChange = { fg = "#FFB86C" },
       },
       -- You can use overrides as table like this
       -- overrides = {
