@@ -1,5 +1,6 @@
 return {
   "akinsho/bufferline.nvim",
+  enabled = false,
   event = "BufRead", -- load plugin after all configuration is set
   config = function()
     require("bufferline").setup({})
