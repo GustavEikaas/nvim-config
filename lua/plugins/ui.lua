@@ -4,5 +4,6 @@ return {
   require("ui.treesitter"),
   require("ui.dracula"),
   require("ui.dashboard"),
-  require("ui.lualine")
+  require("ui.lualine"),
+  require("ui.dressing")
 }
