@@ -5,9 +5,9 @@ vim.cmd("set shiftwidth=2")
 vim.cmd("set relativenumber")
 vim.cmd("set clipboard=unnamedplus")
 
-vim.keymap.set("n", "<Right>", ":3winc ><CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<Left>", ":3winc <<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<Down>", ":res +3 <CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<Up>", ":res -3 <CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-l>", ":3winc ><CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-h>", ":3winc <<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-j>", ":res +3 <CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-k>", ":res -3 <CR>", { noremap = true, silent = true })
 
 vim.g.mapleader = " "
