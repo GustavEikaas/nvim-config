@@ -22,4 +22,5 @@ vim.keymap.set("n", "<C-A-h>", ":3winc <<CR>", { noremap = true, silent = true }
 vim.keymap.set("n", "<C-A-j>", ":res +3 <CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-A-k>", ":res -3 <CR>", { noremap = true, silent = true })
 
-
+vim.keymap.set("i", "jj", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("i", "<Esc>", "", { noremap = true, silent = true })
