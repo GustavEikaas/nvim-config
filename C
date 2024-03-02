@@ -1,3 +1,0 @@
-{
-  "connectionString": "some-value"
-}
