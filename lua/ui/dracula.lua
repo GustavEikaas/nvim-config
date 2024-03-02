@@ -7,7 +7,6 @@ return {
   config = function()
     local dracula = require("dracula")
     dracula.setup({
-      -- customize dracula color palette
       colors = {
         bg = "#282A36",
         fg = "#F8F8F2",
@@ -34,15 +33,10 @@ return {
         white = "#ABB2BF",
         black = "#191A21",
       },
-      -- show the '~' characters after the end of buffers
-      show_end_of_buffer = true,    -- default false
-      -- use transparent background
+      show_end_of_buffer = false,    -- default false
       transparent_bg = true,        -- default false
-      -- set custom lualine background color
       lualine_bg_color = "#44475a", -- default nil
-      -- set italic comment
       italic_comment = true,        -- default false
-      -- overrides the default highlights with table see `:h synIDattr`
       overrides = {
         DiffAdd = { bg = "#273732" },
         DiffDelete = { bg = "#362B31" },
@@ -52,29 +46,8 @@ return {
         OctoPullModifications = { fg = "#FFB86C"},
         TreesitterContext = { bg = "#273732" },
         OctoUser = { bg = "#22272E", fg = "#FFB86C" },
-        -- OctoUserViewer = {}
       },
-      -- You can use overrides as table like this
-      -- overrides = {
-      --   NonText = { fg = "white" }, -- set NonText fg to white
-      --   NvimTreeIndentMarker = { link = "NonText" }, -- link to NonText highlight
-      --   Nothing = {} -- clear highlight of Nothing
-      -- },
-      -- Or you can also use it like a function to get color from theme
-      -- overrides = function (colors)
-      --   return {
-      --     NonText = { fg = colors.white }, -- set NonText fg to white of theme
-      --   }
-      -- end,
     })
     vim.cmd.colorscheme "dracula"
   end,
 }
--- custom_highlights = function(colors)
---         return {
---             Comment = { fg = colors.flamingo },
---             TabLineSel = { bg = colors.pink },
---             CmpBorder = { fg = colors.surface2 },
---             Pmenu = { bg = colors.none },
---         }
---     end
