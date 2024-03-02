@@ -15,3 +15,11 @@ vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", { noremap = true, silent 
 vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", { noremap = true, silent = true })
+
+-- Resize splits
+vim.keymap.set("n", "<C-A-l>", ":3winc ><CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-h>", ":3winc <<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-j>", ":res +3 <CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-A-k>", ":res -3 <CR>", { noremap = true, silent = true })
+
+
