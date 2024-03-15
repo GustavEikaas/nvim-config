@@ -15,6 +15,7 @@ function yaml.setup()
           ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
           ["https://json.schemastore.org/github-action.json"] = "/.github/actions/*",
           ["https://json.schemastore.org/github-issue-forms.json"] = "/.github/ISSUE_TEMPLATE/*",
+          ["https://raw.githubusercontent.com/equinor/radix-operator/release/json-schema/radixapplication.json"] = "radixconfig.yaml"
         },
         format = {
           enable = true
