@@ -33,15 +33,18 @@ return {
     _Gopts = {
       position = "center",
       hl = "Type",
+
     }
 
     -- Set menu
     dashboard.section.buttons.val = {
+      dashboard.button("i", "   Issues", ":Octo issue list<CR>"),
+      dashboard.button("p", "   Pull requests", ":Octo pr list<CR>"),
+      dashboard.button("r", "   PR comments", ":GhReviewComments<CR>"),
       dashboard.button("y", "   Git diff", ":Telescope git_status<CR>"),
       dashboard.button("c", "   Config", ":e $MYVIMRC <CR>"),
       dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
       dashboard.button("l", "󰒲   Lazy", ":Lazy<CR>"),
-      dashboard.button("a", "   PR comments", ":GhReviewComments<CR>"),
       dashboard.button("u", "󰂖   Update plugins", "<cmd>lua require('lazy').sync()<CR>"),
       dashboard.button("q", "󰩈   Quit NVIM", ":qa<CR>")
     }
