@@ -37,10 +37,6 @@ return {
 
     -- Set menu
     dashboard.section.buttons.val = {
-      dashboard.button("e", "   New file", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("f", "   Find file", ":cd $HOME/dotfiles | Telescope find_files<CR>"),
-      dashboard.button("g", "󰱼   Find word", ":Telescope live_grep<CR>"),
-      dashboard.button("r", "   Recent", ":Telescope oldfiles<CR>"),
       dashboard.button("y", "   Git diff", ":Telescope git_status<CR>"),
       dashboard.button("c", "   Config", ":e $MYVIMRC <CR>"),
       dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
