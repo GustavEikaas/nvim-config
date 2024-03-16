@@ -45,6 +45,7 @@ return {
       dashboard.button("c", "   Config", ":e $MYVIMRC <CR>"),
       dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
       dashboard.button("l", "󰒲   Lazy", ":Lazy<CR>"),
+      dashboard.button("a", "   PR comments", ":GhReviewComments<CR>"),
       dashboard.button("u", "󰂖   Update plugins", "<cmd>lua require('lazy').sync()<CR>"),
       dashboard.button("q", "󰩈   Quit NVIM", ":qa<CR>")
     }
