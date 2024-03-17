@@ -78,7 +78,7 @@ return {
         }
       },
       default_args = { -- Default args prepended to the arg-list for the listed commands
-        DiffviewOpen = { "origin/main" },
+        DiffviewOpen = {},
         DiffviewFileHistory = {},
       },
       hooks = {},                 -- See ':h diffview-config-hooks'
@@ -215,8 +215,12 @@ return {
       vim.cmd("DiffviewClose")
     end, {})
 
+    vim.api.nvim_create_user_command('Dirty', function()
+      vim.cmd("DiffviewOpen HEAD")
+    end, {})
+
     vim.api.nvim_create_user_command('Diff', function()
-      vim.cmd("DiffviewOpen")
+      vim.cmd("DiffviewOpen origin/main")
     end, {})
   end
 }
