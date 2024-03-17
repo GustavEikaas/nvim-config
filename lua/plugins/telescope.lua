@@ -5,10 +5,10 @@ return {
     config = function()
       local builtin = require("telescope.builtin")
       vim.keymap.set('n', '<leader>fw', builtin.live_grep, {})
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      -- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader><leader>', builtin.find_files, {})
       vim.keymap.set("n", "<leader>fz", builtin.current_buffer_fuzzy_find, {})
-      -- vim.keymap.set("n", '<leader>fr', builtin.oldfiles, {})
-
+      vim.keymap.set("n", '<leader>fr', builtin.oldfiles, {})
       vim.keymap.set("n", '<leader>gt', builtin.git_status, {})
       vim.keymap.set("n", '<leader>gb', builtin.git_branches, {})
     end,
@@ -35,15 +35,6 @@ return {
     config = function()
       require("telescope").load_extension("gh")
       -- TODO: add keybinds
-    end
-  },
-  {
-    "nvim-telescope/telescope-frecency.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("telescope").load_extension("frecency")
-      vim.keymap.set("n", "<leader><leader>", "<Cmd>Telescope frecency<CR>")
-      vim.keymap.set("n", "<leader>fr", "<Cmd>Telescope frecency<CR>")
     end
   }
 }
