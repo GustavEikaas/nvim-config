@@ -33,7 +33,6 @@ return {
     _Gopts = {
       position = "center",
       hl = "Type",
-
     }
 
     -- Set menu

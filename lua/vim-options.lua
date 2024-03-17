@@ -32,6 +32,7 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Show relative numbers
 vim.opt.relativenumber = true
+vim.opt.number = true
 
 -- Scroll offset, always keep 8 lines above or below when scrolling
 vim.opt.scrolloff = 8
