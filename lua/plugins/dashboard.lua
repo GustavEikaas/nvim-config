@@ -37,15 +37,13 @@ return {
 
     -- Set menu
     dashboard.section.buttons.val = {
-      dashboard.button("e", "   New file", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("f", "   Find file", ":cd $HOME/dotfiles | Telescope find_files<CR>"),
-      dashboard.button("g", "󰱼   Find word", ":Telescope live_grep<CR>"),
-      dashboard.button("r", "   Recent", ":Telescope oldfiles<CR>"),
-      dashboard.button("y", "   Git diff", ":Telescope git_status<CR>"),
+      dashboard.button("i", "   Issues", ":Octo issue list<CR>"),
+      dashboard.button("p", "   Pull requests", ":Octo pr list<CR>"),
+      dashboard.button("r", "   PR comments", ":GhReviewComments<CR>"),
+      dashboard.button("y", "   Git diff", ":Diff<CR>"),
       dashboard.button("c", "   Config", ":e $MYVIMRC <CR>"),
       dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
       dashboard.button("l", "󰒲   Lazy", ":Lazy<CR>"),
-      dashboard.button("a", "   PR comments", ":GhReviewComments<CR>"),
       dashboard.button("u", "󰂖   Update plugins", "<cmd>lua require('lazy').sync()<CR>"),
       dashboard.button("q", "󰩈   Quit NVIM", ":qa<CR>")
     }

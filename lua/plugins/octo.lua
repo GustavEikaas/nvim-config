@@ -23,7 +23,7 @@ return {
           merge_pr = { lhs = "<C-r>", desc = "merge pull request" },
         },
       },
-      comment_icon = "▎", -- comment marker
+      comment_icon = "󰠗", -- comment marker
       outdated_icon = "󰅒 ", -- outdated indicator
       resolved_icon = " ", -- resolved indicator
       reaction_viewer_hint_icon = " ", -- marker for user reactions
@@ -40,10 +40,6 @@ return {
       default_to_projects_v2 = false, -- use projects v2 for the `Octo card ...` command by default. Both legacy and v2 commands are available under `Octo cardlegacy ...` and `Octo cardv2 ...` respectively.
       ui = {
         use_signcolumn = true, -- show "modified" marks on the sign column
-      },
-      picker = "telescope", -- "telescope" | "fzf-lua"
-      picker_config = {
-        use_emojis = false, -- Only used in fzf-lua picker. If you want emojis when viewing the picker set to true.
       },
       issues = {
         order_by = {            -- criteria to sort results of `Octo issue list`
@@ -116,8 +112,8 @@ return {
           goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
           add_comment = { lhs = "<leader>ca", desc = "add comment" },
           delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
-          next_comment = { lhs = "]c", desc = "go to next comment" },
-          prev_comment = { lhs = "[c", desc = "go to previous comment" },
+          next_comment = { lhs = "<tab>", desc = "go to next comment" },
+          prev_comment = { lhs = "<S-tab>", desc = "go to previous comment" },
           react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
           react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
           react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
@@ -169,7 +165,7 @@ return {
           select_prev_entry = { lhs = "<S-tab>", desc = "move to next changed file" },
           select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
           select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-          close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+          close_review_tab = { lhs = "q", desc = "close review tab" },
           toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
           goto_file = { lhs = "gf", desc = "go to file" },
         },
