@@ -21,14 +21,15 @@ gh.setup = function()
     vim.cmd("Octo issue list")
   end, {})
 
-
+  vim.api.nvim_create_user_command('Comments', function()
+    vim.cmd("GhReviewComments")
+  end, {})
 
   vim.api.nvim_create_user_command('PR', function()
     local handle = io.popen("gh pr view --json number -q .number")
-    local value = handle:read("l")
+    local value = handle:read("n")
     handle:close()
     if value then
-      vim.notify("PR " .. value)
       vim.cmd("Octo pr edit " .. value)
     else
       vim.notify("Failed to find pr")
