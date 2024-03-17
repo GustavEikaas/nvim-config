@@ -1,5 +1,33 @@
 local gh = {}
 
+local function try_open_pr()
+  local handle = io.popen("gh pr view --json number -q .number")
+  if handle == nil then
+    return
+  end
+  local value = handle:read("n")
+  handle:close()
+  if value then
+    vim.cmd("Octo pr edit " .. value)
+  else
+    vim.notify("Failed to find pr")
+  end
+end
+
+local function git_restore_curr_buffer()
+  local file_path = vim.fn.expand("%")
+  local handle = io.popen("git restore --source=origin/main " .. file_path)
+  if handle == nil then
+    return
+  end
+  local value = handle:read("*a")
+  handle:close()
+  if value then
+    vim.notify("File restored from main " .. value)
+    vim.cmd("checktime")
+  end
+end
+
 gh.setup = function()
   vim.api.nvim_create_user_command('DiffClose', function()
     vim.cmd("DiffviewClose")
@@ -25,29 +53,9 @@ gh.setup = function()
     vim.cmd("GhReviewComments")
   end, {})
 
-  vim.api.nvim_create_user_command('GGRF', function()
-    local file_path = vim.fn.expand("%")
-    local handle = io.popen("git restore --source=origin/main " .. file_path)
-    local value = handle:read("*a")
-    handle:close()
-    if value then
-      vim.notify("File restored from main " .. value)
-      vim.cmd("checktime")
-    end
-  end, {})
+  vim.api.nvim_create_user_command('GGRF', git_restore_curr_buffer, {})
 
-  vim.api.nvim_create_user_command('PR', function()
-    local handle = io.popen("gh pr view --json number -q .number")
-    local value = handle:read("n")
-    handle:close()
-    if value then
-      vim.cmd("Octo pr edit " .. value)
-    else
-      vim.notify("Failed to find pr")
-    end
-  end, {})
+  vim.api.nvim_create_user_command('PR', try_open_pr, {})
 end
-
-
 
 return gh
