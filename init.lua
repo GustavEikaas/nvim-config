@@ -1,6 +1,9 @@
 require "general.use-pwsh"
 require "general.reload-buf"
 require "general.bindings"
+
+require "commands.gh".setup()
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {

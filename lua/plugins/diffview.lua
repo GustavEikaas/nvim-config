@@ -211,16 +211,6 @@ return {
         },
       },
     })
-    vim.api.nvim_create_user_command('DiffClose', function()
-      vim.cmd("DiffviewClose")
-    end, {})
-
-    vim.api.nvim_create_user_command('Dirty', function()
-      vim.cmd("DiffviewOpen HEAD")
-    end, {})
-
-    vim.api.nvim_create_user_command('Diff', function()
-      vim.cmd("DiffviewOpen origin/main")
-    end, {})
+    
   end
 }
