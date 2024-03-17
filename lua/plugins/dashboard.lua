@@ -40,7 +40,7 @@ return {
       dashboard.button("i", "   Issues", ":Octo issue list<CR>"),
       dashboard.button("p", "   Pull requests", ":Octo pr list<CR>"),
       dashboard.button("r", "   PR comments", ":GhReviewComments<CR>"),
-      dashboard.button("y", "   Git diff", ":Telescope git_status<CR>"),
+      dashboard.button("y", "   Git diff", ":Diff<CR>"),
       dashboard.button("c", "   Config", ":e $MYVIMRC <CR>"),
       dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
       dashboard.button("l", "󰒲   Lazy", ":Lazy<CR>"),
