@@ -60,12 +60,9 @@ return {
         local stats = require('lazy').stats()
         local count = (math.floor(stats.startuptime * 100) / 100)
 
-        local handle = io.popen("gh pr view --json title -q .title")
-        local prTitle = handle:read("l")
-        handle:close()
         dashboard.section.footer.val = {
           "󱐌 " .. stats.count .. " plugins loaded in " .. count .. " ms",
-          " PR: " .. prTitle,
+          " ",
           "      Gustav Eikaas"
         }
         pcall(vim.cmd.AlphaRedraw)
