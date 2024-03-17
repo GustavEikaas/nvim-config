@@ -25,6 +25,17 @@ gh.setup = function()
     vim.cmd("GhReviewComments")
   end, {})
 
+  vim.api.nvim_create_user_command('GGRF', function()
+    local file_path = vim.fn.expand("%")
+    local handle = io.popen("git restore --source=origin/main " .. file_path)
+    local value = handle:read("*a")
+    handle:close()
+    if value then
+      vim.notify("File restored from main " .. value)
+      vim.cmd("checktime")
+    end
+  end, {})
+
   vim.api.nvim_create_user_command('PR', function()
     local handle = io.popen("gh pr view --json number -q .number")
     local value = handle:read("n")
