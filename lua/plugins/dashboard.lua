@@ -40,7 +40,8 @@ return {
       dashboard.button("i", "   Issues", ":Octo issue list<CR>"),
       dashboard.button("p", "   Pull requests", ":Octo pr list<CR>"),
       dashboard.button("r", "   PR comments", ":GhReviewComments<CR>"),
-      dashboard.button("y", "   Git diff", ":Diff<CR>"),
+      dashboard.button("y", "   Branch diff", ":Diff<CR>"),
+      dashboard.button("d", "   Dirty diff", ":Dirty<CR>"),
       dashboard.button("c", "   Config", ":e $MYVIMRC <CR>"),
       dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
       dashboard.button("l", "󰒲   Lazy", ":Lazy<CR>"),
@@ -58,6 +59,7 @@ return {
       callback = function()
         local stats = require('lazy').stats()
         local count = (math.floor(stats.startuptime * 100) / 100)
+
         dashboard.section.footer.val = {
           "󱐌 " .. stats.count .. " plugins loaded in " .. count .. " ms",
           " ",
