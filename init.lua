@@ -18,7 +18,3 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("vim-options")
 require("lazy").setup "plugins"
-
-
--- import QOL snippets
--- require "general.auto-nvim-tree"
