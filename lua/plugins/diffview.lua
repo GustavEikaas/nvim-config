@@ -1,5 +1,6 @@
 return {
   "sindrets/diffview.nvim",
+  event = "VeryLazy",
   config = function()
     local actions = require("diffview.actions")
     require("diffview").setup({
@@ -20,15 +21,6 @@ return {
         done = "✓",
       },
       view = {
-        -- Configure the layout and behavior of different types of views.
-        -- Available layouts:
-        --  'diff1_plain'
-        --    |'diff2_horizontal'
-        --    |'diff2_vertical'
-        --    |'diff3_horizontal'
-        --    |'diff3_vertical'
-        --    |'diff3_mixed'
-        --    |'diff4_mixed'
         -- For more info, see ':h diffview-config-view.x.layout'.
         default = {
           -- Config for changed files, and staged files in diff views.
@@ -86,7 +78,7 @@ return {
         }
       },
       default_args = { -- Default args prepended to the arg-list for the listed commands
-        DiffviewOpen = { "origin/main...HEAD" },
+        DiffviewOpen = { "origin/main" },
         DiffviewFileHistory = {},
       },
       hooks = {},                 -- See ':h diffview-config-hooks'
