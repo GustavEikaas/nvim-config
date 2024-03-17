@@ -14,9 +14,12 @@ gh.setup = function()
   end, {})
 
   vim.api.nvim_create_user_command('PR', function()
-    local success, prNumber = pcall("gh pr view --json number -q .number")
-    if success then
-      vim.notify("PR " .. prNumber)
+    local handle = io.popen("gh pr view --json number -q .number")
+    local value = handle:read("l")
+    handle:close()
+    if value then
+      vim.notify("PR " .. value)
+      vim.cmd("Octo pr edit " .. value)
     else
       vim.notify("Failed to find pr")
     end
