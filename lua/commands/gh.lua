@@ -53,6 +53,10 @@ gh.setup = function()
     vim.cmd("GhReviewComments")
   end, {})
 
+  vim.api.nvim_create_user_command("Blame", function()
+    require("gitsigns").toggle_current_line_blame()
+  end, {})
+
   vim.api.nvim_create_user_command('GGRF', git_restore_curr_buffer, {})
 
   vim.api.nvim_create_user_command('PR', try_open_pr, {})
