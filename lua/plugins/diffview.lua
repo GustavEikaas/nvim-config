@@ -175,6 +175,7 @@ return {
           { "n", "dX",            actions.conflict_choose_all("none"),   { desc = "Delete the conflict region for the whole file" } },
         },
         file_history_panel = {
+          { "n", "q",             ":DiffClose<CR>",                   { desc = "Open the diff for the next file" } },
           { "n", "g!",            actions.options,                    { desc = "Open the option panel" } },
           { "n", "<C-A-d>",       actions.open_in_diffview,           { desc = "Open the entry under the cursor in a diffview" } },
           { "n", "y",             actions.copy_hash,                  { desc = "Copy the commit hash of the entry under the cursor" } },
@@ -201,6 +202,7 @@ return {
           { "n", "g?",            actions.help("file_history_panel"), { desc = "Open the help panel" } },
         },
         option_panel = {
+          { "n", "q",     ":DiffClose<CR>",             { desc = "Open the diff for the next file" } },
           { "n", "<tab>", actions.select_entry,         { desc = "Change the current option" } },
           { "n", "q",     actions.close,                { desc = "Close the panel" } },
           { "n", "g?",    actions.help("option_panel"), { desc = "Open the help panel" } },
@@ -211,6 +213,5 @@ return {
         },
       },
     })
-    
   end
 }

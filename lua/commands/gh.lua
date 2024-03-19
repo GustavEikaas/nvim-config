@@ -53,6 +53,10 @@ gh.setup = function()
     vim.cmd("GhReviewComments")
   end, {})
 
+  vim.api.nvim_create_user_command("History", function()
+    vim.cmd("DiffviewFileHistory %")
+  end, {})
+
   vim.api.nvim_create_user_command("Blame", function()
     require("gitsigns").toggle_current_line_blame()
   end, {})
