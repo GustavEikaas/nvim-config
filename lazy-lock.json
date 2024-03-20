@@ -28,6 +28,7 @@
   "nui.nvim": { "branch": "main", "commit": "c3c7fd618dcb5a89e443a2e1033e7d11fdb0596b" },
   "nvim-cmp": { "branch": "main", "commit": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782" },
   "nvim-lspconfig": { "branch": "master", "commit": "9553725789be682ecd945a527ec552e489ea8534" },
+  "nvim-spotify": { "branch": "main", "commit": "33f34563b1c49600757d74a6f341254bd0727fe9" },
   "nvim-tree.lua": { "branch": "master", "commit": "d35a8d5ec6358ada4b058431b367b32360737466" },
   "nvim-treesitter": { "branch": "master", "commit": "15d521c9235831421e7278c4d3e1139e0d363ded" },
   "nvim-treesitter-context": { "branch": "master", "commit": "b8d1ffe58a88e0356da56b167373e89c4579ce15" },
