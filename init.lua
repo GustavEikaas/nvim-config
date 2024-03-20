@@ -4,6 +4,7 @@ require "general.bindings"
 
 require "commands.gh".setup()
 require "commands.markdown".setup()
+require "commands.todo".setup()
 require "commands.lsp".setup()
 require "commands.js".setup()
 
