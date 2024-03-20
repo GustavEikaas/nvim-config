@@ -2,7 +2,7 @@ return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   config = function()
-    local status = require 'nvim-spotify'.status
+    local status = require 'spotify.spotify'.status
     status:start()
 
     require("lualine").setup({

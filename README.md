@@ -9,3 +9,8 @@ Personalized nvim config for TS Code editing
 ## DAP
 C# requires `vim.fn.stdpath("data") .. "\\netcoredbg\\netcoredbg.exe"`
 
+## Spotify
+Install spotify-tui
+```bash 
+choco install spotify-tui
+```
