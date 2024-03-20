@@ -1,5 +1,5 @@
-local todo = {}
-todo.setup = function()
+local spotify = {}
+spotify.setup = function()
   vim.api.nvim_create_user_command('Metal', function()
     os.execute("spt play --uri spotify:playlist:2Wk3JJp8MnQyKV1Uvr4Y0D ")
   end, {})
@@ -11,4 +11,4 @@ todo.setup = function()
   end, {})
 end
 
-return todo
+return spotify
