@@ -1,7 +1,7 @@
 local lsp = {}
 
 lsp.setup = function()
-  vim.api.nvim_create_user_command('ERR', function()
+  vim.api.nvim_create_user_command('Err', function()
     vim.cmd("Trouble")
   end, {})
 
