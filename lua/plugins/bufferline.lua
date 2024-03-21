@@ -5,8 +5,8 @@ return {
     config = function()
       local hbac = require("hbac")
       hbac.setup({
-        autoclose                  = true, -- set autoclose to false if you want to close manually
-        threshold                  = 1,    -- hbac will start closing unedited buffers once that number is reached
+        autoclose                  = true,
+        threshold                  = 1,
         close_command              = function(bufnr)
           vim.api.nvim_buf_delete(bufnr, {})
         end,
@@ -16,7 +16,7 @@ return {
       vim.keymap.set("n", "<leader>a", function()
         hbac.toggle_pin()
         require("lualine").refresh()
-      end)
+      end, { noremap = true, silent = true })
 
       vim.keymap.set("n", "<C-x>", function()
         vim.cmd("Hbac unpin_all")
