@@ -12,12 +12,12 @@ return {
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
         disabled_filetypes = {
-          statusline = {},
-          winbar = {},
+          statusline = { "NvimTree" },
+          winbar = { "NvimTree" },
         },
-        ignore_focus = {},
+        ignore_focus = { "NvimTree" },
         always_divide_middle = true,
-        globalstatus = false,
+        globalstatus = true,
         refresh = {
           statusline = 1000,
           tabline = 1000,
@@ -33,7 +33,14 @@ return {
         lualine_z = { status.listen }
       },
       tabline = {},
-      winbar = {},
+      winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
       inactive_winbar = {},
       extensions = {}
     })
