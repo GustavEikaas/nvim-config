@@ -40,7 +40,28 @@ return {
         },
         lualine_z = { status.listen }
       },
-      tabline = { lualine_a = { "buffers" } },
+      tabline = {
+        lualine_a = {
+          {
+            'buffers',
+            max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
+            filetype_names = {
+              TelescopePrompt = 'Telescope',
+              dashboard = 'Dashboard',
+              packer = 'Packer',
+              fzf = 'FZF',
+              alpha = 'Alpha',
+              NvimTree = "Tree"
+            },
+            use_mode_colors = false,
+            symbols = {
+              modified = ' ●',
+              alternate_file = '',
+              directory = '',
+            },
+          }
+        }
+      },
       winbar = {
         lualine_a = {},
         lualine_b = {},
