@@ -1,9 +1,25 @@
+local function truncateText(text, maxLength)
+  local truncatedText = text:sub(1, maxLength)
+  if #text > maxLength then
+    truncatedText = truncatedText .. "..."
+  end
+  return truncatedText
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   config = function()
     local status = require 'spotify.spotify'.status
     status:start()
+
+    local spotify_line = {
+      function()
+        local listen = status.listen()
+        return truncateText(listen, 50)
+      end,
+      color = { fg = "#FFFFFF", bg = "#1DB954" }
+    }
 
     require("lualine").setup({
       options = {
@@ -38,7 +54,7 @@ return {
             color = { fg = "#ef5f6b", gui = "bold" },
           }
         },
-        lualine_z = { status.listen }
+        lualine_z = { spotify_line }
       },
       tabline = {
         lualine_a = {
