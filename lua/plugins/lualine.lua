@@ -27,21 +27,20 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
+        lualine_c = {},
         lualine_x = { 'encoding', 'filetype' },
         lualine_y = {
           {
             function()
               local cur_buf = vim.api.nvim_get_current_buf()
-              return require("hbac.state").is_pinned(cur_buf) and "📍" or ""
-              -- tip: nerd fonts have pinned/unpinned icons!
+              return require("hbac.state").is_pinned(cur_buf) and "" or ""
             end,
             color = { fg = "#ef5f6b", gui = "bold" },
           }
         },
         lualine_z = { status.listen }
       },
-      tabline = {},
+      tabline = { lualine_a = { "buffers" } },
       winbar = {
         lualine_a = {},
         lualine_b = {},

@@ -28,3 +28,6 @@ vim.keymap.set("i", "<Esc>", "", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-l>", "<Esc>la", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+
+vim.keymap.set("n", "<Tab>", ":bnext<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", ":bprev<CR>", { noremap = true, silent = true })
