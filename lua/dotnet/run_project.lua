@@ -9,7 +9,6 @@ M.run_project_picker = function(on_select)
     return
   end
   local projects = extensions.filter(sln_parser.get_projects_from_sln(solutionFilePath), function(i)
-    require("general.debug").write_to_log(i)
     return i.runnable == true
   end)
   require("dotnet.picker").picker(nil, projects, on_select, "Run project")

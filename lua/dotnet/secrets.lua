@@ -6,6 +6,7 @@ M.edit_secrets_picker = function(on_secret_selected)
   local solutionFilePath = sln_parser.find_solution_file()
   if solutionFilePath == nil then
     vim.notify("No .sln file found")
+    return
   end
 
   local projectsWithSecrets = extensions.filter(sln_parser.get_projects_from_sln(solutionFilePath), function(i)

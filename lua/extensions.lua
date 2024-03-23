@@ -27,13 +27,10 @@ end
 E.filter = function(tbl, cb)
   local table_type = type(tbl)
   if table_type == "function" then
-    -- Assume it's an iterator, e.g., file:lines()
     return filter_iterator(tbl, cb)
   elseif table_type == "table" then
-    -- Assume it's a normal Lua table
     return filter_table(tbl, cb)
   else
-    -- Unexpected type
     error("Expected function or table, received: " .. table_type)
   end
 end
@@ -57,13 +54,10 @@ end
 E.map = function(tbl, cb)
   local table_type = type(tbl)
   if table_type == "function" then
-    -- Assume it's an iterator, e.g., file:lines()
     return map_iterator(tbl, cb)
   elseif table_type == "table" then
-    -- Assume it's a normal Lua table
     return map_table(tbl, cb)
   else
-    -- Unexpected type
     error("Expected function or table, received: " .. table_type)
   end
 end
@@ -83,13 +77,10 @@ end
 E.foreach = function(tbl, cb)
   local table_type = type(tbl)
   if table_type == "function" then
-    -- Assume it's an iterator, e.g., file:lines()
     return foreach_iterator(tbl, cb)
   elseif table_type == "table" then
-    -- Assume it's a normal Lua table
     return foreach_table(tbl, cb)
   else
-    -- Unexpected type
     error("Expected function or table, received: " .. table_type)
   end
 end
@@ -115,13 +106,10 @@ end
 E.any = function(tbl, cb)
   local table_type = type(tbl)
   if table_type == "function" then
-    -- Assume it's an iterator, e.g., file:lines()
     return any_iterator(tbl, cb)
   elseif table_type == "table" then
-    -- Assume it's a normal Lua table
     return any_table(tbl, cb)
   else
-    -- Unexpected type
     error("Expected function or table, received: " .. table_type)
   end
 end
@@ -146,13 +134,10 @@ end
 E.find = function(tbl, cb)
   local table_type = type(tbl)
   if table_type == "function" then
-    -- Assume it's an iterator, e.g., file:lines()
     return find_iterator(tbl, cb)
   elseif table_type == "table" then
-    -- Assume it's a normal Lua table
     return find_table(tbl, cb)
   else
-    -- Unexpected type
     error("Expected function or table, received: " .. table_type)
   end
 end
@@ -177,13 +162,10 @@ end
 E.every = function(tbl, cb)
   local table_type = type(tbl)
   if table_type == "function" then
-    -- Assume it's an iterator, e.g., file:lines()
     return every_iterator(tbl, cb)
   elseif table_type == "table" then
-    -- Assume it's a normal Lua table
     return every_table(tbl, cb)
   else
-    -- Unexpected type
     error("Expected function or table, received: " .. table_type)
   end
 end
