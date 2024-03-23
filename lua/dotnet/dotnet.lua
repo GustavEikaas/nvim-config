@@ -1,6 +1,6 @@
 local M = {}
 
-function merge_tables(table1, table2)
+local function merge_tables(table1, table2)
   local merged = {}
   for k, v in pairs(table1) do
     merged[k] = v
