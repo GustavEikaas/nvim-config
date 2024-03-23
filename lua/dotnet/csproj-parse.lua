@@ -2,7 +2,6 @@ local extensions = require "extensions"
 local M = {}
 
 M.get_project_from_csproj = function(csproj_file_path)
-  vim.notify(csproj_file_path)
   local isWebProject = M.is_web_project(csproj_file_path)
 
   return {
