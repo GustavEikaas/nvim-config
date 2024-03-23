@@ -38,10 +38,6 @@ M.setup = function(opts)
   vim.keymap.set("n", "<C-p>", function()
     require("dotnet.run_project").run_project_picker()
   end)
-
-  vim.api.nvim_create_user_command('Dotnet secrets', function()
-    require("dotnet.secrets").edit_secrets_picker()
-  end, {})
 end
 
 return M
