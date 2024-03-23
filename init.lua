@@ -1,3 +1,5 @@
+local extensions = require("extensions")
+
 require "general.use-pwsh"
 require "general.reload-buf"
 require "general.bindings"
@@ -23,3 +25,5 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("vim-options")
 require("lazy").setup "plugins"
+
+require "dotnet.dotnet".setup()
