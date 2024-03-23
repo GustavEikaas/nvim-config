@@ -14,7 +14,7 @@ local M = {
   opts = {
     status = {
       update_interval = 10000,
-      format = '%s %t by %a'
+      format = '%s %t'
     }
   },
   status = {},
