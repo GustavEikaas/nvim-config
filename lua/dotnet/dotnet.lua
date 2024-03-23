@@ -35,8 +35,12 @@ M.setup = function(opts)
 
   vim.api.nvim_command('command! -nargs=* Dotnet lua handle_dotnet_command(<f-args>)')
 
+  vim.api.nvim_create_user_command('Secrets', function()
+    require("dotnet.secrets").edit_secrets_picker(merged_opts.secrets.on_select)
+  end, {})
+
   vim.keymap.set("n", "<C-p>", function()
-    require("dotnet.run_project").run_project_picker()
+    require("dotnet.run_project").run_project_picker(merged_opts.run_project.on_select)
   end)
 end
 
