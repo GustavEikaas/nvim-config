@@ -1,20 +1,20 @@
 local M = {}
 
-M.picker = function(bufnr, projects, on_select_cb)
-  if (#projects == 0) then
-    error("No projects provided, minimum 1 is required")
+M.picker = function(bufnr, options, on_select_cb, title)
+  if (#options == 0) then
+    error("No options provided, minimum 1 is required")
   end
 
   -- Auto pick if only one option present
-  if (#projects == 1) then
-    on_select_cb(projects[1])
+  if (#options == 1) then
+    on_select_cb(options[1])
     return
   end
 
   local picker = require('telescope.pickers').new(bufnr, {
-    prompt_title = "Run project",
+    prompt_title = title,
     finder = require('telescope.finders').new_table {
-      results = projects,
+      results = options,
       entry_maker = function(entry)
         return {
           display = entry.display,

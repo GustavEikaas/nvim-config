@@ -1,7 +1,7 @@
 local M = {}
 
 M.write_to_log = function(message)
-  local home_dir = vim.fn.expand('~')
+  local home_dir = vim.fn.expand('~') .. "/log.txt"
 
   -- Open the file in append mode
   local file, err = vim.loop.fs_open(home_dir, "a", 438) -- 438 is the octal value for file permissions 0666

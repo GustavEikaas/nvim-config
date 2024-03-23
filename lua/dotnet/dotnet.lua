@@ -1,12 +1,24 @@
 local M = {}
 
-M.setup = function()
+function merge_tables(table1, table2)
+  local merged = {}
+  for k, v in pairs(table1) do
+    merged[k] = v
+  end
+  for k, v in pairs(table2) do
+    merged[k] = v
+  end
+  return merged
+end
+
+M.setup = function(opts)
+  local merged_opts = merge_tables(require("dotnet.options"), opts or {})
   local commands = {
     secrets = function()
-      require("dotnet.secrets").edit_secrets_picker()
+      require("dotnet.secrets").edit_secrets_picker(merged_opts.secrets.on_select)
     end,
     run = function()
-      require("dotnet.run_project").run_project_picker()
+      require("dotnet.run_project").run_project_picker(merged_opts.run_project.on_select)
     end
   }
 

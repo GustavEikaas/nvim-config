@@ -26,4 +26,11 @@ vim.opt.rtp:prepend(lazypath)
 require("vim-options")
 require("lazy").setup "plugins"
 
-require "dotnet.dotnet".setup()
+require "dotnet.dotnet".setup({
+  run_project = {
+    on_select = function(selectedItem)
+      local term = require("nvterm.terminal")
+      term.send("dotnet run --project " .. selectedItem.path .. "\r\n", "float")
+    end
+  }
+})
