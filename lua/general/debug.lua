@@ -1,9 +1,10 @@
 local M = {}
+
 M.write_to_log = function(message)
-  local file_path = "C:\\Users\\Gustav\\repo\\log.txt" -- Specify the path to your log file
+  local home_dir = vim.fn.expand('~')
 
   -- Open the file in append mode
-  local file, err = vim.loop.fs_open(file_path, "a", 438) -- 438 is the octal value for file permissions 0666
+  local file, err = vim.loop.fs_open(home_dir, "a", 438) -- 438 is the octal value for file permissions 0666
 
   if err then
     print("Error opening file: " .. err)
@@ -11,7 +12,13 @@ M.write_to_log = function(message)
   end
 
   -- Write the message to the file
-  vim.loop.fs_write(file, message .. "\n", -1)
+  if (type(message) == "table") then
+    vim.loop.fs_write(file, M.table_to_string(message) .. "\n", -1)
+  elseif type(message) == "string" then
+    vim.loop.fs_write(file, message .. "\n", -1)
+  else
+    error("Failed to write to log, datatype: " .. type(message) .. " not supported")
+  end
 
   -- Close the file
   vim.loop.fs_close(file)
