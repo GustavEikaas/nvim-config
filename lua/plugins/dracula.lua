@@ -46,6 +46,7 @@ return {
         OctoPullModifications = { fg = "#FFB86C"},
         TreesitterContext = { bg = "#273732" },
         OctoUser = { bg = "#22272E", fg = "#FFB86C" },
+        NotifyBackground = { bg = "#FFFFFF"}
       },
     })
     vim.cmd.colorscheme "dracula"
