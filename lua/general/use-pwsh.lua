@@ -7,8 +7,11 @@ local powershell_options = {
   shellxquote = "",
 }
 
+local platform = vim.loop.os_uname().sysname
+if platform == "Windows" then
 for option, value in pairs(powershell_options) do
   vim.opt[option] = value
 end
-vim.opt.shell = "powershell"
+  vim.opt.shell = "powershell"
+end
 
