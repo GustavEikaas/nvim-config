@@ -3,8 +3,11 @@ local tsserver = {}
 function tsserver.setup()
   local lspconfig = require("lspconfig")
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local platform = vim.loop.os_uname().sysname
+
   lspconfig.tsserver.setup({
-    cmd = { "typescript-language-server.cmd", "--stdio" },
+    -- Doesnt work on arch
+    cmd = { platform == "Windows" and "typescript-language-server.cmd" or "typescript-language-server", "--stdio" },
     capabilities = capabilities
   })
 end
