@@ -1,6 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
-  enabled = false,
+  enabled = true,
   config = function()
     local dap = require("dap")
     dap.set_log_level("TRACE")
@@ -25,7 +25,8 @@ return {
 
     dap.adapters.coreclr = {
       type = "executable",
-      command = vim.fn.stdpath("data") .. "\\netcoredbg\\netcoredbg.exe",
+      -- command = vim.fn.stdpath("data") .. "\\netcoredbg\\netcoredbg.exe",
+      command = "netcoredbg",
       args = { "--interpreter=vscode" }
     }
 
@@ -39,6 +40,9 @@ return {
     } }
   end,
   dependencies = {
+    {
+      "nvim-neotest/nvim-nio",
+    },
     {
       "rcarriga/nvim-dap-ui",
       config = function()
