@@ -34,6 +34,9 @@ M.get_projects_from_sln = function(solutionFilePath)
 end
 
 M.has_secrets = function(project_file_path)
+  if string.find(project_file_path, "%.") == nil then
+    return false
+  end
   local pattern = "<UserSecretsId>([a-fA-F0-9%-]+)</UserSecretsId>"
   local file = io.open(project_file_path, "r")
   if not file then
@@ -52,6 +55,10 @@ M.has_secrets = function(project_file_path)
 end
 
 M.is_web_project = function(project_file_path)
+  if string.find(project_file_path, "%.") == nil then
+    return false
+  end
+
   local file = io.open(project_file_path, "r")
   if not file then
     return false, "File not found or cannot be opened"
@@ -65,9 +72,20 @@ M.is_web_project = function(project_file_path)
   return contains_sdk_web
 end
 
+local function find_sln_files_linux()
+  local files = {}
+  local handle = io.popen('ls *.sln 2>/dev/null')
+  if handle then
+    for file in handle:lines() do
+      table.insert(files, file)
+    end
+    handle:close()
+  end
+  return files[1]
+end
 
-M.find_solution_file = function()
-  local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
+local function find_sln_files_windows()
+ local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
   local files = io.popen("dir /b \"" .. currentDirectory .. "\""):read("*a")
 
   for file in files:gmatch("[^\r\n]+") do
@@ -77,6 +95,11 @@ M.find_solution_file = function()
   end
 
   return nil
+end
+
+M.find_solution_file = function()
+  local platform = vim.loop.os_uname().sysname
+  return platform == "Windows" and find_sln_files_windows() or find_sln_files_linux()
 end
 
 return M
