@@ -5,7 +5,7 @@ return {
     local dap = require("dap")
     dap.set_log_level("TRACE")
     local dapui = require("dapui")
-    -- dapui.setup()
+
     dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
     end
@@ -17,6 +17,7 @@ return {
     end
 
     vim.keymap.set("n", "<F5>", dap.continue, {})
+    vim.keymap.set("n", "q", dap.close, {})
     vim.keymap.set("n", "<F10>", dap.step_over, {})
     vim.keymap.set("n", "<F11>", dap.step_into, {})
     vim.keymap.set("n", "<F12>", dap.step_out, {})
