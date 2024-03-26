@@ -1,6 +1,10 @@
 local extensions = require "extensions"
 local M = {}
 
+local function normalize_path(path)
+  return vim.fn.getcwd() .. "/" .. path:gsub("\\", "/")
+end
+
 M.get_projects_from_sln = function(solutionFilePath)
   local file = io.open(solutionFilePath, "r")
 
@@ -22,10 +26,10 @@ M.get_projects_from_sln = function(solutionFilePath)
     return {
       display = name,
       name = name,
-      path = path,
+      path = normalize_path(path),
       id = id,
-      runnable = M.is_web_project(path),
-      secrets = M.has_secrets(path)
+      runnable = M.is_web_project(normalize_path(path)),
+      secrets = M.has_secrets(normalize_path(path))
     }
   end)
   file:close()
@@ -61,6 +65,7 @@ M.is_web_project = function(project_file_path)
 
   local file = io.open(project_file_path, "r")
   if not file then
+    vim.notify("Failed to open project file " .. project_file_path)
     return false, "File not found or cannot be opened"
   end
 
@@ -85,7 +90,7 @@ local function find_sln_files_linux()
 end
 
 local function find_sln_files_windows()
- local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
+  local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
   local files = io.popen("dir /b \"" .. currentDirectory .. "\""):read("*a")
 
   for file in files:gmatch("[^\r\n]+") do
