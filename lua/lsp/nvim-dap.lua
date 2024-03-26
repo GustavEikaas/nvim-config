@@ -35,7 +35,51 @@ return {
       name = "launch - netcoredbg",
       request = "launch",
       program = function()
-        return vim.fn.input("Path to dll", vim.fn.getcwd(), "file")
+        local function get_recursive_dll_files(skip_count)
+          local target_folder = "bin/Debug"
+          local find_command = 'find . -path "*/' .. target_folder .. '/*.dll" -not -regex ".*\\/(ref|refint)/.*"'
+
+          local files = {}
+          local file_map = {}
+          for line in io.popen(find_command):lines() do
+            local clean_line = string.gsub(line, target_folder .. "/", "")
+            local parts = {}
+            local count = 0
+            local filename = string.match(clean_line, "([^/]+)$")
+            for part in string.gmatch(clean_line, "([^/]+)") do
+              if not string.find(part, "^net[0-9\\.]+$") then
+                count = count + 1
+                if count <= skip_count or part == filename then
+                  table.insert(parts, part)
+                else
+                  table.insert(parts, string.sub(part, 1, 1))
+                end
+              end
+            end
+            local display_name = table.concat(parts, "/")
+            file_map[display_name] = line
+            table.insert(files, display_name)
+          end
+          return files, file_map
+        end
+
+        local function get_file_sync()
+          local co = coroutine.running()
+          local selected_file = nil
+          local files, file_map = get_recursive_dll_files(3)
+
+          vim.ui.select(files, {}, function(short_filename)
+            selected_file = file_map[short_filename]
+            coroutine.resume(co)
+          end)
+
+          coroutine.yield()
+          return selected_file
+        end
+
+        local file = get_file_sync()
+        print(file)
+        return file
       end
     } }
   end,
@@ -75,8 +119,8 @@ return {
             {
               elements = {
                 "repl",
-                -- "console",
-                -- "stacks",
+                "console",
+                "stacks",
                 "watches",
               },
               size = 35,
