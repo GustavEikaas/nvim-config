@@ -33,20 +33,30 @@ return {
         white = "#ABB2BF",
         black = "#191A21",
       },
-      show_end_of_buffer = false,    -- default false
+      show_end_of_buffer = false,   -- default false
       transparent_bg = true,        -- default false
       lualine_bg_color = "#44475a", -- default nil
       italic_comment = true,        -- default false
       overrides = {
+        -- Diff
         DiffAdd = { bg = "#273732" },
         DiffDelete = { bg = "#362B31" },
         DiffChange = { fg = "#FFB86C" },
-        OctoPullAdditions = { bg = "#273732"},
-        OctoPullDeletions = { bg = "#362B31"},
-        OctoPullModifications = { fg = "#FFB86C"},
-        TreesitterContext = { bg = "#273732" },
+        OctoPullAdditions = { bg = "#273732" },
+        OctoPullDeletions = { bg = "#362B31" },
+        OctoPullModifications = { fg = "#FFB86C" },
         OctoUser = { bg = "#22272E", fg = "#FFB86C" },
-        NotifyBackground = { bg = "#FFFFFF"}
+
+        -- TS
+        TreesitterContext = { bg = "#273732" },
+
+        -- Notify
+        NotifyBackground = { bg = "#FFFFFF" },
+
+        -- Dap
+        DapStopped = { bg = "#44475A" },
+        DapBreakpoint = { bg = "#362B31" },
+
       },
     })
     vim.cmd.colorscheme "dracula"

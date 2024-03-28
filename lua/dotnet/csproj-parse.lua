@@ -1,6 +1,39 @@
 local extensions = require "extensions"
 local M = {}
 
+
+-- Function to find the corresponding .csproj file
+M.get_dll_name_for_current_buffer = function()
+  local root = extensions.get_git_root()
+  local bufferPath = extensions.get_current_buffer_path()
+
+  local function contains_csproj(directory)
+    local cmd = string.format("find %s -maxdepth 1 -type f -name '*.csproj'", directory)
+    local handle = io.popen(cmd)
+    local result = handle:read("*a")
+    handle:close()
+    return result ~= ""
+  end
+
+  -- Traverse up the directory tree until .csproj file is found or git root toplevel is reached
+  while bufferPath ~= "/" do
+    if contains_csproj(bufferPath) then
+      local dll_name = extensions.get_last_sub_path(bufferPath) .. ".dll"
+      local dll = extensions.find(extensions.find_file_recursive(dll_name, 10, bufferPath), function(i)
+        return string.find(i, "/bin") ~= nil
+      end)
+      return dll
+    elseif bufferPath == root then
+      break
+    end
+    bufferPath = bufferPath:match("(.+)/") -- Move up one directory
+  end
+
+  -- If .csproj file is not found and git root toplevel is reached, return nil
+  vim.notify("No dll found")
+  return nil
+end
+
 M.get_project_from_csproj = function(csproj_file_path)
   local isWebProject = M.is_web_project(csproj_file_path)
 

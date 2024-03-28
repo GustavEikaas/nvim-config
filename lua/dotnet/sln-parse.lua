@@ -33,7 +33,6 @@ M.get_projects_from_sln = function(solutionFilePath)
     }
   end)
   file:close()
-
   return projects
 end
 

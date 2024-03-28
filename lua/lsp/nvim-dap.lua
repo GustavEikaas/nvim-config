@@ -1,3 +1,27 @@
+local get_dll = function()
+  local extensions = require("extensions")
+  local sln_parse = require("dotnet.sln-parse")
+  local sln_file = sln_parse.find_solution_file()
+  local projects = sln_parse.get_projects_from_sln(sln_file)
+
+  local dll_name = extensions.find(projects, function(i)
+    return i.runnable == true
+  end)
+  if dll_name == false or dll_name == nil then
+    error("No runnable projects found")
+  end
+  local path = dll_name.path
+  local lastIndex = path:find("[^/]*$")
+  local newPath = path:sub(1, lastIndex - 1)
+  local dll = extensions.find(extensions.find_file_recursive(dll_name.name, 10, newPath), function(i)
+    return string.find(i, "/bin") ~= nil
+  end) .. ".dll"
+
+  vim.notify("Started debugging " .. dll)
+  print(dll)
+  return dll
+end
+
 return {
   "mfussenegger/nvim-dap",
   enabled = true,
@@ -22,7 +46,11 @@ return {
     vim.keymap.set("n", "<F11>", dap.step_into, {})
     vim.keymap.set("n", "<F12>", dap.step_out, {})
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
-    vim.keymap.set("n", "<F2>", dapui.eval, {})
+    vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
+    vim.keymap.set("n", "<F3>", dap.run_to_cursor, {})
+
+    vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
+    vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
     dap.adapters.coreclr = {
       type = "executable",
@@ -35,53 +63,7 @@ return {
       type = "coreclr",
       name = "launch - netcoredbg",
       request = "launch",
-      program = function()
-        local function get_recursive_dll_files(skip_count)
-          local target_folder = "bin/Debug"
-          local find_command = 'find . -path "*/' .. target_folder .. '/*.dll" -not -regex ".*\\/(ref|refint)/.*"'
-
-          local files = {}
-          local file_map = {}
-          for line in io.popen(find_command):lines() do
-            local clean_line = string.gsub(line, target_folder .. "/", "")
-            local parts = {}
-            local count = 0
-            local filename = string.match(clean_line, "([^/]+)$")
-            for part in string.gmatch(clean_line, "([^/]+)") do
-              if not string.find(part, "^net[0-9\\.]+$") then
-                count = count + 1
-                if count <= skip_count or part == filename then
-                  table.insert(parts, part)
-                else
-                  table.insert(parts, string.sub(part, 1, 1))
-                end
-              end
-            end
-            local display_name = table.concat(parts, "/")
-            file_map[display_name] = line
-            table.insert(files, display_name)
-          end
-          return files, file_map
-        end
-
-        local function get_file_sync()
-          local co = coroutine.running()
-          local selected_file = nil
-          local files, file_map = get_recursive_dll_files(3)
-
-          vim.ui.select(files, {}, function(short_filename)
-            selected_file = file_map[short_filename]
-            coroutine.resume(co)
-          end)
-
-          coroutine.yield()
-          return selected_file
-        end
-
-        local file = get_file_sync()
-        print(file)
-        return file
-      end
+      program = get_dll
     } }
   end,
   dependencies = {
@@ -107,10 +89,10 @@ return {
           layouts = {
             {
               elements = {
-                { id = "breakpoints", size = 0.25 },
+                { id = "scopes", size = 0.33 },
                 {
-                  id = "scopes",
-                  size = 0.75,
+                  id = "repl",
+                  size = 0.66,
                 },
               },
 
@@ -119,12 +101,12 @@ return {
             },
             {
               elements = {
-                "repl",
-                "console",
+                "breakpoints",
+                -- "console",
                 "stacks",
                 "watches",
               },
-              size = 35,
+              size = 45,
               position = "right",
             },
           },
