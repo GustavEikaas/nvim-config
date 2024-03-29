@@ -28,6 +28,10 @@ M.edit_secrets_picker = function(on_secret_selected)
     return i.secrets ~= false and i.path ~= nil and i.runnable == true
   end)
 
+  if #projectsWithSecrets == 0 then
+    vim.notify(" No secrets found")
+    return
+  end
   require("dotnet.picker").picker(nil, projectsWithSecrets, on_secret_selected, "Secrets")
 end
 
