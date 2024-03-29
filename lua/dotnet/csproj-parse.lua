@@ -1,7 +1,6 @@
 local extensions = require "extensions"
 local M = {}
 
-
 -- Function to find the corresponding .csproj file
 M.get_dll_name_for_current_buffer = function()
   local root = extensions.get_git_root()

@@ -1,27 +1,3 @@
-local get_dll = function()
-  local extensions = require("extensions")
-  local sln_parse = require("dotnet.sln-parse")
-  local sln_file = sln_parse.find_solution_file()
-  local projects = sln_parse.get_projects_from_sln(sln_file)
-
-  local dll_name = extensions.find(projects, function(i)
-    return i.runnable == true
-  end)
-  if dll_name == false or dll_name == nil then
-    error("No runnable projects found")
-  end
-  local path = dll_name.path
-  local lastIndex = path:find("[^/]*$")
-  local newPath = path:sub(1, lastIndex - 1)
-  local dll = extensions.find(extensions.find_file_recursive(dll_name.name, 10, newPath), function(i)
-    return string.find(i, "/bin") ~= nil
-  end) .. ".dll"
-
-  vim.notify("Started debugging " .. dll)
-  print(dll)
-  return dll
-end
-
 return {
   "mfussenegger/nvim-dap",
   enabled = true,
@@ -63,7 +39,7 @@ return {
       type = "coreclr",
       name = "launch - netcoredbg",
       request = "launch",
-      program = get_dll
+      program = require("dotnet.debugger").get_debug_dll
     } }
   end,
   dependencies = {

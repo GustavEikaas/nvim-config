@@ -13,7 +13,6 @@ return {
     local status = require 'spotify.spotify'.status
     status:start()
 
-
     local debugger = {
       function()
         local dap = require("dap")
