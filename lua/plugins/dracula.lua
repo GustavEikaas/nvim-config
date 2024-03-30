@@ -39,7 +39,7 @@ return {
       italic_comment = true,        -- default false
       overrides = {
         DiffAdd = { bg = "#1db954" },
-        DiffDelete = { bg = "#ff6e6e" },
+        DiffDelete = { bg = "#ff6e6e", fg = "#ff6e6e" },
         -- DiffText is the changed portion of a DiffChange
         DiffText = { fg = "#0c0d10", bg = "#69ff94", bold = true },
         DiffChange = { fg = "#0c0d10", bg = "#1db954" },
