@@ -1,7 +1,7 @@
 return {
   -- Prevents the bufferline from junking up
   "axkirillov/hbac.nvim",
-  enabled = false,
+  -- enabled = false,
   config = function()
     local hbac = require("hbac")
     -- TODO: Add some sort of ignore to specific type of buffers. e.g dbui, alpha, nvim-tree etc

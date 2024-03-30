@@ -6,26 +6,34 @@ return {
   priority = 1000,
   config = function()
     local dracula = require("dracula")
+    local bright_red = "#FF6E6E"
+    local bright_green = "#69FF94"
+    local diff_add = "#1db954"
+    local background = "#282A36"
+    local selection = "#44475A"
+    local bright_white = "#FFFFFF"
+    local orange = "#FFB86C"
+    local diff_text_color = "#0c0d10"
     dracula.setup({
       colors = {
-        bg = "#282A36",
+        bg = background,
         fg = "#F8F8F2",
-        selection = "#44475A",
+        selection = selection,
         comment = "#6272A4",
         red = "#FF5555",
-        orange = "#FFB86C",
+        orange = orange,
         yellow = "#F1FA8C",
         green = "#50fa7b",
         purple = "#BD93F9",
         cyan = "#8BE9FD",
         pink = "#FF79C6",
-        bright_red = "#FF6E6E",
-        bright_green = "#69FF94",
+        bright_red = bright_red,
+        bright_green = bright_green,
         bright_yellow = "#FFFFA5",
         bright_blue = "#D6ACFF",
         bright_magenta = "#FF92DF",
         bright_cyan = "#A4FFFF",
-        bright_white = "#FFFFFF",
+        bright_white = bright_white,
         menu = "#21222C",
         visual = "#3E4452",
         gutter_fg = "#4B5263",
@@ -39,26 +47,27 @@ return {
       italic_comment = true,        -- default false
       overrides = {
         -- Diff
-        DiffAdd = { bg = "#273732" },
-        DiffDelete = { bg = "#362B31" },
-        DiffChange = { fg = "#FFB86C" },
+        OctoUser = { bg = "#22272E", fg = orange },
+        DiffAdd = { bg = diff_add },
+        DiffDelete = { bg = bright_red, fg = bright_red },
+        -- DiffText is the changed portion of a DiffChange
+        DiffText = { fg = diff_text_color, bg = bright_green, bold = true },
+        DiffChange = { fg = diff_text_color, bg = diff_add },
         OctoPullAdditions = { bg = "#273732" },
         OctoPullDeletions = { bg = "#362B31" },
-        OctoPullModifications = { fg = "#FFB86C" },
-        OctoUser = { bg = "#22272E", fg = "#FFB86C" },
-
+        OctoPullModifications = { fg = orange },
         -- TS
         TreesitterContext = { bg = "#273732" },
 
         -- Notify
-        NotifyBackground = { bg = "#FFFFFF" },
+        NotifyBackground = { bg = bright_white },
 
         -- Dap
-        DapStopped = { bg = "#44475A" },
+        DapStopped = { bg = selection },
         DapBreakpoint = { bg = "#362B31" },
 
         -- DBUI
-        NotificationInfo = { bg = "#282A36" }
+        NotificationInfo = { bg = background }
       },
     })
     vim.cmd.colorscheme "dracula"
