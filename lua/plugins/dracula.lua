@@ -57,6 +57,8 @@ return {
         DapStopped = { bg = "#44475A" },
         DapBreakpoint = { bg = "#362B31" },
 
+        -- DBUI
+        NotificationInfo = { bg = "#282A36" }
       },
     })
     vim.cmd.colorscheme "dracula"
