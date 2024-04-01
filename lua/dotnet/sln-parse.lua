@@ -76,34 +76,9 @@ M.is_web_project = function(project_file_path)
   return contains_sdk_web
 end
 
-local function find_sln_files_linux()
-  local files = {}
-  local handle = io.popen('ls *.sln 2>/dev/null')
-  if handle then
-    for file in handle:lines() do
-      table.insert(files, file)
-    end
-    handle:close()
-  end
-  return files[1]
-end
-
-local function find_sln_files_windows()
-  local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
-  local files = io.popen("dir /s/b \"" .. currentDirectory .. "\""):read("*a")
-
-  for file in files:gmatch("[^\r\n]+") do
-    if file:match("%.sln$") then
-      return file
-    end
-  end
-
-  return nil
-end
-
 M.find_solution_file = function()
-  local file = require("extensions").isWindows() and find_sln_files_windows() or find_sln_files_linux()
-  return file
+  local file = require("plenary.scandir").scan_dir({ ".", "./src" }, { search_pattern = "%.sln$" })
+  return file[1]
 end
 
 return M

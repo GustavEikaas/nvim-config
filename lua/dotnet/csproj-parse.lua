@@ -78,36 +78,10 @@ M.is_web_project = function(project_file_path)
 end
 
 
-local function find_csproj_files_linux()
-  local files = {}
-  local handle = io.popen('ls *.csproj 2>/dev/null')
-  if handle then
-    for file in handle:lines() do
-      table.insert(files, file)
-    end
-    handle:close()
-  end
-  if (#files > 1) then
-    vim.notify("More than one solution file found")
-  end
-  return files[1]
-end
-
-local function find_csproj_files_windows()
-  local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
-  local files = io.popen("dir /b \"" .. currentDirectory .. "\""):read("*a")
-
-  for file in files:gmatch("[^\r\n]+") do
-    if file:match("%.csproj$") then
-      return currentDirectory .. "/" .. file
-    end
-  end
-
-  return nil
-end
-
 M.find_csproj_file = function()
-  return require("extensions").isWindows() and find_csproj_files_windows() or find_csproj_files_linux()
+  local file = require("plenary.scandir").scan_dir({ ".", "./src" }, { search_pattern = "%.csproj$" })
+  return file[1]
 end
+
 
 return M
