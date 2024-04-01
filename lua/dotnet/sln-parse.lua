@@ -103,7 +103,7 @@ end
 
 M.find_solution_file = function()
   local platform = vim.loop.os_uname().sysname
-  return platform == "Windows" and find_sln_files_windows() or find_sln_files_linux()
+  return platform == "Windows_NT" and find_sln_files_windows() or find_sln_files_linux()
 end
 
 return M

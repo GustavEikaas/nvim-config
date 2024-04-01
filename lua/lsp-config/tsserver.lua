@@ -7,7 +7,7 @@ function tsserver.setup()
 
   lspconfig.tsserver.setup({
     -- Doesnt work on arch
-    cmd = { platform == "Windows" and "typescript-language-server.cmd" or "typescript-language-server", "--stdio" },
+    cmd = { platform == "Windows_NT" and "typescript-language-server.cmd" or "typescript-language-server", "--stdio" },
     capabilities = capabilities
   })
 end
