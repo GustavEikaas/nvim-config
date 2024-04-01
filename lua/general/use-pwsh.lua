@@ -8,8 +8,7 @@ local powershell_options = {
   shellxquote = "",
 }
 
-local platform = vim.loop.os_uname().sysname
-if platform == "Windows_NT" then
+if require("extensions").isWindows() then
   for option, value in pairs(powershell_options) do
     vim.opt[option] = value
   end

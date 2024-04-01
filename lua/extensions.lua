@@ -1,6 +1,13 @@
 -- All the extension methods I never wanna write twice
 local E = {}
 
+
+E.isWindows = function()
+  local platform = vim.loop.os_uname().sysname
+  return platform == "Windows_NT"
+end
+
+
 -- Files
 E.get_current_buffer_path = function()
   local bufnr = vim.api.nvim_get_current_buf()

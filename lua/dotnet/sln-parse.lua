@@ -88,22 +88,25 @@ local function find_sln_files_linux()
   return files[1]
 end
 
-local function find_sln_files_windows()
-  local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
-  local files = io.popen("dir /b \"" .. currentDirectory .. "\""):read("*a")
-
-  for file in files:gmatch("[^\r\n]+") do
-    if file:match("%.sln$") then
-      return currentDirectory .. "/" .. file
+local function find_sln_files_windows(path)
+  path = path or "."
+  local files = {}
+  local handle = io.popen('ls ' .. path .. ' *.sln')
+  if handle then
+    for file in handle:lines() do
+      table.insert(files, file)
     end
+    handle:close()
   end
-
-  return nil
+  return files[1]
 end
 
 M.find_solution_file = function()
-  local platform = vim.loop.os_uname().sysname
-  return platform == "Windows_NT" and find_sln_files_windows() or find_sln_files_linux()
+  local file = require("extensions").isWindows() and find_sln_files_windows() or find_sln_files_linux()
+  if (file) then
+    return file
+  end
+  return require("extensions").isWindows() and find_sln_files_windows("./src") or find_sln_files_linux()
 end
 
 return M

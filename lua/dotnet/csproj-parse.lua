@@ -107,8 +107,7 @@ local function find_csproj_files_windows()
 end
 
 M.find_csproj_file = function()
-  local platform = vim.loop.os_uname().sysname
-  return platform == "Windows_NT" and find_csproj_files_windows() or find_csproj_files_linux()
+  return require("extensions").isWindows() and find_csproj_files_windows() or find_csproj_files_linux()
 end
 
 return M

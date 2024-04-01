@@ -11,7 +11,6 @@ local function csproj_fallback(on_secret_selected)
     return
   end
   require("dotnet.picker").picker(nil, { csproj }, on_secret_selected, "Secrets")
-  return
 end
 
 
