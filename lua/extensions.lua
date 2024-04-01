@@ -1,6 +1,17 @@
 -- All the extension methods I never wanna write twice
 local E = {}
+E.remove_filename_from_path = function(path)
+  -- Find the last occurrence of the directory separator
+  local separator_index = path:find("[\\/]([^\\/]+)$")
 
+  -- If separator found, remove the filename and return the modified path
+  if separator_index then
+    return path:sub(1, separator_index - 1)
+  else
+    -- If no separator found, return the original path
+    return path
+  end
+end
 
 E.isWindows = function()
   local platform = vim.loop.os_uname().sysname

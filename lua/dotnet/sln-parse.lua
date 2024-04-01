@@ -1,13 +1,13 @@
 local extensions = require "extensions"
 local M = {}
 
-local function normalize_path(path)
-  return vim.fn.getcwd() .. "/" .. path:gsub("\\", "/")
+local function normalize_path(path, slnpath)
+  return slnpath .. "/" .. path:gsub("\\", "/")
 end
 
 M.get_projects_from_sln = function(solutionFilePath)
   local file = io.open(solutionFilePath, "r")
-
+  local slnpath = extensions.remove_filename_from_path(solutionFilePath)
   if not file then
     error("Failed to open file " .. solutionFilePath)
   end
@@ -26,10 +26,10 @@ M.get_projects_from_sln = function(solutionFilePath)
     return {
       display = name,
       name = name,
-      path = normalize_path(path),
+      path = normalize_path(path, slnpath),
       id = id,
-      runnable = M.is_web_project(normalize_path(path)),
-      secrets = M.has_secrets(normalize_path(path))
+      runnable = M.is_web_project(normalize_path(path, slnpath)),
+      secrets = M.has_secrets(normalize_path(path, slnpath))
     }
   end)
   file:close()
@@ -88,25 +88,22 @@ local function find_sln_files_linux()
   return files[1]
 end
 
-local function find_sln_files_windows(path)
-  path = path or "."
-  local files = {}
-  local handle = io.popen('ls ' .. path .. ' *.sln')
-  if handle then
-    for file in handle:lines() do
-      table.insert(files, file)
+local function find_sln_files_windows()
+  local currentDirectory = io.popen("cd"):read("*l"):gsub("\\", "/")
+  local files = io.popen("dir /s/b \"" .. currentDirectory .. "\""):read("*a")
+
+  for file in files:gmatch("[^\r\n]+") do
+    if file:match("%.sln$") then
+      return file
     end
-    handle:close()
   end
-  return files[1]
+
+  return nil
 end
 
 M.find_solution_file = function()
   local file = require("extensions").isWindows() and find_sln_files_windows() or find_sln_files_linux()
-  if (file) then
-    return file
-  end
-  return require("extensions").isWindows() and find_sln_files_windows("./src") or find_sln_files_linux()
+  return file
 end
 
 return M
