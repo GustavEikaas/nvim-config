@@ -40,7 +40,7 @@ return {
       type = "coreclr",
       name = "launch - netcoredbg",
       request = "launch",
-      program = require("dotnet.debugger").get_debug_dll
+      program = require("easy-dotnet").get_debug_dll
     } }
   end,
   dependencies = {
