@@ -31,17 +31,30 @@ return {
 
     dap.adapters.coreclr = {
       type = "executable",
-      -- command = vim.fn.stdpath("data") .. "\\netcoredbg\\netcoredbg.exe",
       command = "netcoredbg",
       args = { "--interpreter=vscode" }
     }
 
+    local cwd = vim.fn.getcwd()
     dap.configurations.cs = { {
       type = "coreclr",
       name = "launch - netcoredbg",
       request = "launch",
-      program = require("easy-dotnet").get_debug_dll
+      program = function()
+        -- Update cwd right before dap get_debug_dll changes it
+        cwd = vim.fn.getcwd()
+        return require("easy-dotnet").get_debug_dll()
+      end
     } }
+
+    dap.listeners.before.event_terminated["easy-dotnet"] = function()
+      -- Reset cwd when debugging stops
+      vim.cmd("cd " .. cwd)
+    end
+    dap.listeners.before.event_exited["easy-dotnet"] = function()
+      -- Reset cwd when debugging stops
+      vim.cmd("cd " .. cwd)
+    end
   end,
   dependencies = {
     {

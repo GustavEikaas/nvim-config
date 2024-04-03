@@ -1,5 +1,6 @@
 return {
   "GustavEikaas/easy-dotnet.nvim",
+  branch = "fix/appsettings-dll-cwd",
   -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
   config = function()
