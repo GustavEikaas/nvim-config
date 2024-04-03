@@ -10,6 +10,7 @@ require "commands.todo".setup()
 require "commands.lsp".setup()
 require "commands.js".setup()
 require "commands.spotify".setup()
+require "commands.qol".setup()
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

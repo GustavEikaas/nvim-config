@@ -1,13 +1,13 @@
 local function toggle_playback()
-  os.execute("spt playback --toggle")
+  vim.fn.jobstart("spt playback --toggle")
 end
 
 local function prev_song()
-  os.execute("spt playback --previous")
+  vim.fn.jobstart("spt playback --previous")
 end
 
 local function next_song()
-  os.execute("spt playback --next")
+  vim.fn.jobstart("spt playback --next")
 end
 
 local M = {
