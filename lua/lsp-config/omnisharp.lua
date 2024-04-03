@@ -3,6 +3,7 @@ local omnisharp = {}
 function omnisharp.setup()
   local lspconfig = require("lspconfig")
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  -- MasonInstall omnisharp@v1.39.8
   lspconfig.omnisharp.setup({
     cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
     capabilities = capabilities,
