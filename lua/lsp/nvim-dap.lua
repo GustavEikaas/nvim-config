@@ -36,44 +36,56 @@ return {
     }
 
     local cwd = vim.fn.getcwd()
-    local dotnetProcessId = nil
+
+
+    local prelaunch = function()
+      local dotnetProcessId = nil
+      cwd = vim.fn.getcwd()
+      local cmd =
+      "powershell.exe -Command \"echo (Start-Process -FilePath 'dotnet' -ArgumentList 'run' -PassThru).Id\""
+      -- Change cwd to project cwd
+      require("easy-dotnet").get_debug_dll()
+      local co = coroutine.running()
+      vim.notify("Starting dotnet process")
+
+      vim.fn.jobstart(
+        cmd,
+        {
+          on_stdout = function(chan_id, data)
+            local pid = data[1]
+            require("general.debug").write_to_log("stdout: " .. pid)
+            dotnetProcessId = pid
+            coroutine.resume(co)
+          end,
+          stdout_buffered = true,
+          data_buffered = true
+        })
+      coroutine.yield()
+      return dotnetProcessId
+    end
+
+
     dap.configurations.cs = { {
       type = "coreclr",
       name = "launch - netcoredbg",
       request = "attach",
       processId = function()
-        return dotnetProcessId
+      local id =   prelaunch()
+        require("general.debug").write_to_log("Attaching to PID:" .. id)
+        vim.notify("Attaching to pid: " .. id)
+        return id
       end,
-      preLaunchTask = function()
-        cwd = vim.fn.getcwd()
-        -- Change cwd to project cwd
-        require("easy-dotnet").get_debug_dll()
-
-
-        -- local co = coroutine.running()
-        -- vim.notify("Starting dotnet process")
-        --
-
-        local handle = io.popen(
-          "powershell.exe -Command \"$processId = (Start-Process -FilePath 'dotnet' -ArgumentList 'run' -PassThru).Id; Write-Output $processId\"")
-        if handle == nil then
-          error("Failed to start webapi")
-        end
-        local result = handle:read("*a")
-        handle:close()
-        dotnetProcessId = tonumber(result)
-      end
     } }
 
     dap.listeners.before.event_terminated["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
       vim.cmd("cd " .. cwd)
-      os.execute("kill " .. dotnetProcessId)
+      -- os.execute("kill " .. dotnetProcessId)
     end
     dap.listeners.before.event_exited["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
       vim.cmd("cd " .. cwd)
-      os.execute("kill " .. dotnetProcessId)
+      -- os.execute("kill " .. dotnetProcessId)
     end
   end,
   dependencies = {
