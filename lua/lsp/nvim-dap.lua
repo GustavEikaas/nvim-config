@@ -36,24 +36,44 @@ return {
     }
 
     local cwd = vim.fn.getcwd()
+    local dotnetProcessId = nil
     dap.configurations.cs = { {
       type = "coreclr",
       name = "launch - netcoredbg",
-      request = "launch",
-      program = function()
-        -- Update cwd right before dap get_debug_dll changes it
+      request = "attach",
+      processId = function()
+        return dotnetProcessId
+      end,
+      preLaunchTask = function()
         cwd = vim.fn.getcwd()
-        return require("easy-dotnet").get_debug_dll()
+        -- Change cwd to project cwd
+        require("easy-dotnet").get_debug_dll()
+
+
+        -- local co = coroutine.running()
+        -- vim.notify("Starting dotnet process")
+        --
+
+        local handle = io.popen(
+          "powershell.exe -Command \"$processId = (Start-Process -FilePath 'dotnet' -ArgumentList 'run' -PassThru).Id; Write-Output $processId\"")
+        if handle == nil then
+          error("Failed to start webapi")
+        end
+        local result = handle:read("*a")
+        handle:close()
+        dotnetProcessId = tonumber(result)
       end
     } }
 
     dap.listeners.before.event_terminated["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
       vim.cmd("cd " .. cwd)
+      os.execute("kill " .. dotnetProcessId)
     end
     dap.listeners.before.event_exited["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
       vim.cmd("cd " .. cwd)
+      os.execute("kill " .. dotnetProcessId)
     end
   end,
   dependencies = {
