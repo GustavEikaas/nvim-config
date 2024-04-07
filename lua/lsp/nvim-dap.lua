@@ -30,9 +30,10 @@ return {
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
     dap.adapters.coreclr = {
-      type = "executable",
+      type = "server",
       command = "netcoredbg",
-      args = { "--interpreter=vscode" }
+      args = { "--interpreter=vscode --server" },
+      port = 4711
     }
 
     local cwd = vim.fn.getcwd()
@@ -67,15 +68,18 @@ return {
 
     dap.configurations.cs = { {
       type = "coreclr",
-      name = "launch - netcoredbg",
+      -- console = "integratedTerminal",
+      name = "attach - netcoredbg",
       request = "attach",
       processId = function()
-      local id =   prelaunch()
+        local id = prelaunch()
         require("general.debug").write_to_log("Attaching to PID:" .. id)
         vim.notify("Attaching to pid: " .. id)
+        -- os.execute("netcoredbg --interpreter=vscode --attach " .. id .. " --log")
         return id
       end,
     } }
+
 
     dap.listeners.before.event_terminated["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
