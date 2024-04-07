@@ -46,7 +46,8 @@ return {
       },
       program = function()
         local dll = require("easy-dotnet").get_debug_dll()
-        return dll
+        vim.cmd("cd " .. dll.project_path)
+        return dll.dll_path
       end,
     } }
 
