@@ -30,53 +30,23 @@ return {
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
     dap.adapters.coreclr = {
-      type = "server",
+      type = "executable",
       command = "netcoredbg",
-      args = { "--interpreter=vscode --server" },
-      port = 4711
+      args = { "--interpreter=vscode" },
     }
 
     local cwd = vim.fn.getcwd()
 
-
-    local prelaunch = function()
-      local dotnetProcessId = nil
-      cwd = vim.fn.getcwd()
-      local cmd =
-      "powershell.exe -Command \"echo (Start-Process -FilePath 'dotnet' -ArgumentList 'run' -PassThru).Id\""
-      -- Change cwd to project cwd
-      require("easy-dotnet").get_debug_dll()
-      local co = coroutine.running()
-      vim.notify("Starting dotnet process")
-
-      vim.fn.jobstart(
-        cmd,
-        {
-          on_stdout = function(chan_id, data)
-            local pid = data[1]
-            require("general.debug").write_to_log("stdout: " .. pid)
-            dotnetProcessId = pid
-            coroutine.resume(co)
-          end,
-          stdout_buffered = true,
-          data_buffered = true
-        })
-      coroutine.yield()
-      return dotnetProcessId
-    end
-
-
     dap.configurations.cs = { {
       type = "coreclr",
-      -- console = "integratedTerminal",
-      name = "attach - netcoredbg",
-      request = "attach",
-      processId = function()
-        local id = prelaunch()
-        require("general.debug").write_to_log("Attaching to PID:" .. id)
-        vim.notify("Attaching to pid: " .. id)
-        -- os.execute("netcoredbg --interpreter=vscode --attach " .. id .. " --log")
-        return id
+      name = "launch - netcoredbg",
+      request = "launch",
+      env = {
+        ["ASPNETCORE_ENVIRONMENT"] = "DEVELOPMENT"
+      },
+      program = function()
+        local dll = require("easy-dotnet").get_debug_dll()
+        return dll
       end,
     } }
 
@@ -84,12 +54,10 @@ return {
     dap.listeners.before.event_terminated["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
       vim.cmd("cd " .. cwd)
-      -- os.execute("kill " .. dotnetProcessId)
     end
     dap.listeners.before.event_exited["easy-dotnet"] = function()
       -- Reset cwd when debugging stops
       vim.cmd("cd " .. cwd)
-      -- os.execute("kill " .. dotnetProcessId)
     end
   end,
   dependencies = {
