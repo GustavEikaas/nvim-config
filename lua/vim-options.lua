@@ -43,11 +43,3 @@ vim.opt.cursorline = true
 -- Set leader to <space>
 vim.g.mapleader = " "
 
-
--- vim.cmd [[
---     augroup ToggleTmuxStatus
---         autocmd!
---         autocmd VimEnter * silent !tmux set status off
---         autocmd VimLeave * silent !tmux set status on
---     augroup END
--- ]]
