@@ -67,7 +67,12 @@ return {
         DapBreakpoint = { bg = "#362B31" },
 
         -- DBUI
-        NotificationInfo = { bg = background }
+        NotificationInfo = { bg = background },
+
+        -- Illuminate
+        IlluminatedWordRead = { bg = selection, underline = true },
+        IlluminatedWordWrite = { bg = selection, underline = true },
+        IlluminatedWordText = { bg = selection, underline = true }
       },
     })
     vim.cmd.colorscheme "dracula"
