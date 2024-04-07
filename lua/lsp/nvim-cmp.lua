@@ -8,10 +8,11 @@ return {
   "hrsh7th/nvim-cmp",
   event = "LspAttach",
   dependencies = {
-    { "hrsh7th/cmp-nvim-lsp",         event = "LspAttach" },
-    { "L3MON4D3/LuaSnip",             event = "LspAttach" },
-    { "saadparwaiz1/cmp_luasnip",     event = "LspAttach" },
-    { "rafamadriz/friendly-snippets", event = "LspAttach" }
+    { "hrsh7th/cmp-nvim-lsp",                 event = "LspAttach" },
+    { "L3MON4D3/LuaSnip",                     event = "LspAttach" },
+    { "saadparwaiz1/cmp_luasnip",             event = "LspAttach" },
+    { "rafamadriz/friendly-snippets",         event = "LspAttach" },
+    { 'kristijanhusak/vim-dadbod-completion', },
   },
   config = function()
     local cmp = require 'cmp'
@@ -57,10 +58,11 @@ return {
         end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-      }, {
-        { name = 'buffer' },
+        { name = 'nvim_lsp',              priority = 1000 },
+        { name = 'luasnip',               priority = 750 },
+        { name = "vim-dadbod-completion", priority = 700 },
+        { name = "buffer",                priority = 500 },
+        { name = "path",                  priority = 250 }
       })
     })
 

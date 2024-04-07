@@ -13,6 +13,13 @@ return {
     local status = require 'spotify.spotify'.status
     status:start()
 
+    local debugger = {
+      function()
+        local dap = require("dap")
+        return dap.status()
+      end,
+      color = { fg = "#FFFFFF", bg = "#1DB954" }
+    }
     local spotify_line = {
       function()
         local listen = status.listen()
@@ -62,7 +69,7 @@ return {
         }
       },
       sections = {
-        lualine_a = { 'mode' },
+        lualine_a = { 'mode', debugger },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = {},
         lualine_x = { 'encoding', 'filetype' },

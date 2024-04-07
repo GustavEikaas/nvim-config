@@ -1,10 +1,12 @@
+local extensions = require("extensions")
 local tsserver = {}
 
 function tsserver.setup()
   local lspconfig = require("lspconfig")
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
   lspconfig.tsserver.setup({
-    cmd = { "typescript-language-server.cmd", "--stdio" },
+    cmd = { extensions.isWindows() and "typescript-language-server.cmd" or "typescript-language-server", "--stdio" },
     capabilities = capabilities
   })
 end

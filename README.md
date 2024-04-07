@@ -7,10 +7,21 @@ Personalized nvim config for TS Code editing
 - Neovim
 
 ## DAP
-C# requires `vim.fn.stdpath("data") .. "\\netcoredbg\\netcoredbg.exe"`
+C# requires netcoredbg to be in path 
 
 ## Spotify
 Install spotify-tui
 ```bash 
 choco install spotify-tui
 ```
+
+## DBUI
+
+### Prerequisites
+1. sqlcmd
+
+### Example
+
+1. :DBUI<CR>
+2. A 
+3. sqlserver://root:yourpassword@localhost/dbname?TrustServerCertificate=true
