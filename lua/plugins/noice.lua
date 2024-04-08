@@ -204,6 +204,7 @@ return {
       ---@type NoiceFormatOptions
       format = {}, --- @see section on formatting
     })
+    local notify = require("notify").setup({ render = "minimal" })
   end,
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries

@@ -4,7 +4,7 @@ local function rebuild(co)
   local num = 0;
   local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
 
-  local notification = vim.notify("Building", "info", {
+  local notification = vim.notify(spinner_frames[1] .. " Building", "info", {
     title = "Dotnet",
     icon = spinner_frames[1],
     timeout = false,
@@ -15,7 +15,7 @@ local function rebuild(co)
     on_stdout = function(a)
       num = num + 1
       local new_spinner = (num) % #spinner_frames
-      notification = vim.notify("Building", "info",
+      notification = vim.notify(spinner_frames[new_spinner] .. " Building", "info",
         { icon = spinner_frames[new_spinner], replace = notification, hide_from_history = false })
     end,
     on_exit = function(_, return_code)
