@@ -1,6 +1,6 @@
----
+--- Rebuilds the project before starting the debug session
 ---@param co thread
-local function rebuild(co)
+local function rebuild_project(co)
   local num = 0;
   local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
 
@@ -85,7 +85,7 @@ return {
         local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
         if shouldRebuild == "Y" then
           local co = coroutine.running()
-          rebuild(co)
+          rebuild_project(co)
         end
 
         return dll.dll_path
@@ -109,7 +109,7 @@ return {
         require("dapui").setup({
           icons = { expanded = "", collapsed = "", current_frame = "" },
           mappings = {
-            expand = { "<CR>", "<2-LeftMouse>" },
+            expand = { "<CR>" },
             open = "o",
             remove = "d",
             edit = "e",
