@@ -5,10 +5,7 @@ local function rebuild_project(co)
   local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
 
   local notification = vim.notify(spinner_frames[1] .. " Building", "info", {
-    title = "Dotnet",
-    icon = spinner_frames[1],
     timeout = false,
-    hide_from_history = false
   })
 
   vim.fn.jobstart("dotnet build .", {
@@ -16,17 +13,17 @@ local function rebuild_project(co)
       num = num + 1
       local new_spinner = (num) % #spinner_frames
       notification = vim.notify(spinner_frames[new_spinner] .. " Building", "info",
-        { icon = spinner_frames[new_spinner], replace = notification, hide_from_history = false })
+        { replace = notification })
     end,
     on_exit = function(_, return_code)
       if return_code == 0 then
         vim.notify("Built successfully", "info", { replace = notification, timeout = 1000 })
       else
+        -- HACK: clearing previous building progress message
         vim.notify("", "info", { replace = notification, timeout = 1 })
         vim.notify("Build failed with exit code " .. return_code, "error", { timeout = 1000 })
         error("Build failed")
       end
-
       coroutine.resume(co)
     end,
   })
