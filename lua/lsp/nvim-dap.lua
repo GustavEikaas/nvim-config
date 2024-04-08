@@ -22,7 +22,9 @@ local function rebuild(co)
       if return_code == 0 then
         vim.notify("Built successfully", "info", { replace = notification, timeout = 1000 })
       else
-        vim.notify("Build failed with exit code " .. return_code)
+        vim.notify("", "info", { replace = notification, timeout = 1 })
+        vim.notify("Build failed with exit code " .. return_code, "error", { timeout = 1000 })
+        error("Build failed")
       end
 
       coroutine.resume(co)
@@ -80,7 +82,7 @@ return {
       program = function()
         local dll = require("easy-dotnet").get_debug_dll()
         vim.cmd("cd " .. dll.project_path)
-        local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N")
+        local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
         if shouldRebuild == "Y" then
           local co = coroutine.running()
           rebuild(co)
@@ -90,15 +92,12 @@ return {
       end,
     } }
 
+    local function on_dap_exit()
+      vim.cmd("cd " .. cwd)
+    end
 
-    dap.listeners.before.event_terminated["easy-dotnet"] = function()
-      -- Reset cwd when debugging stops
-      vim.cmd("cd " .. cwd)
-    end
-    dap.listeners.before.event_exited["easy-dotnet"] = function()
-      -- Reset cwd when debugging stops
-      vim.cmd("cd " .. cwd)
-    end
+    dap.listeners.before.event_terminated["easy-dotnet"] = on_dap_exit
+    dap.listeners.before.event_exited["easy-dotnet"] = on_dap_exit
   end,
   dependencies = {
     {
