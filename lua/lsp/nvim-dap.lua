@@ -48,7 +48,6 @@ return {
     dap.listeners.before.event_exited["dapui_config"] = function()
       dapui.close()
     end
-
     vim.keymap.set("n", "<F5>", dap.continue, {})
     vim.keymap.set("n", "q", dap.close, {})
     vim.keymap.set("n", "<F10>", dap.step_over, {})
@@ -56,7 +55,21 @@ return {
     vim.keymap.set("n", "<F12>", dap.step_out, {})
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
     vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
-    vim.keymap.set("n", "<F3>", dap.run_to_cursor, {})
+
+    local restart_cwd = nil
+    vim.keymap.set("n", "<F3>", function()
+      dap.restart()
+      vim.notify("Restarting debugging session")
+      -- TODO: Find a better way to do this
+      -- Debugger needs to start in same directory as the .csproj is.
+      -- When the debugger exits it resets to the old cwd. I need to override this behaviour if the trigger is a restart
+      dap.listeners.after.event_terminated["handle_restart"] = function()
+        if restart_cwd then
+          vim.cmd("cd " .. restart_cwd)
+          dap.listeners.after.event_terminated["handle_restart"] = nil
+        end
+      end
+    end, {})
 
     vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
@@ -78,6 +91,7 @@ return {
       },
       program = function()
         local dll = require("easy-dotnet").get_debug_dll()
+        restart_cwd = dll.project_path
         vim.cmd("cd " .. dll.project_path)
         local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
         if shouldRebuild == "Y" then
@@ -92,9 +106,8 @@ return {
     local function on_dap_exit()
       vim.cmd("cd " .. cwd)
     end
-
-    dap.listeners.before.event_terminated["easy-dotnet"] = on_dap_exit
-    dap.listeners.before.event_exited["easy-dotnet"] = on_dap_exit
+    dap.listeners.before.event_terminated["reset-cwd"] = on_dap_exit
+    dap.listeners.before.event_exited["reset-cwd"] = on_dap_exit
   end,
   dependencies = {
     {
