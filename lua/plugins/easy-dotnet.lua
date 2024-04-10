@@ -30,6 +30,11 @@ return {
       dotnet.secrets()
     end, {})
 
+    -- Temp
+    vim.keymap.set("n", "<leader>r", dotnet.run_project)
+    vim.keymap.set("n", "<leader>b", dotnet.build_solution)
+    vim.keymap.set("n", "<leader>t", dotnet.test_solution)
+
     vim.keymap.set("n", "<C-p>", function()
       dotnet.run_project()
     end)
