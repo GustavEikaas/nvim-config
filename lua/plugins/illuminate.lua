@@ -21,7 +21,12 @@ return {
         'dirvish',
         'fugitive',
         "NvimTree",
-        "alpha"
+        "alpha",
+        "markdown",
+        "TelescopePrompt",
+        "DressingInput",
+        "octo",
+        "terminal"
       },
       -- filetypes_allowlist: filetypes to illuminate, this is overridden by filetypes_denylist
       -- You must set filetypes_denylist = {} to override the defaults to allow filetypes_allowlist to take effect
@@ -50,7 +55,7 @@ return {
       -- If nil, vim-illuminate will be disabled for large files.
       large_file_overrides = nil,
       -- min_count_to_highlight: minimum number of matches required to perform highlighting
-      min_count_to_highlight = 1,
+      min_count_to_highlight = 2,
       -- should_enable: a callback that overrides all other settings to
       -- enable/disable illumination. This will be called a lot so don't do
       -- anything expensive in it.

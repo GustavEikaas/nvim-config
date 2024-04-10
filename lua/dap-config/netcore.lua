@@ -1,17 +1,43 @@
 local M = {}
 
+--- Rebuilds the project before starting the debug session
+---@param co thread
+local function rebuild_project(co)
+  local num = 0;
+  local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
+
+  local notification = vim.notify(spinner_frames[1] .. " Building", "info", {
+    timeout = false,
+  })
+
+  vim.fn.jobstart("dotnet build .", {
+    on_stdout = function(a)
+      num = num + 1
+      local new_spinner = (num) % #spinner_frames
+      notification = vim.notify(spinner_frames[new_spinner] .. " Building", "info",
+        { replace = notification })
+    end,
+    on_exit = function(_, return_code)
+      if return_code == 0 then
+        vim.notify("Built successfully", "info", { replace = notification, timeout = 1000 })
+      else
+        -- HACK: clearing previous building progress message
+        vim.notify("", "info", { replace = notification, timeout = 1 })
+        vim.notify("Build failed with exit code " .. return_code, "error", { timeout = 1000 })
+        error("Build failed")
+      end
+      coroutine.resume(co)
+    end,
+  })
+  coroutine.yield()
+end
+
+
 M.register_net_dap = function()
   local dap = require("dap")
   local cwd = vim.fn.getcwd()
+  local restart_cwd = nil
 
-  dap.listeners.before.event_terminated["easy-dotnet"] = function()
-    -- Reset cwd when debugging stops
-    vim.cmd("cd " .. cwd)
-  end
-  dap.listeners.before.event_exited["easy-dotnet"] = function()
-    -- Reset cwd when debugging stops
-    vim.cmd("cd " .. cwd)
-  end
 
   dap.configurations.cs = {
     {
@@ -23,7 +49,14 @@ M.register_net_dap = function()
       },
       program = function()
         local dll = require("easy-dotnet").get_debug_dll()
+        restart_cwd = dll.project_path
         vim.cmd("cd " .. dll.project_path)
+        local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
+        if shouldRebuild == "Y" then
+          local co = coroutine.running()
+          rebuild_project(co)
+        end
+
         return dll.dll_path
       end,
     }
@@ -33,6 +66,20 @@ M.register_net_dap = function()
     command = "netcoredbg",
     args = { "--interpreter=vscode" },
   }
+
+  local function on_dap_exit()
+    vim.cmd("cd " .. cwd)
+  end
+
+  dap.listeners.before.event_terminated["reset-cwd"] = on_dap_exit
+  dap.listeners.before.event_exited["reset-cwd"] = on_dap_exit
+
+  return function()
+    if restart_cwd then
+      vim.cmd("cd " .. restart_cwd)
+      dap.listeners.after.event_terminated["handle_restart"] = nil
+    end
+  end
 end
 
 return M

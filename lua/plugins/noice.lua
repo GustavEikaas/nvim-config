@@ -100,7 +100,7 @@ return {
         -- event is always "notify" and kind can be any log level as a string
         -- The default routes will forward notifications to nvim-notify
         -- Benefit of using Noice for this is the routing and consistent history view
-        enabled = false,
+        enabled = true,
         view = "notify",
       },
       lsp = {
@@ -204,6 +204,7 @@ return {
       ---@type NoiceFormatOptions
       format = {}, --- @see section on formatting
     })
+    local notify = require("notify").setup({ render = "minimal" })
   end,
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
