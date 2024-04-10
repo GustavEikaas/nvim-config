@@ -26,51 +26,13 @@ return {
     vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
     vim.keymap.set("n", "<F3>", dap.run_to_cursor, {})
 
+
     vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
-    dap.adapters.coreclr = {
-      type = "executable",
-      command = "netcoredbg",
-      args = { "--interpreter=vscode" },
-    }
+    require("dap-config.lua").register_lua_dap()
+    require("dap-config.netcore").register_net_dap()
 
-    -- https://github.com/jbyuki/one-small-step-for-vimkind
-    dap.configurations.lua = { {
-      type = 'nlua',
-      request = 'attach',
-      name = "Attach to running Neovim instance",
-    } }
-
-    dap.adapters.nlua = function(callback, config)
-      callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-    end
-
-    local cwd = vim.fn.getcwd()
-
-    dap.configurations.cs = { {
-      type = "coreclr",
-      name = "launch - netcoredbg",
-      request = "launch",
-      env = {
-        ["ASPNETCORE_ENVIRONMENT"] = "DEVELOPMENT"
-      },
-      program = function()
-        local dll = require("easy-dotnet").get_debug_dll()
-        vim.cmd("cd " .. dll.project_path)
-        return dll.dll_path
-      end,
-    } }
-
-
-    dap.listeners.before.event_terminated["easy-dotnet"] = function()
-      -- Reset cwd when debugging stops
-      vim.cmd("cd " .. cwd)
-    end
-    dap.listeners.before.event_exited["easy-dotnet"] = function()
-      -- Reset cwd when debugging stops
-      vim.cmd("cd " .. cwd)
-    end
   end,
   dependencies = {
     { "jbyuki/one-small-step-for-vimkind" },
