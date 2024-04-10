@@ -1,35 +1,3 @@
---- Rebuilds the project before starting the debug session
----@param co thread
-local function rebuild_project(co)
-  local num = 0;
-  local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
-
-  local notification = vim.notify(spinner_frames[1] .. " Building", "info", {
-    timeout = false,
-  })
-
-  vim.fn.jobstart("dotnet build .", {
-    on_stdout = function(a)
-      num = num + 1
-      local new_spinner = (num) % #spinner_frames
-      notification = vim.notify(spinner_frames[new_spinner] .. " Building", "info",
-        { replace = notification })
-    end,
-    on_exit = function(_, return_code)
-      if return_code == 0 then
-        vim.notify("Built successfully", "info", { replace = notification, timeout = 1000 })
-      else
-        -- HACK: clearing previous building progress message
-        vim.notify("", "info", { replace = notification, timeout = 1 })
-        vim.notify("Build failed with exit code " .. return_code, "error", { timeout = 1000 })
-        error("Build failed")
-      end
-      coroutine.resume(co)
-    end,
-  })
-  coroutine.yield()
-end
-
 return {
   "mfussenegger/nvim-dap",
   enabled = true,
@@ -56,69 +24,22 @@ return {
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
     vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
 
-    local restart_cwd = nil
+    require("dap-config.lua").register_lua_dap()
+    local on_restart = require("dap-config.netcore").register_net_dap()
+
+
     vim.keymap.set("n", "<F3>", function()
       dap.restart()
       vim.notify("Restarting debugging session")
       -- TODO: Find a better way to do this
       -- Debugger needs to start in same directory as the .csproj is.
       -- When the debugger exits it resets to the old cwd. I need to override this behaviour if the trigger is a restart
-      dap.listeners.after.event_terminated["handle_restart"] = function()
-        if restart_cwd then
-          vim.cmd("cd " .. restart_cwd)
-          dap.listeners.after.event_terminated["handle_restart"] = nil
-        end
-      end
+      dap.listeners.after.event_terminated["handle_restart"] = on_restart
     end, {})
+
 
     vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
-
-    dap.adapters.coreclr = {
-      type = "executable",
-      command = "netcoredbg",
-      args = { "--interpreter=vscode" },
-    }
-
-    -- https://github.com/jbyuki/one-small-step-for-vimkind
-    dap.configurations.lua = { {
-      type = 'nlua',
-      request = 'attach',
-      name = "Attach to running Neovim instance",
-    } }
-
-    dap.adapters.nlua = function(callback, config)
-      callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-    end
-
-    local cwd = vim.fn.getcwd()
-
-    dap.configurations.cs = { {
-      type = "coreclr",
-      name = "launch - netcoredbg",
-      request = "launch",
-      env = {
-        ["ASPNETCORE_ENVIRONMENT"] = "DEVELOPMENT"
-      },
-      program = function()
-        local dll = require("easy-dotnet").get_debug_dll()
-        restart_cwd = dll.project_path
-        vim.cmd("cd " .. dll.project_path)
-        local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
-        if shouldRebuild == "Y" then
-          local co = coroutine.running()
-          rebuild_project(co)
-        end
-
-        return dll.dll_path
-      end,
-    } }
-
-    local function on_dap_exit()
-      vim.cmd("cd " .. cwd)
-    end
-    dap.listeners.before.event_terminated["reset-cwd"] = on_dap_exit
-    dap.listeners.before.event_exited["reset-cwd"] = on_dap_exit
   end,
   dependencies = {
     { "jbyuki/one-small-step-for-vimkind" },

@@ -84,10 +84,6 @@ gh.setup = function()
   vim.api.nvim_create_user_command('GGRF', git_restore_curr_buffer, {})
 
   vim.api.nvim_create_user_command('PR', try_open_pr, {})
-
-  vim.api.nvim_create_user_command("LuaDebug", function()
-    require("osv").launch({ port = 8086 })
-  end, {})
 end
 
 return gh
