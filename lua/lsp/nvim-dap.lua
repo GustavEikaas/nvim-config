@@ -26,7 +26,7 @@ return {
     vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
     vim.keymap.set("n", "<F3>", dap.run_to_cursor, {})
 
-    vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
+    vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
     dap.adapters.coreclr = {
