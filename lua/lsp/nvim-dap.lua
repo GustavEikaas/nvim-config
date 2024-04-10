@@ -71,7 +71,7 @@ return {
       end
     end, {})
 
-    vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
+    vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
     dap.adapters.coreclr = {
