@@ -71,7 +71,7 @@ return {
       end
     end, {})
 
-    vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
+    vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
 
     dap.adapters.coreclr = {
@@ -79,6 +79,17 @@ return {
       command = "netcoredbg",
       args = { "--interpreter=vscode" },
     }
+
+    -- https://github.com/jbyuki/one-small-step-for-vimkind
+    dap.configurations.lua = { {
+      type = 'nlua',
+      request = 'attach',
+      name = "Attach to running Neovim instance",
+    } }
+
+    dap.adapters.nlua = function(callback, config)
+      callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+    end
 
     local cwd = vim.fn.getcwd()
 
@@ -110,6 +121,7 @@ return {
     dap.listeners.before.event_exited["reset-cwd"] = on_dap_exit
   end,
   dependencies = {
+    { "jbyuki/one-small-step-for-vimkind" },
     {
       "nvim-neotest/nvim-nio",
     },
