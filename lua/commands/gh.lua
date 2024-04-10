@@ -1,17 +1,37 @@
 local gh = {}
 
 local function try_open_pr()
-  local handle = io.popen("gh pr view --json number -q .number")
-  if handle == nil then
-    return
-  end
-  local value = handle:read("n")
-  handle:close()
-  if value then
-    vim.cmd("Octo pr edit " .. value)
-  else
-    vim.notify("Failed to find pr")
-  end
+  local num = 0;
+  local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
+
+  local notification = vim.notify(spinner_frames[1] .. " Looking up PR", "info", {
+    timeout = false
+  })
+
+  local pr_num
+  vim.fn.jobstart("gh pr view --json number -q .number", {
+    buffer_stdout = true,
+    on_stdout = function(_a, b)
+      num = num + 1
+      local new_spinner = (num) % #spinner_frames
+      notification = vim.notify(spinner_frames[new_spinner] .. " Looking up PR", "info", {
+        replace = notification
+      })
+      local val = b[1]
+      if #val > 0 then
+        pr_num = val
+      end
+    end,
+    on_exit = function(_a, b)
+      if b == 0 and pr_num then
+        vim.notify("Opening PR " .. pr_num, "info", { replace = notification, timeout = 1000 })
+        vim.cmd("Octo pr edit " .. pr_num)
+      else
+        vim.notify("", "info", { replace = notification, timeout = 1 })
+        vim.notify("Failed to find pr", "error", { timeout = 1000 })
+      end
+    end
+  })
 end
 
 local function git_restore_curr_buffer()
@@ -64,6 +84,10 @@ gh.setup = function()
   vim.api.nvim_create_user_command('GGRF', git_restore_curr_buffer, {})
 
   vim.api.nvim_create_user_command('PR', try_open_pr, {})
+
+  vim.api.nvim_create_user_command("LuaDebug", function()
+    require("osv").launch({ port = 8086 })
+  end, {})
 end
 
 return gh
