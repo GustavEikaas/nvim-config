@@ -13,6 +13,9 @@ return {
     local status = require 'spotify.spotify'.status
     status:start()
 
+    local github = require 'gh.github'.status
+    github:start()
+
     local debugger = {
       function()
         local dap = require("dap")
@@ -26,6 +29,12 @@ return {
         return truncateText(listen, 50)
       end,
       color = { fg = "#FFFFFF", bg = "#1DB954" }
+    }
+    local pr_line = {
+      function()
+        local listen = github.listen()
+        return listen
+      end,
     }
     local pin_indicator = {
       function()
@@ -71,7 +80,7 @@ return {
       sections = {
         lualine_a = { 'mode', debugger },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = {},
+        lualine_c = {pr_line},
         lualine_x = { 'encoding', 'filetype' },
         lualine_y = { pin_indicator },
         lualine_z = { spotify_line }
