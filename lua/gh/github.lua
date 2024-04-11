@@ -1,15 +1,32 @@
 local M = {
   opts = {
     status = {
-      update_interval = 60000,
+      update_interval = 10000,
     }
   },
   status = {},
   _status_line = ""
 }
 
+function executeCommand(cmd)
+  local handle = io.popen(cmd)
+  if handle == nil then
+    error("Failed to exec " .. cmd)
+  end
+  local value = handle:read("*a")
+  handle:close()
+  return value
+end
+
 function M.status:start()
+  local currBranch = nil
   local function force_update()
+    local branch = executeCommand("git rev-parse --abbrev-ref HEAD")
+    if branch == currBranch then
+      vim.notify("Skipped updating branch")
+      return
+    end
+    currBranch = branch
     local cmd = "gh pr view --json mergeable,state,autoMergeRequest,mergeStateStatus,title"
     vim.fn.jobstart(cmd, { on_stdout = self.on_event, stdout_buffered = true })
   end
