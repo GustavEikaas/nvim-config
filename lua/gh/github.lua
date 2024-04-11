@@ -39,6 +39,8 @@ function M.status:on_event(data)
     local pr = vim.fn.json_decode(data[1])
     local status = pr.mergeable == "MERGEABLE" and "✔" or "🔴"
     M._status_line = " " .. pr.title .. status
+  else
+    M._status_line = ""
   end
 end
 
