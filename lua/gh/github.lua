@@ -8,7 +8,7 @@ local M = {
   _status_line = ""
 }
 
-function executeCommand(cmd)
+local function executeCommand(cmd)
   local handle = io.popen(cmd)
   if handle == nil then
     error("Failed to exec " .. cmd)
@@ -23,7 +23,6 @@ function M.status:start()
   local function force_update()
     local branch = executeCommand("git rev-parse --abbrev-ref HEAD")
     if branch == currBranch then
-      vim.notify("Skipped updating branch")
       return
     end
     currBranch = branch
