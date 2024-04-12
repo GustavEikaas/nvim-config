@@ -116,6 +116,12 @@ return {
         diff2 = {
           -- Mappings in 2-way diff layouts
           { "n", "g?", actions.help({ "view", "diff2" }), { desc = "Open the help panel" } },
+          { "n", "<leader>r", function()
+            vim.notify("Reset file")
+            vim.cmd("GGRF")
+            actions.select_next_entry()
+            actions.refresh_files()
+          end, { desc = "Discard current file" } },
         },
         diff3 = {
           -- Mappings in 3-way diff layouts
@@ -131,7 +137,7 @@ return {
           { "n",          "g?",  actions.help({ "view", "diff4" }), { desc = "Open the help panel" } },
         },
         file_panel = {
-          { "n", "q",             ":DiffClose<CR>",                      { desc = "Open the diff for the next file" } },
+          { "n", "q",             ":DiffClose<CR>",                      { desc = "Close the diffview" } },
           { "n", "j",             actions.next_entry,                    { desc = "Bring the cursor to the next file entry" } },
           { "n", "<down>",        actions.next_entry,                    { desc = "Bring the cursor to the next file entry" } },
           { "n", "k",             actions.prev_entry,                    { desc = "Bring the cursor to the previous file entry" } },

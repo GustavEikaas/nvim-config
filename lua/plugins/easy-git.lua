@@ -10,5 +10,6 @@ return {
     vim.api.nvim_create_user_command('GGRF', git.restore_current_file, {})
     vim.api.nvim_create_user_command("GGRM", git.reset_to_main, {})
     vim.api.nvim_create_user_command("GGR", git.reset_branch, {})
+    vim.keymap.set("n", "<C-b>", git.pick_branch, { noremap = true, silent = true })
   end
 }
