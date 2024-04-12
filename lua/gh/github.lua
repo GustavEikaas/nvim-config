@@ -17,6 +17,21 @@ local function executeCommand(cmd)
   handle:close()
   return value
 end
+local prFields =
+"mergeable,state,mergeStateStatus,title,isDraft,reviewDecision,statusCheckRollup,additions,changedFiles,deletions,comments"
+
+-- {
+--   "additions": 62,
+--   "changedFiles": 2,
+--   "deletions": 1,
+--   "isDraft": true,
+--   "mergeStateStatus": "CLEAN",
+--   "mergeable": "MERGEABLE",
+--   "reviewDecision": "",
+--   "state": "OPEN",
+--   "statusCheckRollup": [],
+--   "title": "add pr to lualine"
+-- }
 
 function M.status:start()
   local currBranch = nil
@@ -26,7 +41,7 @@ function M.status:start()
       return
     end
     currBranch = branch
-    local cmd = "gh pr view --json mergeable,state,autoMergeRequest,mergeStateStatus,title"
+    local cmd = "gh pr view --json " .. prFields
     vim.fn.jobstart(cmd, { on_stdout = self.on_event, stdout_buffered = true })
   end
 
@@ -37,8 +52,10 @@ end
 function M.status:on_event(data)
   if data and #data[1] > 0 then
     local pr = vim.fn.json_decode(data[1])
+    local diff = "󰐕" .. pr.additions .. " 󰍴" .. pr.deletions
+    local comments = #pr.comments > 0 and #pr.comments .. "" or ""
     local status = pr.mergeable == "MERGEABLE" and "✔" or "🔴"
-    M._status_line = " " .. pr.title .. status
+    M._status_line = " " .. pr.title .. status .. "  (" .. diff .. ") " .. comments
   else
     M._status_line = ""
   end
