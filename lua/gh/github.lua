@@ -26,7 +26,7 @@ function M.status:start()
       return
     end
     currBranch = branch
-    local cmd = "gh pr view --json mergeable,state,autoMergeRequest,mergeStateStatus,title"
+    local cmd = "gh pr view --json mergeable,state,mergeStateStatus,title"
     vim.fn.jobstart(cmd, { on_stdout = self.on_event, stdout_buffered = true })
   end
 
