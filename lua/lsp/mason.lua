@@ -28,8 +28,9 @@ return
       require("lsp-config.powershell_es").setup()
       require("lsp-config.yaml").setup()
       require("lsp-config.rust-analyzer").setup()
-      require("lsp-config.pyright").setup()
+      -- require("lsp-config.pyright").setup()
       require("lsp-config.bash").setup()
+      require("lsp-config.pylsp").setup()
       -- bindings
       require("lsp-config.bindings").setup()
     end,
