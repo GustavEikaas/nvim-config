@@ -32,12 +32,21 @@ local function rebuild_project(co)
   coroutine.yield()
 end
 
+local function merge_tables(table1, table2)
+  local merged = {}
+  for k, v in pairs(table1) do
+    merged[k] = v
+  end
+  for k, v in pairs(table2) do
+    merged[k] = v
+  end
+  return merged
+end
 
 M.register_net_dap = function()
   local dap = require("dap")
   local cwd = vim.fn.getcwd()
   local restart_cwd = nil
-
 
   dap.configurations.cs = {
     {
@@ -51,11 +60,15 @@ M.register_net_dap = function()
         local dll = require("easy-dotnet").get_debug_dll()
         restart_cwd = dll.project_path
         vim.cmd("cd " .. dll.project_path)
-        local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
-        if shouldRebuild == "Y" then
-          local co = coroutine.running()
-          rebuild_project(co)
+        local vars = require("easy-dotnet").get_environment_variables(dll.project_name)
+        if vars ~= nil then
+          dap.configurations.cs[1].env = merge_tables(dap.configurations.cs[1].env, vars)
         end
+        -- local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
+        -- if shouldRebuild == "Y" then
+        local co = coroutine.running()
+        rebuild_project(co)
+        -- end
 
         return dll.dll_path
       end,
