@@ -8,7 +8,6 @@
   "diffview.nvim": { "branch": "main", "commit": "3dc498c9777fe79156f3d32dddd483b8b3dbd95f" },
   "dracula": { "branch": "main", "commit": "8d8bddb8814c3e7e62d80dda65a9876f97eb699c" },
   "dressing.nvim": { "branch": "master", "commit": "18e5beb3845f085b6a33c24112b37988f3f93c06" },
-  "easy-dotnet.nvim": { "branch": "main", "commit": "9c060b79b56d58cd79fd1a79dd45ca357a35457a" },
   "easy-git.nvim": { "branch": "main", "commit": "b060c510dddb2a1b2873efd47bfcd7a657ca3baf" },
   "friendly-snippets": { "branch": "main", "commit": "ea068f1becd91bcd4591fceb6420d4335e2e14d3" },
   "gh-addressed.nvim": { "branch": "main", "commit": "64c12f0f2a1d28afe53220da5fb86e1adb79be07" },
