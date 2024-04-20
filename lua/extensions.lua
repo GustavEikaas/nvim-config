@@ -18,7 +18,6 @@ E.isWindows = function()
   return platform == "Windows_NT"
 end
 
-
 -- Files
 E.get_current_buffer_path = function()
   local bufnr = vim.api.nvim_get_current_buf()
