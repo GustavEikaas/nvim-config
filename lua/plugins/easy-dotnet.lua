@@ -21,8 +21,7 @@ return {
           end
         }
         local command = commands[action]() .. "\r"
-        local term = require("nvterm.terminal")
-        term.send(command, "float")
+        require("toggleterm").exec(command, nil, nil, nil, "float")
       end,
     })
 
