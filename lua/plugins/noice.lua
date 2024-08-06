@@ -204,7 +204,12 @@ return {
       ---@type NoiceFormatOptions
       format = {}, --- @see section on formatting
     })
-    local notify = require("notify").setup({ render = "minimal" })
+    require("notify").setup({ render = "minimal" })
+
+    vim.keymap.set("n", "<leader>x", function()
+      require("notify").dismiss()
+    end, { silent = true })
+
   end,
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
