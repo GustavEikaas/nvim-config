@@ -58,7 +58,7 @@ return {
       use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
     })
     vim.keymap.set("n", "<space>tr", ":TroubleToggle<CR>", { noremap = true, silent = true })
-    vim.keymap.set("n", "<leader>gr", function() require("trouble").toggle("lsp_references") end)
+    -- vim.keymap.set("n", "<leader>gr", function() require("trouble").toggle("lsp_references") end)
     -- vim.keymap.set("n", "<leader>gi", function() require("trouble").toggle("lsp_implementations") end)
     -- vim.keymap.set("n", "<leader>gd", function() require("trouble").toggle("lsp_definitions") end)
   end
