@@ -9,6 +9,12 @@ function tsserver.setup()
     cmd = { extensions.isWindows() and "typescript-language-server.cmd" or "typescript-language-server", "--stdio" },
     capabilities = capabilities
   })
+
+  require 'lspconfig'.tailwindcss.setup(
+    {
+      cmd = { extensions.isWindows() and "tailwindcss-language-server.cmd" or "tailwindcss-language-server", "--stdio" },
+      capabilities = capabilities
+    })
 end
 
 return tsserver
