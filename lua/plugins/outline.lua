@@ -31,7 +31,7 @@ return {
           -- peek_location
           auto_close = false,
           -- Automatically scroll to the location in code when navigating outline window.
-          auto_jump = false,
+          auto_jump = true,
           -- boolean or integer for milliseconds duration to apply a temporary highlight
           -- when jumping. false to disable.
           jump_highlight_duration = 300,
@@ -128,7 +128,7 @@ return {
 
         preview_window = {
           -- Automatically open preview of code location when navigating outline window
-          auto_preview = true,
+          auto_preview = false,
           -- Automatically open hover_symbol when opening preview (see keymaps for
           -- hover_symbol).
           -- If you disable this you can still open hover_symbol using your keymap
