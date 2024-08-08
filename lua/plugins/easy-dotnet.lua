@@ -141,29 +141,10 @@ local function groupByClassName(results)
 
   return grouped
 end
-local function formatCounters(counters)
-  local sequence = {
-    "total", "executed", "passed", "failed", "error", "timeout",
-    "aborted", "inconclusive", "passedButRunAborted", "notRunnable",
-    "notExecuted", "disconnected", "warning", "completed",
-    "inProgress", "pending"
-  }
 
-  local parts = {}
-
-  for _, key in ipairs(sequence) do
-    local value = counters[key]
-    if value and value ~= 0 then
-      table.insert(parts, string.format("%s: %d", key:gsub("^%l", string.upper), value))
-    end
-  end
-
-  return table.concat(parts, ", ")
-end
-
-local function linesForSummary(counters, buf)
+local function linesForSummary(counters, buf, index, xml)
   local lines = {}
-  table.insert(lines, "Summary")
+  table.insert(lines, xml)
   table.insert(lines, string.format("%s: %d", "Total", counters.total))
   table.insert(lines, string.format("%s: %d", "Passed", counters.passed))
   table.insert(lines, string.format("%s: %d", "Failed", counters.failed))
@@ -172,28 +153,22 @@ local function linesForSummary(counters, buf)
   vim.api.nvim_buf_set_lines(buf, -1, -1, true, lines)
 
   -- Apply highlights
-  vim.api.nvim_buf_add_highlight(buf, -1, "Character", 3, string.len("Passed: "), -1)
-  vim.api.nvim_buf_add_highlight(buf, -1, "DiagnosticError", 4, string.len("Failed: "), -1)
+  vim.api.nvim_buf_add_highlight(buf, -1, "Character", index + 3, string.len("Passed: "), -1)
+  vim.api.nvim_buf_add_highlight(buf, -1, "DiagnosticError", index + 4, string.len("Failed: "), -1)
   return #lines
 end
 
-local function render_test_results()
-  local debugger = require("general.debug")
-  local res = parseXmlFile("C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.IntegrationTests/TestResults/easy-dotnet.trx")
+
+local function append_xml_contents(xml, buf, index)
+  local res = parseXmlFile(xml)
 
   if res == nil then
     error("No output from xml file")
   end
-  -- Create a new buffer
-  local buf = vim.api.nvim_create_buf(false, true) -- false for not listing, true for scratch
-
-  -- Set the new buffer as the current buffer in a new window
-  vim.api.nvim_set_current_buf(buf)
 
   local grouped = groupByClassName(res.tests)
-  -- Insert text into the new buffer
 
-  local indexOffset = linesForSummary(res.summary, buf)
+  local indexOffset = linesForSummary(res.summary, buf, index, xml)
 
   local lines = {}
   for key, testResults in pairs(grouped) do
@@ -205,11 +180,40 @@ local function render_test_results()
     table.insert(lines, "")
   end
 
+  table.insert(lines, "-------------------------------------------------------------------------")
   vim.api.nvim_buf_set_lines(buf, -1, -1, true, lines)
+  return indexOffset + #lines
+end
+
+local function render_test_results(fileName, timestamp)
+  local buf = vim.api.nvim_create_buf(false, true) -- false for not listing, true for scratch
+  vim.api.nvim_set_current_buf(buf)
+
+  local xmlReports = require("plenary.scandir").scan_dir(
+    { vim.fn.getcwd() }, {
+      search_pattern = "easy_dotnet_" .. timestamp .. ".trx",
+      depth = 8
+    })
+
+  if xmlReports[1] == nil then
+    vim.notify("no files found")
+    return
+  end
+
+  local index = 0
+  for _, file in pairs(xmlReports) do
+    local indexOffset = append_xml_contents(file, buf, index)
+    index = index + indexOffset
+  end
 
   vim.api.nvim_buf_set_option(buf, 'modifiable', false)
   vim.api.nvim_buf_set_name(buf, 'easy-dotnet test results')
   vim.api.nvim_buf_set_option(buf, "filetype", "easy-dotnet")
+end
+
+local function generateRandomNumber(min, max)
+  math.randomseed(os.time())
+  return math.random(min, max)
 end
 
 return {
@@ -219,6 +223,10 @@ return {
   config = function()
     local logPath = vim.fn.stdpath "data" .. "/easy-dotnet/build.log"
     local dotnet = require("easy-dotnet")
+
+    local test_timestamp = generateRandomNumber(0, 100000000)
+    local fileName = string.format("easy-dotnet-%s.trx", test_timestamp)
+
     dotnet.setup({
       terminal = function(path, action)
         local commands = {
@@ -226,7 +234,9 @@ return {
             return "dotnet run --project " .. path
           end,
           test = function()
-            return "dotnet test " .. path .. ' --logger "trx;LogFileName=easy-dotnet.trx"'
+            test_timestamp = generateRandomNumber(0, 100000000)
+            fileName = "easy_dotnet_" .. test_timestamp .. ".trx"
+            return string.format('dotnet test %s --logger "trx;LogFileName=%s"', path, fileName)
           end,
           restore = function()
             return "dotnet restore " .. path
@@ -254,7 +264,7 @@ return {
           vim.notify("Tests started")
           vim.fn.jobstart(command, {
             on_exit = function(_, b, _)
-              render_test_results()
+              render_test_results(fileName, test_timestamp)
             end,
           })
         else
