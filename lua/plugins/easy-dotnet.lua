@@ -79,7 +79,7 @@ end
 
 local function getOutcome(outcome)
   if outcome == "Passed" then
-    return "✅"
+    return "✔"
   elseif outcome == "Failed" then
     return "❌"
   elseif outcome == "NotExecuted" then
@@ -216,6 +216,215 @@ local function generateRandomNumber(min, max)
   return math.random(min, max)
 end
 
+local function trim(s)
+  -- Match the string and capture the non-whitespace characters
+  return s:match("^%s*(.-)%s*$")
+end
+
+local function expand_test_names_with_flags(test_names)
+  local expanded = {}
+  local seen = {}
+
+  for _, full_test_name in ipairs(test_names) do
+    local parts = {}
+    local segment_count = 0
+
+    -- Count the total number of segments
+    for _ in full_test_name:gmatch("[^.]+") do
+      segment_count = segment_count + 1
+    end
+
+    -- Reset the parts and segment_count for actual processing
+    parts = {}
+    local current_count = 0
+
+    -- Split the test name by dot and process
+    for part in full_test_name:gmatch("[^.]+") do
+      table.insert(parts, part)
+      current_count = current_count + 1
+      local concatenated = trim(table.concat(parts, "."))
+
+      if not seen[concatenated] then
+        -- Set is_full_path to true only if we are at the last segment
+        local is_full_path = (current_count == segment_count)
+        table.insert(expanded,
+          {
+            value = concatenated,
+            is_full_path = is_full_path,
+            indent = current_count - 1,
+            preIcon = is_full_path == false and ">" or " "
+          })
+        seen[concatenated] = true
+      end
+    end
+  end
+
+  return expanded
+end
+
+local function extract_tests(lines)
+  local tests = {}
+
+  -- Extract lines that match the pattern for test names
+  for _, line in ipairs(lines) do
+    if line:match("^%s*[%w%.]+%.[%w%.]+%.%w+%s*$") then
+      table.insert(tests, line)
+    end
+  end
+
+
+  return expand_test_names_with_flags(tests)
+end
+
+local function extract_test_results(line)
+  local passed = line:match("Passed!")
+
+  if passed ~= nil then
+    return "Passed"
+  end
+
+  local skipped = line:match("Skipped!")
+
+  if skipped ~= nil then
+    return "Skipped"
+  end
+
+  local failed = line:match("Failed!")
+
+  if failed ~= nil then
+    return "Failed"
+  end
+
+  return nil
+end
+
+local function getIcon(res)
+  if res == "Passed" then
+    return "✔"
+  elseif res == "Failed" then
+    return "❌"
+  elseif res == "Skipped" then
+    return "⏸"
+  end
+end
+
+local function run_test_suite(name, win)
+  -- set all loading
+  local matches = {}
+  local suite_name = name
+  for _, line in ipairs(win.lines) do
+    if line.value:match(suite_name) then
+      table.insert(matches, { ref = line, line = line.value })
+      line.icon = "<Running>"
+    end
+  end
+  win.refresh()
+  vim.fn.jobstart(string.format("dotnet test --filter='%s' --nologo --no-build --no-restore ./src", suite_name), {
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      if data == nil then
+        error("Failed to parse dotnet test output")
+      end
+      for _, stdout in ipairs(data) do
+        for _, match in ipairs(matches) do
+          local failed = stdout:match(string.format("%s %s", "Failed", match.line))
+          if failed ~= nil then
+            match.ref.icon = "❌"
+          end
+
+          local skipped = stdout:match(string.format("%s %s", "Skipped", match.line))
+          if skipped ~= nil then
+            match.ref.icon = "⏸"
+          end
+        end
+      end
+
+      for _, test in ipairs(matches) do
+        if (test.ref.icon == "❌" or test.ref.icon == "⏸") then
+        elseif test.ref.collapsable == false then
+          test.ref.icon = "✔"
+        end
+      end
+
+
+      for _, namespace in ipairs(matches) do
+        if (namespace.ref.collapsable == true) then
+          local worstStatus = nil
+          --TODO: check array for worst status
+          for _, res in ipairs(matches) do
+            if res.line:match(namespace.line) then
+              if (res.ref.icon == "❌") then
+                worstStatus = "❌"
+              elseif res.ref.icon == "⏸" then
+                if worstStatus ~= "❌" then
+                  worstStatus = "⏸"
+                end
+              end
+            end
+          end
+          namespace.ref.icon = worstStatus == nil and "✅" or worstStatus
+        end
+      end
+
+      win.refresh()
+    end,
+    on_exit = function(_, code)
+      vim.notify("command exited")
+      if code ~= 0 then
+        -- if (line.value:match("<Running>")) then
+        --   line.value = original_line .. " <Panic! command failed>"
+        --   win.refresh()
+      end
+      -- end
+    end
+  })
+end
+
+local keymaps = {
+  ["<leader>r"] = function(_, line, win)
+    if line.collapsable then
+      vim.notify("Run namespace invoked")
+      run_test_suite(line.value, win)
+      return
+    end
+    vim.notify("running test")
+    local original_line = line.value
+
+    line.icon = "<Running>"
+    vim.fn.jobstart(string.format("dotnet test --filter='%s' --nologo --no-build --no-restore ./src", original_line), {
+      stdout_buffered = true,
+      on_stdout = function(_, data)
+        if data then
+          local result = nil
+          for _, stdout_line in ipairs(data) do
+            local res = extract_test_results(stdout_line)
+            if res ~= nil then
+              result = res
+            end
+          end
+          if result == nil then
+            error("Failed to parse test result from stdout")
+            return
+          end
+
+          line.icon = getIcon(result)
+          win.refresh()
+        end
+      end,
+      on_exit = function(_, code)
+        if code ~= 0 then
+          if (line.icon == "<Running>") then
+            line.icon = "<Panic! command failed>"
+            win.refresh()
+          end
+        end
+      end
+    })
+
+    win.refresh()
+  end
+}
+
 return {
   "GustavEikaas/easy-dotnet.nvim",
   -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
@@ -263,7 +472,7 @@ return {
           local command = commands[action]() .. "\r"
           vim.notify("Tests started")
           vim.fn.jobstart(command, {
-            on_exit = function(_, b, _)
+            on_exit = function()
               render_test_results(fileName, test_timestamp)
             end,
           })
@@ -275,12 +484,47 @@ return {
       end,
     })
 
+    vim.api.nvim_create_user_command('T', function()
+      local win = require("general.render")
+      win.buf_name = "Test manager"
+      win.filetype = "easy-dotnet"
+      win.setKeymaps(keymaps).render()
+
+      vim.fn.jobstart("dotnet test -t --nologo --no-build --no-restore ./src", {
+        stdout_buffered = true,
+        on_stdout = function(_, data)
+          if data then
+            local tests = extract_tests(data)
+            local lines = {}
+            for _, test in ipairs(tests) do
+              table.insert(lines,
+                {
+                  value = test.value,
+                  collapsable = test.is_full_path == false,
+                  indent = test.indent,
+                  preIcon = test.preIcon
+                })
+            end
+            win.lines = lines
+            win.refresh()
+          end
+        end,
+        on_exit = function(_, code)
+          if code ~= 0 then
+            win.lines = { value = "Failed to discover tests" }
+            win.refresh()
+          end
+        end
+      })
+    end, {})
+
+
     vim.api.nvim_create_user_command('Secrets', function()
       dotnet.secrets()
     end, {})
 
     -- Temp
-    vim.keymap.set("n", "<leader>r", dotnet.run_project)
+    -- vim.keymap.set("n", "<leader>r", dotnet.run_project)
     -- collides with breakpoints
     -- vim.keymap.set("n", "<leader>b", dotnet.build_solution)
     vim.keymap.set("n", "<leader>t", dotnet.test_solution)
