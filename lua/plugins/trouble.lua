@@ -4,7 +4,20 @@ return {
   cmd = "Trouble",
   config = function()
     require("trouble").setup({
+      auto_close = true,
+      auto_preview = true,
+      auto_jump = true,
       modes = {
+        lsp_base = {
+          params = {
+            include_current = false,
+          },
+        },
+        lsp_references = {
+          params = {
+            include_declaration = false,
+          },
+        },
         lsp = {
           desc = "LSP definitions, references, implementations, type definitions, and declarations",
           sections = {
@@ -26,7 +39,7 @@ return {
     },
     {
       "<leader>gr",
-      "<cmd>Trouble lsp toggle focus=false win.position=bottom<cr>",
+      "<cmd>Trouble lsp_references toggle focus=false win.position=bottom<cr>",
       desc = "LSP Definitions / references / ... (Trouble)",
     },
   },
