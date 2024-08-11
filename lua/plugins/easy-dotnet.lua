@@ -349,7 +349,7 @@ local function run_test_suite(name, win)
         error("Failed to parse dotnet test output")
       end
       for stdoutIndex, stdout in ipairs(data) do
-        for matchIndex, match in ipairs(matches) do
+        for _, match in ipairs(matches) do
           local failed = stdout:match(string.format("%s %s", "Failed", match.line))
           if failed ~= nil then
             match.ref.icon = resultIcons.failed
@@ -403,6 +403,14 @@ local function run_test_suite(name, win)
   })
 end
 
+function slice(tbl, start_index)
+  local sliced = {}
+  for i = start_index, #tbl do
+    table.insert(sliced, tbl[i])
+  end
+  return sliced
+end
+
 local keymaps = {
   ["E"] = function(_, _, win)
     for _, value in ipairs(win.lines) do
@@ -424,7 +432,6 @@ local keymaps = {
     end
 
     local action = win.lines[index + 1].hidden == true and "expand" or "collapse"
-
 
     local newLines = {}
     for _, lineDef in ipairs(win.lines) do
@@ -475,15 +482,20 @@ local keymaps = {
       on_stdout = function(_, data)
         if data then
           local result = nil
-          for _, stdout_line in ipairs(data) do
-            local res = extract_test_results(stdout_line)
-            if res ~= nil then
-              result = res
+          for index, stdout_line in ipairs(data) do
+            local failed = stdout_line:match(string.format("%s %s", "Failed", line.value))
+            if failed ~= nil then
+              line.expand = peekStackTrace(index, data)
+              result = "Failed"
+            end
+            local skipped = stdout_line:match(string.format("%s %s", "Skipped", line.value))
+
+            if skipped ~= nil then
+              result = "Skipped"
             end
           end
           if result == nil then
-            error("Failed to parse test result from stdout")
-            return
+            result = "Passed"
           end
 
           line.icon = getIcon(result)
