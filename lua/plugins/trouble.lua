@@ -20,7 +20,7 @@ return {
   end,
   keys = {
     {
-      "<leader>xX",
+      "<leader>xx",
       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
       desc = "Buffer Diagnostics (Trouble)",
     },
