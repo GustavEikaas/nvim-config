@@ -315,6 +315,23 @@ local function getIcon(res)
   end
 end
 
+
+local function peekStackTrace(index, lines)
+  local stackTrace = {}
+  for i, line in ipairs(lines) do
+    if i > index then
+      local testPattern = "(%w+) ([%w%.]+) %[(.-)%]"
+      local newSection = line:match(testPattern)
+      if newSection ~= nil then
+        break
+      else
+        table.insert(stackTrace, line)
+      end
+    end
+  end
+  return stackTrace
+end
+
 local function run_test_suite(name, win)
   -- set all loading
   local matches = {}
@@ -331,11 +348,12 @@ local function run_test_suite(name, win)
       if data == nil then
         error("Failed to parse dotnet test output")
       end
-      for _, stdout in ipairs(data) do
-        for _, match in ipairs(matches) do
+      for stdoutIndex, stdout in ipairs(data) do
+        for matchIndex, match in ipairs(matches) do
           local failed = stdout:match(string.format("%s %s", "Failed", match.line))
           if failed ~= nil then
             match.ref.icon = resultIcons.failed
+            match.ref.expand = peekStackTrace(stdoutIndex, data)
           end
 
           local skipped = stdout:match(string.format("%s %s", "Skipped", match.line))
@@ -420,6 +438,29 @@ local keymaps = {
 
     win.lines = newLines
     win.refreshLines()
+  end,
+  ["<leader>p"] = function(_, line)
+    if line.expand == nil then
+      return
+    end
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = 70
+    local height = 10
+
+    local opts = {
+      relative = 'editor',
+      width = width,
+      height = height,
+      col = (vim.o.columns - width) / 2,
+      row = (vim.o.lines - height) / 2,
+      style = 'minimal',
+      border = 'single',
+    }
+    local win = vim.api.nvim_open_win(buf, true, opts)
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>lua vim.api.nvim_win_close(' .. win .. ', true)<CR>',
+      { noremap = true, silent = true })
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, line.expand)
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
   end,
   ["<leader>r"] = function(_, line, win)
     if line.collapsable then
