@@ -1,5 +1,5 @@
-return 
-  { {
+return
+{ {
   "folke/neodev.nvim",
   config = function()
     require("neodev").setup({ library = { plugins = { "nvim-dap-ui" }, types = true }, })
@@ -15,7 +15,7 @@ return
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver", "omnisharp", "powershell_es", "yamlls", "rust_analyzer" }
+        ensure_installed = { "lua_ls", "tsserver", "powershell_es", "yamlls", "rust_analyzer" }
       })
     end
   },
@@ -24,7 +24,6 @@ return
     config = function()
       require("lsp-config.lua_ls").setup()
       require("lsp-config.tsserver").setup()
-      require("lsp-config.omnisharp").setup()
       require("lsp-config.powershell_es").setup()
       require("lsp-config.yaml").setup()
       require("lsp-config.rust-analyzer").setup()

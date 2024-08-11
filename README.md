@@ -25,3 +25,10 @@ choco install spotify-tui
 1. :DBUI<CR>
 2. A 
 3. sqlserver://root:yourpassword@localhost/dbname?TrustServerCertificate=true
+
+
+## Roslyn
+
+1. Install C# devkit from vscode extensions
+2. open `~/.vscode/extensions/ms-dotnettools.csharp-.../.roslyn/`
+3. Copy all contents into `nvim-data/roslyn`
