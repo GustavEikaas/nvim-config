@@ -1,3 +1,10 @@
+local resultIcons = {
+  passed = "✔",
+  skipped = "⏸",
+  failed = "❌"
+}
+
+
 local function parseCountersLine(xml)
   local pattern =
   '<Counters%s+total="(%d+)"%s+executed="(%d+)"%s+passed="(%d+)"%s+failed="(%d+)"%s+error="(%d+)"%s+timeout="(%d+)"%s+aborted="(%d+)"%s+inconclusive="(%d+)"%s+passedButRunAborted="(%d+)"%s+notRunnable="(%d+)"%s+notExecuted="(%d+)"%s+disconnected="(%d+)"%s+warning="(%d+)"%s+completed="(%d+)"%s+inProgress="(%d+)"%s+pending="(%d+)"%s*/>'
@@ -79,11 +86,11 @@ end
 
 local function getOutcome(outcome)
   if outcome == "Passed" then
-    return "✔"
+    return resultIcons.passed
   elseif outcome == "Failed" then
-    return "❌"
+    return resultIcons.failed
   elseif outcome == "NotExecuted" then
-    return "⏸ "
+    return resultIcons.skipped
   end
   return "❓ Unknown"
 end
@@ -252,7 +259,7 @@ local function expand_test_names_with_flags(test_names)
             value = concatenated,
             is_full_path = is_full_path,
             indent = current_count - 1,
-            preIcon = is_full_path == false and ">" or " "
+            preIcon = is_full_path == false and "📂" or "🧪"
           })
         seen[concatenated] = true
       end
@@ -300,11 +307,11 @@ end
 
 local function getIcon(res)
   if res == "Passed" then
-    return "✔"
+    return resultIcons.passed
   elseif res == "Failed" then
-    return "❌"
+    return resultIcons.failed
   elseif res == "Skipped" then
-    return "⏸"
+    return resultIcons.skipped
   end
 end
 
@@ -318,9 +325,8 @@ local function run_test_suite(name, win)
       line.icon = "<Running>"
     end
   end
-  win.refresh()
+  win.refreshLines()
   vim.fn.jobstart(string.format("dotnet test --filter='%s' --nologo --no-build --no-restore ./src", suite_name), {
-    stdout_buffered = true,
     on_stdout = function(_, data)
       if data == nil then
         error("Failed to parse dotnet test output")
@@ -329,51 +335,50 @@ local function run_test_suite(name, win)
         for _, match in ipairs(matches) do
           local failed = stdout:match(string.format("%s %s", "Failed", match.line))
           if failed ~= nil then
-            match.ref.icon = "❌"
+            match.ref.icon = resultIcons.failed
           end
 
           local skipped = stdout:match(string.format("%s %s", "Skipped", match.line))
           if skipped ~= nil then
-            match.ref.icon = "⏸"
+            match.ref.icon = resultIcons.skipped
           end
         end
       end
-
+      win.refreshLines()
+    end,
+    on_exit = function(_, code)
+      -- If no stdout assume passed
       for _, test in ipairs(matches) do
-        if (test.ref.icon == "❌" or test.ref.icon == "⏸") then
+        if (test.ref.icon == resultIcons.failed or test.ref.icon == resultIcons.skipped) then
         elseif test.ref.collapsable == false then
-          test.ref.icon = "✔"
+          test.ref.icon = resultIcons.passed
         end
       end
 
-
+      -- Aggregate namespace status
       for _, namespace in ipairs(matches) do
         if (namespace.ref.collapsable == true) then
           local worstStatus = nil
           --TODO: check array for worst status
           for _, res in ipairs(matches) do
             if res.line:match(namespace.line) then
-              if (res.ref.icon == "❌") then
-                worstStatus = "❌"
-              elseif res.ref.icon == "⏸" then
-                if worstStatus ~= "❌" then
-                  worstStatus = "⏸"
+              if (res.ref.icon == resultIcons.failed) then
+                worstStatus = resultIcons.failed
+              elseif res.ref.icon == resultIcons.skipped then
+                if worstStatus ~= resultIcons.failed then
+                  worstStatus = resultIcons.skipped
                 end
               end
             end
           end
-          namespace.ref.icon = worstStatus == nil and "✅" or worstStatus
+          namespace.ref.icon = worstStatus == nil and resultIcons.passed or worstStatus
         end
       end
-
-      win.refresh()
-    end,
-    on_exit = function(_, code)
-      vim.notify("command exited")
+      win.refreshLines()
       if code ~= 0 then
         -- if (line.value:match("<Running>")) then
         --   line.value = original_line .. " <Panic! command failed>"
-        --   win.refresh()
+        --   win.refreshLines()
       end
       -- end
     end
@@ -381,13 +386,46 @@ local function run_test_suite(name, win)
 end
 
 local keymaps = {
+  ["E"] = function(_, _, win)
+    for _, value in ipairs(win.lines) do
+      value.hidden = false
+    end
+    win.refreshLines()
+  end,
+  ["W"] = function(_, _, win)
+    for index, value in ipairs(win.lines) do
+      if index ~= 1 then
+        value.hidden = true
+      end
+    end
+    win.refreshLines()
+  end,
+  ["o"] = function(index, line, win)
+    if line.collapsable == false then
+      return
+    end
+
+    local action = win.lines[index + 1].hidden == true and "expand" or "collapse"
+
+
+    local newLines = {}
+    for _, lineDef in ipairs(win.lines) do
+      if lineDef.value:match(line.value) then
+        if lineDef ~= line then
+          lineDef.hidden = action == "collapse" and true or false
+        end
+      end
+      table.insert(newLines, lineDef)
+    end
+
+    win.lines = newLines
+    win.refreshLines()
+  end,
   ["<leader>r"] = function(_, line, win)
     if line.collapsable then
-      vim.notify("Run namespace invoked")
       run_test_suite(line.value, win)
       return
     end
-    vim.notify("running test")
     local original_line = line.value
 
     line.icon = "<Running>"
@@ -408,20 +446,20 @@ local keymaps = {
           end
 
           line.icon = getIcon(result)
-          win.refresh()
+          win.refreshLines()
         end
       end,
       on_exit = function(_, code)
         if code ~= 0 then
           if (line.icon == "<Running>") then
             line.icon = "<Panic! command failed>"
-            win.refresh()
+            win.refreshLines()
           end
         end
       end
     })
 
-    win.refresh()
+    win.refreshLines()
   end
 }
 
@@ -505,14 +543,16 @@ return {
                   preIcon = test.preIcon
                 })
             end
+
             win.lines = lines
+            win.height = #lines > 20 and 20 or #lines
             win.refresh()
           end
         end,
         on_exit = function(_, code)
           if code ~= 0 then
             win.lines = { value = "Failed to discover tests" }
-            win.refresh()
+            win.refreshLines()
           end
         end
       })
