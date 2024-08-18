@@ -11,6 +11,7 @@
   "easy-dotnet.nvim": { "branch": "main", "commit": "01385b91714d7e4e60927e65a86963ef7208ccfc" },
   "easy-git.nvim": { "branch": "main", "commit": "b060c510dddb2a1b2873efd47bfcd7a657ca3baf" },
   "friendly-snippets": { "branch": "main", "commit": "00ebcaa159e817150bd83bfe2d51fa3b3377d5c4" },
+  "gh-actions.nvim": { "branch": "main", "commit": "e8dd14107618be951f4b5c5a0021abb59a7616a8" },
   "gh-addressed.nvim": { "branch": "main", "commit": "64c12f0f2a1d28afe53220da5fb86e1adb79be07" },
   "gitsigns.nvim": { "branch": "main", "commit": "562dc47189ad3c8696dbf460d38603a74d544849" },
   "hbac.nvim": { "branch": "main", "commit": "30dcd055611f6ba6ec37aa2a1c038e211521bd39" },
