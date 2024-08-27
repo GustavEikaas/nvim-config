@@ -2,7 +2,7 @@ local M = {}
 
 --- Rebuilds the project before starting the debug session
 ---@param co thread
-local function rebuild_project(co)
+local function rebuild_project(co, path)
   local num = 0;
   local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
 
@@ -10,11 +10,11 @@ local function rebuild_project(co)
     timeout = false,
   })
 
-  vim.fn.jobstart("dotnet build .", {
+  vim.fn.jobstart(string.format("dotnet build %s", path), {
     on_stdout = function(a)
       num = num + 1
       local new_spinner = (num) % #spinner_frames
-      notification = vim.notify(spinner_frames[new_spinner] .. " Building", "info",
+      notification = vim.notify(spinner_frames[new_spinner + 1] .. " Building", "info",
         { replace = notification })
     end,
     on_exit = function(_, return_code)
@@ -32,67 +32,53 @@ local function rebuild_project(co)
   coroutine.yield()
 end
 
-local function merge_tables(table1, table2)
-  local merged = {}
-  for k, v in pairs(table1) do
-    merged[k] = v
-  end
-  for k, v in pairs(table2) do
-    merged[k] = v
-  end
-  return merged
-end
-
 M.register_net_dap = function()
   local dap = require("dap")
-  local cwd = vim.fn.getcwd()
-  local restart_cwd = nil
+  local dotnet = require("easy-dotnet")
+
+  local debug_dll = nil
+  local function ensure_dll()
+    if debug_dll ~= nil then
+      return debug_dll
+    end
+    local dll = dotnet.get_debug_dll()
+    debug_dll = dll
+    return dll
+  end
 
   dap.configurations.cs = {
     {
       type = "coreclr",
       name = "launch - netcoredbg",
       request = "launch",
-      env = {
-        ["ASPNETCORE_ENVIRONMENT"] = "DEVELOPMENT"
-      },
-      program = function()
-        local dll = require("easy-dotnet").get_debug_dll()
-        restart_cwd = dll.project_path
-        vim.cmd("cd " .. dll.project_path)
-        local vars = require("easy-dotnet").get_environment_variables(dll.project_name)
-        if vars ~= nil then
-          dap.configurations.cs[1].env = merge_tables(dap.configurations.cs[1].env, vars)
-        end
-        -- local shouldRebuild = vim.fn.input("Do you want to rebuild? Y/N:  ")
-        -- if shouldRebuild == "Y" then
-        local co = coroutine.running()
-        rebuild_project(co)
-        -- end
-
-        return dll.dll_path
+      env = function()
+        local dll = ensure_dll()
+        local vars = dotnet.get_environment_variables(dll.project_name, dll.relative_project_path)
+        return vars or nil
       end,
+      program = function()
+        local dll = ensure_dll()
+        local co = coroutine.running()
+        rebuild_project(co, dll.project_path)
+        return dll.relative_dll_path
+      end,
+      cwd = function()
+        local dll = ensure_dll()
+        return dll.relative_project_path
+      end,
+
     }
   }
+
+  dap.listeners.before['event_terminated']['easy-dotnet'] = function()
+    debug_dll = nil
+  end
+
   dap.adapters.coreclr = {
     type = "executable",
     command = "netcoredbg",
     args = { "--interpreter=vscode" },
   }
-
-  local function on_dap_exit()
-    vim.cmd("cd " .. cwd)
-  end
-
-  dap.listeners.before.event_terminated["reset-cwd"] = on_dap_exit
-  dap.listeners.before.event_exited["reset-cwd"] = on_dap_exit
-
-  return function()
-    if restart_cwd then
-      vim.cmd("cd " .. restart_cwd)
-      dap.listeners.after.event_terminated["handle_restart"] = nil
-    end
-  end
 end
 
 return M
