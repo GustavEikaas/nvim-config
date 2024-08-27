@@ -10,7 +10,7 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "dracula": { "branch": "main", "commit": "fdf503e52ec1c8aae07353604d891fe5a3ed5201" },
   "dressing.nvim": { "branch": "master", "commit": "c5775a888adbc50652cb370073fcfec963eca93e" },
-  "easy-dotnet.nvim": { "branch": "main", "commit": "fdc3f8c3d632b558ccd1025d94d7d1364f77a906" },
+  "easy-dotnet.nvim": { "branch": "main", "commit": "209732ca771d5f55519860225180dd432719964d" },
   "easy-git.nvim": { "branch": "main", "commit": "b060c510dddb2a1b2873efd47bfcd7a657ca3baf" },
   "friendly-snippets": { "branch": "main", "commit": "00ebcaa159e817150bd83bfe2d51fa3b3377d5c4" },
   "gh-addressed.nvim": { "branch": "main", "commit": "64c12f0f2a1d28afe53220da5fb86e1adb79be07" },

@@ -29,18 +29,12 @@ return {
       dotnet.secrets()
     end, {})
 
-    -- Temp
-    vim.keymap.set("n", "<leader>r", dotnet.run_project)
-    -- collides with breakpoints
-    -- vim.keymap.set("n", "<leader>b", dotnet.build_solution)
-    vim.keymap.set("n", "<leader>t", dotnet.test_solution)
-
     vim.keymap.set("n", "<C-p>", function()
-      dotnet.run_project()
+      dotnet.run_default()
     end)
 
     vim.keymap.set("n", "<C-b>", function()
-      dotnet.build_quickfix()
+      dotnet.build_default_quickfix()
     end)
   end
 }
