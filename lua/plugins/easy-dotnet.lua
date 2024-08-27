@@ -38,5 +38,9 @@ return {
     vim.keymap.set("n", "<C-p>", function()
       dotnet.run_project()
     end)
+
+    vim.keymap.set("n", "<C-b>", function()
+      dotnet.build_quickfix()
+    end)
   end
 }

@@ -30,7 +30,7 @@ return
       require("lsp-config.pyright").setup()
       require("lsp-config.bash").setup()
       require("lsp-config.fsharp").setup()
-
+      
       -- bindings
       require("lsp-config.bindings").setup()
     end,
