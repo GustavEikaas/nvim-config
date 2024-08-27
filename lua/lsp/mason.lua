@@ -15,7 +15,7 @@ return
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver", "powershell_es", "yamlls", "rust_analyzer" }
+        ensure_installed = { "lua_ls", "tsserver", "powershell_es", "yamlls", "rust_analyzer", "fsautocomplete" }
       })
     end
   },
@@ -30,6 +30,7 @@ return
       require("lsp-config.pyright").setup()
       require("lsp-config.bash").setup()
       require("lsp-config.fsharp").setup()
+      
       -- bindings
       require("lsp-config.bindings").setup()
     end,
