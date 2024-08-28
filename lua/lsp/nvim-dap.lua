@@ -6,18 +6,27 @@ return {
     dap.set_log_level("TRACE")
     local dapui = require("dapui")
 
-    dap.listeners.after.event_initialized["dapui_config"] = function()
+    dap.listeners.before.attach.dapui_config = function()
       require('nvim-tree.api').tree.close()
       dapui.open()
     end
-    dap.listeners.before.event_terminated["dapui_config"] = function()
+    dap.listeners.before.launch.dapui_config = function()
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated.dapui_config = function()
       dapui.close()
     end
-    dap.listeners.before.event_exited["dapui_config"] = function()
+    dap.listeners.before.event_exited.dapui_config = function()
       dapui.close()
     end
+
     vim.keymap.set("n", "<F5>", dap.continue, {})
-    vim.keymap.set("n", "q", dap.close, {})
+
+    vim.keymap.set("n", "q", function()
+      dap.close()
+      dapui.close()
+    end, {})
+
     vim.keymap.set("n", "<F10>", dap.step_over, {})
     vim.keymap.set("n", "<F11>", dap.step_into, {})
     vim.keymap.set("n", "<F12>", dap.step_out, {})
@@ -25,18 +34,7 @@ return {
     vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
 
     require("dap-config.lua").register_lua_dap()
-    local on_restart = require("dap-config.netcore").register_net_dap()
-
-
-    vim.keymap.set("n", "<F3>", function()
-      dap.restart()
-      vim.notify("Restarting debugging session")
-      -- TODO: Find a better way to do this
-      -- Debugger needs to start in same directory as the .csproj is.
-      -- When the debugger exits it resets to the old cwd. I need to override this behaviour if the trigger is a restart
-      dap.listeners.after.event_terminated["handle_restart"] = on_restart
-    end, {})
-
+    require("dap-config.netcore").register_net_dap()
 
     vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
