@@ -4,5 +4,4 @@ return {
   require("lsp.nvim-cmp"),
   require("lsp.nvim-dap"),
   require("lsp.diagflow"),
-  require("lsp.lsp-timeout")
 }
