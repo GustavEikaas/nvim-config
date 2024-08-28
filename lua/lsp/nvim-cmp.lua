@@ -13,6 +13,7 @@ return {
     { "saadparwaiz1/cmp_luasnip",             event = "LspAttach" },
     { "rafamadriz/friendly-snippets",         event = "LspAttach" },
     { 'kristijanhusak/vim-dadbod-completion', },
+    { "petertriho/cmp-git" },
   },
   config = function()
     local cmp = require 'cmp'
@@ -32,7 +33,7 @@ return {
       mapping = cmp.mapping.preset.insert({
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-z>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ["<Tab>"] = cmp.mapping(function(fallback)
@@ -62,7 +63,15 @@ return {
         { name = 'luasnip',               priority = 750 },
         { name = "vim-dadbod-completion", priority = 700 },
         { name = "buffer",                priority = 500 },
-        { name = "path",                  priority = 250 }
+        { name = "path",                  priority = 250 },
+      })
+    })
+
+    cmp.setup.filetype('octo', {
+      sources = cmp.config.sources({
+        { name = 'git', priority = 1 }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+      }, {
+        { name = 'buffer' },
       })
     })
 
@@ -89,5 +98,6 @@ return {
         { name = 'cmdline' }
       })
     })
+    require("cmp_git").setup()
   end
 }
