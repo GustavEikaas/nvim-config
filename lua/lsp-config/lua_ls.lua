@@ -21,7 +21,7 @@ function lua_ls.setup()
         workspace = {
           library = {
             vim.env.VIMRUNTIME,
-            vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "easy-dotnet.nvim"),
+            -- vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "easy-dotnet.nvim"),
             vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "code-playground.nvim"),
             vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "gh-actions.nvim"),
           },

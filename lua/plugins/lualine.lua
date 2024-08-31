@@ -21,31 +21,31 @@ return {
       color = { fg = "#FFFFFF", bg = "#1DB954" }
     }
 
-    local copilot_status = ""
-
-    local copilot_line = {
-      function()
-        return copilot_status
-      end,
-      color = { fg = "#FFFFFF", bg = "#D6ACFF" }
-    }
-
-    local fn = vim.schedule_wrap(function()
-      local output = vim.fn.execute("Copilot status")
-      local pattern = "Copilot: Ready"
-      if string.match(output, pattern) then
-        copilot_status = ""
-      else
-        copilot_status = ""
-      end
-    end)
-
-    vim.api.nvim_create_autocmd("BufEnter", {
-      pattern = "*",
-      callback = function()
-        fn()
-      end,
-    })
+    -- local copilot_status = ""
+    --
+    -- local copilot_line = {
+    --   function()
+    --     return copilot_status
+    --   end,
+    --   color = { fg = "#FFFFFF", bg = "#D6ACFF" }
+    -- }
+    --
+    -- local fn = vim.schedule_wrap(function()
+    --   local output = vim.fn.execute("Copilot status")
+    --   local pattern = "Copilot: Ready"
+    --   if string.match(output, pattern) then
+    --     copilot_status = ""
+    --   else
+    --     copilot_status = ""
+    --   end
+    -- end)
+    --
+    -- vim.api.nvim_create_autocmd("BufEnter", {
+    --   pattern = "*",
+    --   callback = function()
+    --     fn()
+    --   end,
+    -- })
 
     local spotify_line = {
       function()
@@ -101,7 +101,7 @@ return {
         lualine_c = {},
         lualine_x = { 'encoding', 'filetype' },
         lualine_y = { pin_indicator },
-        lualine_z = { copilot_line, spotify_line }
+        lualine_z = { spotify_line }
       },
       tabline = { lualine_a = { buffer_line } },
       winbar = {},
