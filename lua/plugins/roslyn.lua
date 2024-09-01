@@ -48,10 +48,17 @@ local function receive_rpc_response()
   if response.id == rpc_state.id then
     print("" .. rpc_state.id .. " handled")
     print(string.format("%s finished", rpc_state.id))
+    if response.id == 3 then
+      require("general.debug").write_to_log(content)
+      print(vim.inspect(response))
+    end
     rpc_state.state = "idle"
   end
 
   print(content)
+  if vim.g.on_msg ~= nil then
+    vim.g.on_msg(response)
+  end
   return response
 end
 
@@ -145,19 +152,10 @@ local function connect_to_pipe(pipe_name)
   return file
 end
 
-
-
-
-
-
-
-
-
-
-
 return {
   "seblj/roslyn.nvim",
   commit = "5e36cac9371d014c52c4c1068a438bdb7d1c7987",
+  dir = "C:\\Users\\Gustav\\repo\\roslyn.nvim",
   config = function()
     require("roslyn").setup({
       config = {},
@@ -202,23 +200,45 @@ return {
     }
 
     local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
+      _vs_supportsVisualStudioExtensions = true,
+      _vs_supportsDiagnosticRequests = true,
+      _vs_diagnosticProvider = true,
+      _vs_supportedSnippetVersion = 1,
+      _vs_supportsNotIncludingTextInTextDocumentDidOpen = true,
+      _vs_supportsIconExtensions = true,
+      ["csharp|background_analysis"] = {
+        dotnet_compiler_diagnostics_scope = "fullSolution"
+      },
       textDocument = {
+        publishDiagnostics = {
+          relatedInformation = true
+        },
         completion = {
           completionItem = {
             snippetSupport = true
           }
         },
         diagnostic = {
+          relatedInformation = true,
           dynamicRegistration = true
         }
       },
       workspace = {
+        diagnostics = {
+          refreshSupport = true
+        },
         didChangeWatchedFiles = {
           dynamicRegistration = true
+        },
+        workspaceFolders = true,
+        configuration = true
+      },
+      initializationOptions = {
+        diagnostic = {
+          enable = true
         }
       }
     })
-
 
     require("roslyn").start_with_solution(0, cmd, sln_file, {
         config = {},
@@ -235,17 +255,60 @@ return {
         rpc_state.call("initialize",
           { rootUri = rootUri, capabilities = capabilities })
 
-        rpc_state.call("project/open",
-          {
-            projects = {
-              "file:///C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.sln",
-              -- "file:///C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.ClassData/NeovimDebugProject.ClassData.csproj"
-            }
-          })
 
-        rpc_state.call("workspace/symbol", {
-          query = "0",
+        -- rpc_state.call("solution/open",
+        --   {
+        --     solution = "file:///C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.sln"
+        --   })
+
+        rpc_state.call("project/open", {
+          projects = {
+            "file:///C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.Api/NeovimDebugProject.Api.csproj"
+          }
         })
+
+        -- vim.defer_fn(function()
+        --   rpc_state.call("workspace/symbol", {
+        --     query = "MathTests",
+        --   })
+        -- end, 5000)
+
+        vim.keymap.set("n", "<leader>p", function()
+          --           {
+          --   "method": "textDocument/diagnostics",
+          --   "params": {
+          --     "textDocument": {
+          --       "uri": "file:///path/to/your/file.cs"
+          --     }
+          --   }
+          -- }
+          -- local content = vim.fn.readfile(
+          --   "C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.Api/Controllers/TestController.cs")
+          -- rpc_state.call("textDocument.diagnostic", vim.empty_dict())
+
+          -- rpc_state.call("textDocument.diagnostic",
+          --   {
+          --     textDocument = {
+          --       uri =
+          --       "file:///C:/Users/Gustav/repo/NeovimDebugProject/src/NeovimDebugProject.Api/Controllers/TestController.cs",
+          --       languageId = "csharp",
+          --       text = table.concat(content),
+          --       version = 1
+          --     }
+          --   })
+
+          rpc_state.call("workspace/diagnostic", {
+            previousResultIds = {}
+          })
+        end, { noremap = true, silent = true })
+
+
+        -- vim.g.search = function(arg)
+        --   vim.notify("workspace symbol " .. arg)
+        --   rpc_state.call("workspace/diagnostic", {
+        --     previousResultIds = {}
+        --   })
+        -- end
       end)
   end
 }
