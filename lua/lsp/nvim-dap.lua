@@ -63,11 +63,11 @@ return {
           layouts = {
             {
               elements = {
-                { id = "scopes", size = 0.33 },
-                {
-                  id = "repl",
-                  size = 0.66,
-                },
+                { id = "scopes", size = 1 },
+                -- {
+                --   id = "repl",
+                --   size = 0.66,
+                -- },
               },
 
               size = 10,
