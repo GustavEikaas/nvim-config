@@ -9,6 +9,10 @@ return {
       autoclose                  = true,
       threshold                  = 1,
       close_command              = function(bufnr)
+        local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+        if filetype == "octo" then
+          return
+        end
         vim.api.nvim_buf_delete(bufnr, {})
       end,
       close_buffers_with_windows = false,
