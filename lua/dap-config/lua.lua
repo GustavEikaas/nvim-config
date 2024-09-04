@@ -14,8 +14,12 @@ M.register_lua_dap = function()
     callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
   end
 
+  vim.api.nvim_create_user_command("LD", function()
+    require("osv").launch({ port = 8086 })
+  end, {})
+
   vim.api.nvim_create_user_command("LuaDebug", function()
-    require("osv").launch({port = 8086})
+    require("osv").launch({ port = 8086 })
   end, {})
 end
 
