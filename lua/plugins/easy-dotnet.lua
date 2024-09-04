@@ -1,3 +1,19 @@
+local function add_dotnet_mappings()
+  local dotnet = require("easy-dotnet")
+
+  vim.api.nvim_create_user_command('Secrets', function()
+    dotnet.secrets()
+  end, {})
+
+  vim.keymap.set("n", "<C-p>", function()
+    dotnet.run_default()
+  end)
+
+  vim.keymap.set("n", "<C-b>", function()
+    dotnet.build_default_quickfix()
+  end)
+end
+
 return {
   "GustavEikaas/easy-dotnet.nvim",
   -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
@@ -25,16 +41,13 @@ return {
       end,
     })
 
-    vim.api.nvim_create_user_command('Secrets', function()
-      dotnet.secrets()
-    end, {})
 
-    vim.keymap.set("n", "<C-p>", function()
-      dotnet.run_default()
-    end)
-
-    vim.keymap.set("n", "<C-b>", function()
-      dotnet.build_default_quickfix()
-    end)
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        if dotnet.is_dotnet_project() then
+          add_dotnet_mappings()
+        end
+      end,
+    })
   end
 }
