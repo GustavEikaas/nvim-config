@@ -35,8 +35,8 @@ end
 M.register_net_dap = function()
   local dap = require("dap")
   local dotnet = require("easy-dotnet")
-
   local debug_dll = nil
+
   local function ensure_dll()
     if debug_dll ~= nil then
       return debug_dll
@@ -46,29 +46,31 @@ M.register_net_dap = function()
     return dll
   end
 
-  dap.configurations.cs = {
-    {
-      type = "coreclr",
-      name = "launch - netcoredbg",
-      request = "launch",
-      env = function()
-        local dll = ensure_dll()
-        local vars = dotnet.get_environment_variables(dll.project_name, dll.relative_project_path)
-        return vars or nil
-      end,
-      program = function()
-        local dll = ensure_dll()
-        local co = coroutine.running()
-        rebuild_project(co, dll.project_path)
-        return dll.relative_dll_path
-      end,
-      cwd = function()
-        local dll = ensure_dll()
-        return dll.relative_project_path
-      end,
+  for _, value in ipairs({ "cs", "fsharp" }) do
+    dap.configurations[value] = {
+      {
+        type = "coreclr",
+        name = "launch - netcoredbg",
+        request = "launch",
+        env = function()
+          local dll = ensure_dll()
+          local vars = dotnet.get_environment_variables(dll.project_name, dll.relative_project_path)
+          return vars or nil
+        end,
+        program = function()
+          local dll = ensure_dll()
+          local co = coroutine.running()
+          rebuild_project(co, dll.project_path)
+          return dll.relative_dll_path
+        end,
+        cwd = function()
+          local dll = ensure_dll()
+          return dll.relative_project_path
+        end,
 
+      }
     }
-  }
+  end
 
   dap.listeners.before['event_terminated']['easy-dotnet'] = function()
     debug_dll = nil
