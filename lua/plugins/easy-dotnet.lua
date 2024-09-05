@@ -5,6 +5,10 @@ local function add_dotnet_mappings()
     dotnet.secrets()
   end, {})
 
+  vim.keymap.set("n", "<A-t>", function()
+    vim.cmd("Dotnet testrunner")
+  end)
+
   vim.keymap.set("n", "<C-p>", function()
     dotnet.run_default()
   end)
@@ -40,7 +44,6 @@ return {
         require("toggleterm").exec(command, nil, nil, nil, "float")
       end,
     })
-
 
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
