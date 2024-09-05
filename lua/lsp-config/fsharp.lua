@@ -4,7 +4,7 @@ M.setup = function()
   local lspconfig = require 'lspconfig'
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   lspconfig.fsautocomplete.setup {
-    cmd = require("extensions").isWindows() and { "fsautocomplete.cmd", "--stdio" } or nil,
+    cmd = { "fsautocomplete", "--stdio" },
     capabilities = capabilities,
     flags = {
       debounce_text_changes = 150,
