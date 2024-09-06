@@ -1,3 +1,4 @@
+
 local function add_dotnet_mappings()
   local dotnet = require("easy-dotnet")
 
@@ -25,6 +26,9 @@ return {
   config = function()
     local dotnet = require("easy-dotnet")
     dotnet.setup({
+      test_runner = {
+        viewmode = "float"
+      },
       terminal = function(path, action)
         local commands = {
           run = function()
