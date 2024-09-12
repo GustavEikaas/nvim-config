@@ -4,7 +4,7 @@ return {
   build = "cd app | yarn install",
   init = function()
     vim.g.mkdp_theme = 'dark'
-    vim.g.mkdp_filetypes = { "markdown" }
+    vim.g.mkdp_filetypes = { "markdown", "octo" }
   end,
-  ft = { "markdown" },
+  ft = { "markdown", "octo" },
 }
