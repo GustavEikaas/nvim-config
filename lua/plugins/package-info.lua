@@ -5,7 +5,7 @@ return {
     require("package-info").setup({
       package_manager = 'pnpm',
       autostart = false,
-      hide_up_to_date = false
+      hide_up_to_date = true
     })
   end
 }
