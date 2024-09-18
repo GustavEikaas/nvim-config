@@ -23,7 +23,6 @@ function lua_ls.setup()
             vim.env.VIMRUNTIME,
             -- vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "easy-dotnet.nvim"),
             vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "code-playground.nvim"),
-            vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "nvim-dap"),
             vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "gh-actions.nvim"),
           },
           checkThirdParty = false,

@@ -33,12 +33,10 @@ local function rebuild_project(co, path)
 end
 
 local function run_job_sync(cmd)
-  local job_id
   local result = {}
   local co = coroutine.running()
 
-  -- Start the job
-  job_id = vim.fn.jobstart(cmd, {
+  vim.fn.jobstart(cmd, {
     stdout_buffered = false,
     on_stdout = function(_, data, _)
       for _, line in ipairs(data) do
@@ -58,8 +56,6 @@ local function run_job_sync(cmd)
 end
 
 local function start_test_process()
-  local co = coroutine.running()
-  local process_id
   local test_file_dir = vim.fs.dirname(vim.fn.expand("%"))
   local command = string.format("dotnet test %s --environment=VSTEST_HOST_DEBUG=1", test_file_dir)
   local res = run_job_sync(command)
