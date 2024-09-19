@@ -1,4 +1,3 @@
-
 local function add_dotnet_mappings()
   local dotnet = require("easy-dotnet")
 
@@ -21,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
+  dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
   config = function()
     local dotnet = require("easy-dotnet")

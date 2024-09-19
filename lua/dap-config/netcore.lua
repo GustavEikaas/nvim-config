@@ -32,39 +32,6 @@ local function rebuild_project(co, path)
   coroutine.yield()
 end
 
-local function run_job_sync(cmd)
-  local result = {}
-  local co = coroutine.running()
-
-  vim.fn.jobstart(cmd, {
-    stdout_buffered = false,
-    on_stdout = function(_, data, _)
-      for _, line in ipairs(data) do
-        local match = string.match(line, "Process Id: (%d+)")
-        if match then
-          result.process_id = tonumber(match)
-          coroutine.resume(co)
-          return
-        end
-      end
-    end,
-  })
-
-  coroutine.yield()
-
-  return result
-end
-
-local function start_test_process()
-  local test_file_dir = vim.fs.dirname(vim.fn.expand("%"))
-  local command = string.format("dotnet test %s --environment=VSTEST_HOST_DEBUG=1", test_file_dir)
-  local res = run_job_sync(command)
-  if not res.process_id then
-    error("Failed to start process")
-  end
-  return res.process_id
-end
-
 M.register_net_dap = function()
   local dap = require("dap")
   local dotnet = require("easy-dotnet")
@@ -106,15 +73,11 @@ M.register_net_dap = function()
         name = "Test",
         request = "attach",
         processId = function()
-          local process_id = start_test_process()
-          -- vim.notify("debugging: " .. process_id)
-          return process_id
-        end,
-        cwd = function()
-          local dirname = vim.fs.dirname(vim.fn.expand("%"))
-          return dirname
-        end,
-
+          local res = require("easy-dotnet").start_debugging_test_project()
+          print(vim.inspect(res))
+          vim.notify("debugging: " .. res.process_id)
+          return res.process_id
+        end
       }
     }
   end
