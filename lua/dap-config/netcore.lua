@@ -74,8 +74,6 @@ M.register_net_dap = function()
         request = "attach",
         processId = function()
           local res = require("easy-dotnet").experimental.start_debugging_test_project()
-          print(vim.inspect(res))
-          vim.notify("debugging: " .. res.process_id)
           return res.process_id
         end
       }

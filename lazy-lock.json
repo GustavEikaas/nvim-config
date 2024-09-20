@@ -11,7 +11,7 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "dracula": { "branch": "main", "commit": "fdf503e52ec1c8aae07353604d891fe5a3ed5201" },
   "dressing.nvim": { "branch": "master", "commit": "1b7921eecc65af1baf8ac1dc06f0794934cbcfb2" },
-  "easy-dotnet.nvim": { "branch": "feat/test-debugger-netcore", "commit": "be47c575649480dfed7a660d6d4c2b40e382fb4f" },
+  "easy-dotnet.nvim": { "branch": "main", "commit": "23b27c12147c800a3075c913563f972f54909c42" },
   "easy-git.nvim": { "branch": "main", "commit": "b060c510dddb2a1b2873efd47bfcd7a657ca3baf" },
   "friendly-snippets": { "branch": "main", "commit": "00ebcaa159e817150bd83bfe2d51fa3b3377d5c4" },
   "gh-actions.nvim": { "branch": "main", "commit": "bd271e06dab29a86439bda973a0fd48c97824a05" },
