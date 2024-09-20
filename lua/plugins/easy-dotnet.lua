@@ -1,4 +1,3 @@
-
 local function add_dotnet_mappings()
   local dotnet = require("easy-dotnet")
 
