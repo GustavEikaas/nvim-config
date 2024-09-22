@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
+  dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
   config = function()
     local dotnet = require("easy-dotnet")
@@ -28,21 +28,22 @@ return {
       test_runner = {
         viewmode = "float"
       },
-      terminal = function(path, action)
+      terminal = function(path, action, args)
         local commands = {
           run = function()
-            return "dotnet run --project " .. path
+            return string.format("dotnet run --project %s %s", path, args)
           end,
           test = function()
-            return "dotnet test " .. path
+            return string.format("dotnet test %s %s", path, args)
           end,
           restore = function()
-            return "dotnet restore " .. path
+            return string.format("dotnet restore %s %s", path, args)
           end,
           build = function()
-            return "dotnet build " .. path
+            return string.format("dotnet build %s %s", path, args)
           end
         }
+
         local command = commands[action]() .. "\r"
         require("toggleterm").exec(command, nil, nil, nil, "float")
       end,
