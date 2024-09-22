@@ -43,3 +43,7 @@ vim.opt.cursorline = true
 -- Set leader to <space>
 vim.g.mapleader = " "
 
+--History stuff
+--Store 20 marks per file
+--Store 50 commands
+vim.opt.shada = "'20,\"20,h"
