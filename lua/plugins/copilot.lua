@@ -1,5 +1,6 @@
 return {
   "github/copilot.vim",
+  enabled = not vim.g.is_perf,
   config = function()
     vim.keymap.set('n', '<C-a>', 'copilot#Accept("\\<CR>")', {
       expr = true,

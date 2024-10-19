@@ -30,7 +30,7 @@ return {
         "dotnet",
         vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
       },
-      filewatching = true,
+      filewatching = not vim.g.is_perf
     })
   end
 }
