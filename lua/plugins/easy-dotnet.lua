@@ -26,7 +26,8 @@ return {
     local dotnet = require("easy-dotnet")
     dotnet.setup({
       test_runner = {
-        viewmode = "float"
+        enable_buffer_test_execution = true,
+        viewmode = "float",
       },
       auto_bootstrap_namespace = true,
       terminal = function(path, action, args)
