@@ -1,6 +1,7 @@
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
+  enabled = not vim.g.is_perf,
   cmd = "Trouble",
   config = function()
     require("trouble").setup({

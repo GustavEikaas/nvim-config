@@ -28,3 +28,4 @@ vim.opt.rtp:prepend(lazypath)
 require("vim-options")
 require("lazy").setup "plugins"
 vim.cmd('filetype plugin on')
+vim.notify("perf " .. (vim.g.is_perf and " Yes" or " No"))
