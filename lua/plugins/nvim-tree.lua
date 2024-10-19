@@ -98,11 +98,11 @@ return {
         preserve_window_proportions = true,
       },
       git = {
-        enable = true,
+        enable = not vim.g.is_perf,
         ignore = false,
       },
       filesystem_watchers = {
-        enable = true,
+        enable = not vim.g.is_perf,
       },
       actions = {
         open_file = {
