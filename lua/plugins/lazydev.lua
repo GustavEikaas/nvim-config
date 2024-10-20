@@ -1,7 +1,8 @@
 return {
   {
     "folke/lazydev.nvim",
-    ft = "lua", -- only load on lua files
+    ft = "lua",
+    enabled = not vim.g.is_perf,
     opts = {
       library = {
         -- See the configuration section for more details
@@ -10,5 +11,10 @@ return {
       }
     },
   },
-  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+  {
+    -- optional `vim.uv` typings
+    "Bilal2453/luvit-meta",
+    enabled = not vim.g.is_perf,
+    lazy = true
+  },
 }
