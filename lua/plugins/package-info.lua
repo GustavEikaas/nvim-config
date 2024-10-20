@@ -1,5 +1,6 @@
 return {
   "vuki656/package-info.nvim",
+  enabled = not vim.g.is_perf,
   event = "BufEnter package.json",
   config = function()
     require("package-info").setup({

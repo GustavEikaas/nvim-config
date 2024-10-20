@@ -33,8 +33,5 @@ return
       -- bindings
       require("lsp-config.bindings").setup()
     end,
-    dependencies = {
-      "Hoffs/omnisharp-extended-lsp.nvim"
-    }
   }
 }

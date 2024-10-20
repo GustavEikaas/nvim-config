@@ -1,5 +1,6 @@
 return {
   'pwntester/octo.nvim',
+  -- dir = "C:\\Users\\Gustav\\repo\\octo.nvim",
   cmd = { "Octo" },
   dependencies = {
     'nvim-lua/plenary.nvim',

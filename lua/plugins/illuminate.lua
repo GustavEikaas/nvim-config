@@ -1,5 +1,6 @@
 return {
   "RRethy/vim-illuminate",
+  enabled = not vim.g.is_perf,
   config = function()
     -- default configuration
     require('illuminate').configure({

@@ -1,6 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = "BufReadPre",
+  enabled = not vim.g.is_perf,
   ft = { "gitcommit", "diff" },
   init = function()
     -- load gitsigns only when a git file is opened
