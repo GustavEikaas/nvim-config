@@ -24,9 +24,9 @@ return {
         border     = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
         -- Backdrop opacity, 0 is fully opaque, 100 is fully transparent (i.e. disabled)
         backdrop   = 60,
-        fullscreen = false,
+        fullscreen = true,
         preview    = {
-          -- default     = 'bat',           -- override the default previewer?
+          default      = 'bat',       -- override the default previewer?
           -- default uses the 'builtin' previewer
           border       = 'border',    -- border|noborder, applies only to
           -- native fzf previewers (bat/cat/git/etc)
