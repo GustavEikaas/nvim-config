@@ -60,37 +60,6 @@ return {
             foldmethod     = 'manual',
           },
         },
-        on_create  = function()
-          local function enter_term_mode()
-            local enter_term = vim.api.nvim_replace_termcodes([[<C-\><C-n>]], true, false, true)
-            vim.api.nvim_feedkeys(enter_term, "normal", false)
-          end
-
-          local function send_code(seq)
-            vim.cmd("startinsert")
-            local key = vim.api.nvim_replace_termcodes(seq, true, false, true)
-            vim.api.nvim_feedkeys(key, "normal", false)
-          end
-
-          vim.keymap.set("n", "j", function()
-            send_code("<Down>")
-            enter_term_mode()
-          end, { silent = true })
-
-          vim.keymap.set("n", "k", function()
-            send_code("<Up>")
-            enter_term_mode()
-          end, { silent = true })
-
-          vim.keymap.set("n", "o", function()
-            send_code("<Cr>")
-            enter_term_mode()
-          end, { silent = true })
-
-
-          -- vim.keymap.set("n", function()
-          -- end, "j", { silent = true, buffer = true })
-        end,
         -- called once _after_ the fzf interface is closed
         -- on_close = function() ... end
       },
