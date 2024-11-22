@@ -1,5 +1,6 @@
 return {
   "seblj/roslyn.nvim",
+  event = "BufReadPost *.cs",
   config = function()
     require("roslyn").setup({
       config = {
