@@ -9,6 +9,7 @@ return {
         up = '<A-k>',
         line_down = '<A-j>',
         line_up = '<A-k>',
+        line_left = '',
       },
     })
   end
