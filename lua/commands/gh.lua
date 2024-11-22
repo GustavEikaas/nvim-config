@@ -59,7 +59,7 @@ gh.setup = function()
     vim.cmd("GhReviewComments")
   end, {})
 
-  vim.api.nvim_create_user_command("History", function()
+  vim.api.nvim_create_user_command("FHistory", function()
     vim.cmd("DiffviewFileHistory %")
   end, {})
 
