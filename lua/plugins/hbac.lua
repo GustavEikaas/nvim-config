@@ -1,10 +1,9 @@
 return {
   -- Prevents the bufferline from junking up
   "axkirillov/hbac.nvim",
-  -- enabled = false,
   config = function()
     local hbac = require("hbac")
-    local last_buffer_path = nil
+    local ring_buf = vim.ringbuf(5)
 
     hbac.setup({
       autoclose                  = true,
@@ -14,7 +13,8 @@ return {
         if filetype == "octo" then
           return
         end
-        last_buffer_path = vim.api.nvim_buf_get_name(bufnr)
+        print(vim.api.nvim_buf_get_name(bufnr))
+        ring_buf:push(vim.api.nvim_buf_get_name(bufnr))
         vim.api.nvim_buf_delete(bufnr, {})
       end,
       close_buffers_with_windows = false,
@@ -30,12 +30,21 @@ return {
       vim.cmd("Hbac close_unpinned")
     end, { noremap = true, silent = true })
 
-    vim.keymap.set("n", "<leader>T", function()
-      if last_buffer_path and #last_buffer_path > 0 then
-        vim.cmd('edit ' .. vim.fn.fnameescape(last_buffer_path))
+    local function gotoprevbuf()
+      local prev_buf = ring_buf:pop()
+      if prev_buf == vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()) then
+        gotoprevbuf()
+      end
+      if prev_buf then
+        print("going to " .. prev_buf)
+        vim.cmd('edit ' .. vim.fn.fnameescape(prev_buf))
       else
         print("No buffer to restore.")
       end
+    end
+
+    vim.keymap.set("n", "<leader>T", function()
+      gotoprevbuf()
     end, { noremap = true, silent = true })
   end
 }
