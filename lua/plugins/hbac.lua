@@ -13,7 +13,6 @@ return {
         if filetype == "octo" then
           return
         end
-        print(vim.api.nvim_buf_get_name(bufnr))
         ring_buf:push(vim.api.nvim_buf_get_name(bufnr))
         vim.api.nvim_buf_delete(bufnr, {})
       end,
@@ -36,7 +35,6 @@ return {
         gotoprevbuf()
       end
       if prev_buf then
-        print("going to " .. prev_buf)
         vim.cmd('edit ' .. vim.fn.fnameescape(prev_buf))
       else
         print("No buffer to restore.")
