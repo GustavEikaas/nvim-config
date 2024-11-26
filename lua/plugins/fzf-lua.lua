@@ -265,10 +265,10 @@ return {
         -- (name from 'previewers' table)
         -- set to 'false' to disable
         prompt                 = 'Files❯ ',
-        multiprocess           = true, -- run command in a separate process
-        git_icons              = true, -- show git icons?
-        file_icons             = true, -- show file icons (true|"devicons"|"mini")?
-        color_icons            = true, -- colorize file|git icons
+        multiprocess           = true,              -- run command in a separate process
+        git_icons              = not vim.g.is_perf, -- show git icons?
+        file_icons             = true,              -- show file icons (true|"devicons"|"mini")?
+        color_icons            = true,              -- colorize file|git icons
         -- path_shorten   = 1,              -- 'true' or number, shorten path?
         -- Uncomment for custom vscode-like formatter where the filename is first:
         -- e.g. "fzf-lua/previewer/fzf.lua" => "fzf.lua previewer/fzf-lua"
@@ -306,10 +306,10 @@ return {
         files = {
           prompt       = 'GitFiles❯ ',
           cmd          = 'git ls-files --exclude-standard',
-          multiprocess = true, -- run command in a separate process
-          git_icons    = true, -- show git icons?
-          file_icons   = true, -- show file icons (true|"devicons"|"mini")?
-          color_icons  = true, -- colorize file|git icons
+          multiprocess = true,              -- run command in a separate process
+          git_icons    = not vim.g.is_perf, -- show git icons?
+          file_icons   = true,              -- show file icons (true|"devicons"|"mini")?
+          color_icons  = true,              -- colorize file|git icons
           -- force display the cwd header line regardless of your current working
           -- directory can also be used to hide the header when not wanted
           -- cwd_header = true
@@ -319,7 +319,7 @@ return {
           cmd          = "git -c color.status=false --no-optional-locks status --porcelain=v1 -u",
           multiprocess = true, -- run command in a separate process
           file_icons   = true,
-          git_icons    = true,
+          git_icons    = not vim.g.is_perf,
           color_icons  = true,
           previewer    = "git_diff",
           -- git-delta is automatically detected as pager, uncomment to disable
@@ -425,7 +425,7 @@ return {
         prompt         = 'Rg❯ ',
         input_prompt   = 'Grep For❯ ',
         multiprocess   = true, -- run command in a separate process
-        git_icons      = true, -- show git icons?
+        git_icons      = not vim.g.is_perf,
         file_icons     = true, -- show file icons (true|"devicons"|"mini")?
         color_icons    = true, -- colorize file|git icons
         -- executed command priority is 'cmd' (if exists)
@@ -562,7 +562,7 @@ return {
         ctags_file   = nil, -- auto-detect from tags-option
         multiprocess = true,
         file_icons   = true,
-        git_icons    = true,
+        git_icons    = not vim.g.is_perf, -- show git icons?
         color_icons  = true,
         -- 'tags_live_grep' options, `rg` prioritizes over `grep`
         rg_opts      = "--no-heading --color=always --smart-case",
@@ -640,7 +640,7 @@ return {
       },
       quickfix = {
         file_icons = true,
-        git_icons  = true,
+        git_icons  = not vim.g.is_perf,
         only_valid = false, -- select among only the valid quickfix entries
       },
       quickfix_stack = {
