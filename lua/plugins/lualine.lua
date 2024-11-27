@@ -21,6 +21,18 @@ return {
       color = { fg = "#FFFFFF", bg = "#1DB954" }
     }
 
+    local buf_cycle = {
+      function()
+        local buf_cycle = require("buf-cycle").ring_buf
+        local path = buf_cycle:peek()
+        if not path then
+          return "-"
+        end
+        return vim.fn.fnamemodify(path, ":t")
+      end,
+      color = { bg = "#ef5f6b" }
+    }
+
     local spotify_line = {
       function()
         local listen = status.listen()
@@ -77,7 +89,7 @@ return {
         lualine_y = { pin_indicator },
         lualine_z = vim.g.is_perf and {} or { spotify_line }
       },
-      tabline = { lualine_a = { buffer_line } },
+      tabline = { lualine_a = { buffer_line }, lualine_z = { buf_cycle } },
       winbar = {},
       inactive_winbar = {},
       extensions = {}
