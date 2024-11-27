@@ -30,7 +30,7 @@ return {
         end
         return vim.fn.fnamemodify(path, ":t")
       end,
-      color = { bg = "#ef5f6b" }
+      color = { bg = "#ef5f6b", fg = "#000000" }
     }
 
     local spotify_line = {
