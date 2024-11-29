@@ -3,6 +3,8 @@ vim.opt.smartindent = true
 vim.opt.shiftwidth = 2
 vim.opt.breakindent = true
 
+vim.cmd("set timeoutlen=1000 ttimeoutlen=0")
+
 -- Better splitting
 vim.opt.splitbelow = true
 vim.opt.splitright = true
