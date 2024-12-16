@@ -48,8 +48,8 @@ return {
       overrides = {
         -- Diff
         OctoUser = { bg = "#22272E", fg = orange },
-        DiffAdd = { bg = diff_add },
-        DiffDelete = { bg = bright_red, fg = bright_red },
+        DiffAdd = { bg = "#5B6081" },
+        DiffDelete = { bg = "#A60204", fg = "#A60204" },
         -- DiffText is the changed portion of a DiffChange
         DiffText = { fg = diff_text_color, bg = bright_green, bold = true },
         DiffChange = { fg = diff_text_color, bg = diff_add },
