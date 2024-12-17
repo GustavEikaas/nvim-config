@@ -210,7 +210,7 @@ return {
           -- enable specific filetypes with: `{ enable = { "lua" } }
           -- exclude specific filetypes with: `{ disable = { "lua" } }
           -- disable fully with: `{ enable = false }`
-          treesitter      = { enable = true, disable = {} },
+          treesitter      = { enabled = true, disabled = {} },
           -- By default, the main window dimensions are calculated as if the
           -- preview is visible, when hidden the main window will extend to
           -- full size. Set the below to "extend" to prevent the main window
