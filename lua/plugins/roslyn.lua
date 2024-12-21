@@ -1,6 +1,5 @@
 return {
   "seblj/roslyn.nvim",
-  event = "BufReadPost *.cs",
   config = function()
     require("roslyn").setup({
       config = {
@@ -27,11 +26,8 @@ return {
           },
         }
       },
-      exe = {
-        "dotnet",
-        vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
-      },
-      filewatching = not vim.g.is_perf
+      exe = { vim.fs.joinpath(vim.fn.stdpath("data"), "mason", "bin", "roslyn.cmd"), },
+      filewatching = true
     })
   end
 }
