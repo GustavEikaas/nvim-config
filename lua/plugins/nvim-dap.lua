@@ -33,17 +33,12 @@ return {
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
     vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
 
-    require("dap-config.lua").register_lua_dap()
     require("dap-config.netcore").register_net_dap()
 
     vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = 'DapBreakpoint', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰳟', texthl = '', linehl = "DapStopped", numhl = '' })
   end,
   dependencies = {
-    { "jbyuki/one-small-step-for-vimkind" },
-    {
-      "nvim-neotest/nvim-nio",
-    },
     {
       "rcarriga/nvim-dap-ui",
       config = function()
@@ -64,19 +59,13 @@ return {
             {
               elements = {
                 { id = "scopes", size = 1 },
-                -- {
-                --   id = "repl",
-                --   size = 0.66,
-                -- },
               },
-
               size = 10,
               position = "bottom",
             },
             {
               elements = {
                 "breakpoints",
-                -- "console",
                 "stacks",
                 "watches",
               },
@@ -115,6 +104,7 @@ return {
         })
       end
     },
+    {"nvim-neotest/nvim-nio"},
     {
       "theHamsta/nvim-dap-virtual-text",
       config = function()

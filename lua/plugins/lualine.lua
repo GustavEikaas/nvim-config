@@ -1,18 +1,7 @@
-local function truncateText(text, maxLength)
-  local truncatedText = text:sub(1, maxLength)
-  if #text > maxLength then
-    truncatedText = truncatedText .. "..."
-  end
-  return truncatedText
-end
-
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   config = function()
-    local status = require 'spotify.spotify'.status
-    status:start()
-
     local debugger = {
       function()
         local dap = require("dap")
@@ -21,32 +10,6 @@ return {
       color = { fg = "#FFFFFF", bg = "#1DB954" }
     }
 
-    local buf_cycle = {
-      function()
-        local buf_cycle = require("buf-cycle").ring_buf
-        local path = buf_cycle:peek()
-        if not path then
-          return "-"
-        end
-        return vim.fn.fnamemodify(path, ":t")
-      end,
-      color = { bg = "#ef5f6b", fg = "#000000" }
-    }
-
-    local spotify_line = {
-      function()
-        local listen = status.listen()
-        return truncateText(listen, 50)
-      end,
-      color = { fg = "#FFFFFF", bg = "#1DB954" }
-    }
-    local pin_indicator = {
-      function()
-        local cur_buf = vim.api.nvim_get_current_buf()
-        return require("hbac.state").is_pinned(cur_buf) and "" or ""
-      end,
-      color = { fg = "#ef5f6b", gui = "bold" },
-    }
     local buffer_line = {
       'buffers',
       max_length = vim.o.columns * 2 / 3,
@@ -86,10 +49,10 @@ return {
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = {},
         lualine_x = { 'encoding', 'filetype' },
-        lualine_y = { pin_indicator },
-        lualine_z = vim.g.is_perf and {} or { spotify_line }
+        lualine_y = {},
+        lualine_z = {}
       },
-      tabline = { lualine_a = { buffer_line }, lualine_z = { buf_cycle } },
+      tabline = { lualine_a = { buffer_line }, lualine_z = {} },
       winbar = {},
       inactive_winbar = {},
       extensions = {}
