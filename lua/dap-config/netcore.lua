@@ -54,15 +54,6 @@ M.register_net_dap = function()
           local dll = ensure_dll()
           return dll.relative_project_path
         end
-      },
-      {
-        type = "coreclr",
-        name = "Test",
-        request = "attach",
-        processId = function()
-          local res = require("easy-dotnet").experimental.start_debugging_test_project()
-          return res.process_id
-        end
       }
     }
   end
