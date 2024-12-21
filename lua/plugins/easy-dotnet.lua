@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  dir = "C:\\Users\\Gusta\\repo\\easy-dotnet.nvim",
+  -- dir = "C:\\Users\\Gusta\\repo\\easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
   config = function()
     local dotnet = require("easy-dotnet")
