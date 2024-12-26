@@ -49,7 +49,7 @@ return {
         -- Diff
         OctoUser = { bg = "#22272E", fg = orange },
         DiffAdd = { bg = "#5B6081" },
-        DiffDelete = { bg = "#A60204", fg = "#A60204" },
+        DiffDelete = { fg = "#A60204" },
         -- DiffText is the changed portion of a DiffChange
         DiffText = { fg = diff_text_color, bg = bright_green, bold = true },
         DiffChange = { fg = diff_text_color, bg = diff_add },

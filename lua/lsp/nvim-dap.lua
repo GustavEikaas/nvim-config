@@ -28,6 +28,11 @@ return {
     end, {})
 
     vim.keymap.set("n", "<F10>", dap.step_over, {})
+    vim.keymap.set("n", "<leader>dO", dap.step_over, {})
+    vim.keymap.set("n", "<leader>dC", dap.run_to_cursor, {})
+    vim.keymap.set("n", "<leader>dr", dap.repl.toggle, {})
+    vim.keymap.set("n", "<leader>dj", dap.down, {})
+    vim.keymap.set("n", "<leader>dk", dap.up, {})
     vim.keymap.set("n", "<F11>", dap.step_into, {})
     vim.keymap.set("n", "<F12>", dap.step_out, {})
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
