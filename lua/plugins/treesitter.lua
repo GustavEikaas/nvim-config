@@ -2,14 +2,14 @@ return {
   {
     "windwp/nvim-ts-autotag",
     config = function()
-      require("nvim-ts-autotag").setup({
+      require("nvim-ts-autotag").setup {
         opts = {
           enable_close = true,
           enable_rename = true,
-          enable_close_on_slash = false
-        }
-      })
-    end
+          enable_close_on_slash = false,
+        },
+      }
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -18,10 +18,19 @@ return {
     },
     build = ":TSUpdate",
     config = function()
-      local config = require("nvim-treesitter.configs")
-      config.setup({
+      local config = require "nvim-treesitter.configs"
+      config.setup {
         auto_install = true,
-        highlight = { enable = true },
+        highlight = {
+          enable = true,
+          disable = function(lang, buf)
+            local max_filesize = 100 * 1024 -- 100 KB
+            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            if ok and stats and stats.size > max_filesize then
+              return true
+            end
+          end,
+        },
         indent = { enable = true },
         textobjects = {
           select = {
@@ -49,9 +58,9 @@ return {
             -- and should return the mode ('v', 'V', or '<c-v>') or a table
             -- mapping query_strings to modes.
             selection_modes = {
-              ['@parameter.outer'] = 'v', -- charwise
-              ['@function.outer'] = 'V',  -- linewise
-              ['@class.outer'] = '<c-v>', -- blockwise
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
             },
             -- If you set this to `true` (default is `false`) then any textobject is
             -- extended to include preceding or succeeding whitespace. Succeeding
@@ -65,18 +74,18 @@ return {
             include_surrounding_whitespace = true,
           },
         },
-      })
-      vim.treesitter.language.register('markdown', 'octo')
-      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+      }
+      vim.treesitter.language.register("markdown", "octo")
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       parser_config.fsharp = {
         install_info = {
-          url = 'https://github.com/ionide/tree-sitter-fsharp',
-          branch = 'main',
-          files = { 'src/scanner.c', 'src/parser.c' },
+          url = "https://github.com/ionide/tree-sitter-fsharp",
+          branch = "main",
+          files = { "src/scanner.c", "src/parser.c" },
         },
         requires_generate_from_grammar = false,
-        filetype = 'fsharp',
+        filetype = "fsharp",
       }
-    end
-  }
+    end,
+  },
 }
