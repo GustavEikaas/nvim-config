@@ -30,7 +30,7 @@ vim.opt.foldenable = true
 vim.opt.foldmethod = "indent"
 
 -- Use system clipboard
-vim.opt.clipboard = "unnamedplus"
+vim.schedule(function() vim.opt.clipboard = "unnamedplus"end)
 
 -- Show relative numbers
 vim.opt.relativenumber = true
@@ -53,3 +53,9 @@ vim.opt.shada = "'20,\"20,h"
 
 -- Better diff view
 vim.opt.fillchars:append { diff = "╱" }
+
+-- Remap C-s to save the buffer
+vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', 'jj', '<Esc>', { noremap = true, silent = true })
+
