@@ -15,3 +15,7 @@ require("lazy").setup "plugins"
 vim.cmd('filetype plugin on')
 
 require("lsp-config.bindings").setup()
+
+if not require("mason-registry").is_installed("roslyn") then
+  vim.cmd("MasonInstall roslyn")
+end

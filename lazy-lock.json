@@ -3,6 +3,7 @@
   "cmp-git": { "branch": "main", "commit": "ec049036e354ed8ed0215f2427112882e1ea7051" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "99290b3ec1322070bcfb9e846450a46f6efa50f0" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
+  "conform.nvim": { "branch": "master", "commit": "9180320205d250429f0f80e073326c674e2a7149" },
   "easy-dotnet.nvim": { "branch": "main", "commit": "a88be7ccac41a49f27e39f9117598279fcb045bf" },
   "friendly-snippets": { "branch": "main", "commit": "efff286dd74c22f731cdec26a70b46e5b203c619" },
   "lazy.nvim": { "branch": "main", "commit": "7e6c863bc7563efbdd757a310d17ebc95166cef3" },
