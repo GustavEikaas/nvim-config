@@ -95,12 +95,12 @@ return {
   -- build = "make",
   build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false",
   dependencies = {
-    "stevearc/dressing.nvim",
+    -- "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     "hrsh7th/nvim-cmp",
     "nvim-tree/nvim-web-devicons",
-    "zbirenbaum/copilot.lua",
+    -- "zbirenbaum/copilot.lua",
     {
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",

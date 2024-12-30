@@ -5,7 +5,7 @@ return {
       config = {
         settings = {
           ["csharp|background_analysis"] = {
-            dotnet_compiler_diagnostics_scope = "fullSolution"
+            dotnet_compiler_diagnostics_scope = "fullSolution",
           },
           ["csharp|inlay_hints"] = {
             csharp_enable_inlay_hints_for_implicit_object_creation = true,
@@ -24,13 +24,10 @@ return {
           ["csharp|code_lens"] = {
             dotnet_enable_references_code_lens = true,
           },
-        }
+        },
       },
-      exe = {
-        "dotnet",
-        vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
-      },
-      filewatching = not vim.g.is_perf
+      exe = { "dotnet", vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll") },
+      filewatching = not vim.g.is_perf,
     })
-  end
+  end,
 }

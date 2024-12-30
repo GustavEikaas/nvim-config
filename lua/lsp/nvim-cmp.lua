@@ -12,7 +12,6 @@ return {
     { "L3MON4D3/LuaSnip",                     event = "LspAttach" },
     { "saadparwaiz1/cmp_luasnip",             event = "LspAttach" },
     { "rafamadriz/friendly-snippets",         event = "LspAttach" },
-    { 'kristijanhusak/vim-dadbod-completion', },
     { "petertriho/cmp-git" },
   },
   config = function()
