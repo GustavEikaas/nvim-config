@@ -13,6 +13,12 @@ return {
       tags = { previewer = "bat" },
       btags = { previewer = "bat" },
       files = { fzf_opts = { ["--ansi"] = false } },
+      keymap = {
+        builtin = {
+          true,
+          ["<Esc>"] = "hide",
+        },
+      },
       grep = {
         fzf_opts = { ["--ansi"] = false },
         grep_opts = require("fzf-lua.utils").is_darwin()
@@ -25,6 +31,10 @@ return {
 
     vim.keymap.set("n", "<leader>fw", function()
       fzf.grep_project()
+    end, {})
+
+    vim.keymap.set("n", "<leader><leader>fw", function()
+      fzf.resume()
     end, {})
 
     vim.keymap.set("n", "<leader><leader>", function()
