@@ -9,11 +9,6 @@ function tsserver.setup()
     capabilities = capabilities
   })
 
-  require 'lspconfig'.tailwindcss.setup(
-    {
-      cmd = { "tailwindcss-language-server", "--stdio" },
-      capabilities = capabilities
-    })
 end
 
 return tsserver
