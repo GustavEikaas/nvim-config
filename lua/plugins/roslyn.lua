@@ -26,10 +26,6 @@ return {
           },
         }
       },
-      exe = {
-        "dotnet",
-        vim.fs.joinpath(vim.fn.stdpath("data"), "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll"),
-      },
       filewatching = not vim.g.is_perf
     })
   end
