@@ -4,6 +4,7 @@ return {
   enabled = false,
   lazy = false,
   version = false,
+  enabled = false,
   opts = {
     ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
     provider = "copilot",

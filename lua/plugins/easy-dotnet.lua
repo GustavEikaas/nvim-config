@@ -1,30 +1,30 @@
 local function add_dotnet_mappings()
-  local dotnet = require("easy-dotnet")
+  local dotnet = require "easy-dotnet"
 
-  vim.api.nvim_create_user_command('Secrets', function()
+  vim.api.nvim_create_user_command("Secrets", function()
     dotnet.secrets()
   end, {})
 
   vim.keymap.set("n", "<A-t>", function()
-    vim.cmd("Dotnet testrunner")
-  end)
+    vim.cmd "Dotnet testrunner"
+  end, { nowait = true })
 
   vim.keymap.set("n", "<C-p>", function()
     dotnet.run_with_profile(true)
-  end)
+  end, { nowait = true })
 
   vim.keymap.set("n", "<C-b>", function()
     dotnet.build_default_quickfix()
-  end)
+  end, { nowait = true })
 end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  -- dir = "C:\\Users\\Gusta\\repo\\easy-dotnet.nvim",
-  dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
+  -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
+  dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
-    local dotnet = require("easy-dotnet")
-    dotnet.setup({
+    local dotnet = require "easy-dotnet"
+    dotnet.setup {
       test_runner = {
         enable_buffer_test_execution = true,
         viewmode = "float",
@@ -43,13 +43,13 @@ return {
           end,
           build = function()
             return string.format("dotnet build %s %s", path, args)
-          end
+          end,
         }
 
         local command = commands[action]() .. "\r"
         require("toggleterm").exec(command, nil, nil, nil, "float")
       end,
-    })
+    }
 
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
@@ -58,5 +58,5 @@ return {
         end
       end,
     })
-  end
+  end,
 }
