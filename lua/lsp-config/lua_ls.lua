@@ -2,13 +2,13 @@ local lua_ls = {}
 
 function lua_ls.setup()
   local lspconfig = require("lspconfig")
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
   local runtime_path = vim.split(package.path, ';')
   table.insert(runtime_path, "lua/?.lua")
   table.insert(runtime_path, "lua/?/init.lua")
   lspconfig.lua_ls.setup({
     cmd = require("extensions").isWindows() and { "lua-language-server.cmd", "--stdio" } or nil,
-    capabilities = capabilities,
+    -- capabilities = capabilities,
     settings = {
       Lua = {
         runtime = {

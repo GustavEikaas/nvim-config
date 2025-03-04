@@ -7,6 +7,7 @@ end
 return {
   "hrsh7th/nvim-cmp",
   event = "LspAttach",
+  enabled = false,
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp",                 event = "LspAttach" },
     { "L3MON4D3/LuaSnip",                     event = "LspAttach" },
