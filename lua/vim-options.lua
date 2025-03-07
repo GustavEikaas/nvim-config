@@ -1,9 +1,11 @@
+vim.opt.shadafile = "NONE"
+
 -- Enable smart indenting
 vim.opt.smartindent = true
 vim.opt.shiftwidth = 2
 vim.opt.breakindent = true
 
-vim.cmd("set timeoutlen=1000 ttimeoutlen=0")
+vim.cmd "set timeoutlen=1000 ttimeoutlen=0"
 
 -- Better splitting
 vim.opt.splitbelow = true
@@ -13,7 +15,7 @@ vim.opt.splitright = true
 vim.opt.wrap = false
 
 -- Enable persistent undo history
-vim.opt.undofile = true
+-- vim.opt.undofile = true
 
 -- Set tabs to 2 spaces
 vim.opt.tabstop = 2
@@ -48,8 +50,7 @@ vim.g.mapleader = " "
 --History stuff
 --Store 20 marks per file
 --Store 50 commands
-vim.opt.shada = "'20,\"20,h"
-
+-- vim.opt.shada = "'20,\"20,h"
 
 -- Better diff view
 vim.opt.fillchars:append { diff = "╱" }
