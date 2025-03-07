@@ -2,10 +2,10 @@ local pyright = {}
 
 function pyright.setup()
   local lspconfig = require("lspconfig")
-  -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
   lspconfig.pyright.setup({
     cmd = { "pyright-langserver", "--stdio" },
-    -- capabilities = capabilities,
+    capabilities = capabilities,
     settings = {
       python = {
         analysis = {

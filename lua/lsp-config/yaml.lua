@@ -3,11 +3,11 @@ local yaml = {}
 
 function yaml.setup()
   local lspconfig = require("lspconfig")
-  -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
   lspconfig.yamlls.setup({
     cmd = { "yaml-language-server", "--stdio" },
     filetypes = { "yaml", "yml" },
-    -- capabilities = capabilities,
+    capabilities = capabilities,
     on_attach = function(client, _)
       client.server_capabilities.documentFormattingProvider = true
     end,
