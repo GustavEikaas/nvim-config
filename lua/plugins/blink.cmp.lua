@@ -1,8 +1,10 @@
+local disabled_filetypes = { "DressingInput" }
 return {
   "saghen/blink.cmp",
   version = "*",
   config = function()
     require("blink.cmp").setup {
+      enabled = function() return not vim.list_contains(disabled_filetypes, vim.bo.filetype) end,
       fuzzy = { implementation = "prefer_rust_with_warning" },
       keymap = {
         ["<CR>"] = { "select_and_accept", "fallback" },
