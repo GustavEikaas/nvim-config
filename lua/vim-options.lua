@@ -54,3 +54,12 @@ vim.g.mapleader = " "
 
 -- Better diff view
 vim.opt.fillchars:append { diff = "╱" }
+vim.opt.diffopt = {
+  "internal",
+  "filler",
+  "closeoff",
+  "context:12",
+  "algorithm:minimal",
+  "linematch:200",
+  "indent-heuristic",
+}

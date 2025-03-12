@@ -156,6 +156,9 @@ return {
       vim.cmd("NvimTreeFocus")
     end, { silent = true })
     vim.keymap.set("n", "<C-n>", function()
+      if next(require("diffview.lib").views) then
+        return
+      end
       vim.cmd("NvimTreeToggle")
     end, { silent = true })
   end,
