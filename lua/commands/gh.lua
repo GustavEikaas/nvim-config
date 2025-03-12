@@ -64,6 +64,15 @@ gh.setup = function()
     vim.cmd("DiffviewOpen origin/" .. base)
   end, {})
 
+  vim.keymap.set("n", "<A-.>", function()
+    local base = get_main_or_master()
+    vim.cmd("DiffviewOpen origin/" .. base)
+  end, { nowait = true })
+
+  vim.keymap.set("n", "<A-,>", function()
+    vim.cmd("DiffviewOpen")
+  end, { nowait = true })
+
   vim.api.nvim_create_user_command("Comments", function()
     vim.cmd "GhReviewComments"
   end, {})
@@ -71,6 +80,11 @@ gh.setup = function()
   vim.api.nvim_create_user_command("FHistory", function()
     vim.cmd "DiffviewFileHistory %"
   end, {})
+
+  vim.keymap.set("n", "<A-->", function()
+    vim.cmd("DiffviewFileHistory %")
+  end, { nowait = true })
+
 
   vim.api.nvim_create_user_command("Blame", function()
     require("gitsigns").toggle_current_line_blame()
