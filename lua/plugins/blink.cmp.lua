@@ -4,8 +4,19 @@ return {
   version = "*",
   config = function()
     require("blink.cmp").setup {
-      enabled = function() return not vim.list_contains(disabled_filetypes, vim.bo.filetype) end,
-      fuzzy = { implementation = "prefer_rust_with_warning" },
+      enabled = function()
+        return not vim.list_contains(disabled_filetypes, vim.bo.filetype)
+      end,
+      fuzzy = {
+        implementation = "prefer_rust_with_warning",
+        sorts = {
+          function(a, b)
+            return a.kind > b.kind
+          end,
+          "score",
+          "sort_text",
+        },
+      },
       keymap = {
         ["<CR>"] = { "select_and_accept", "fallback" },
         ["<Tab>"] = { "select_next" },
