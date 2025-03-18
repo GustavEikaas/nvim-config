@@ -25,7 +25,7 @@ return {
         ["<C-u>"] = { "scroll_documentation_up" },
       },
       sources = {
-        default = { "lsp", "easy-dotnet", "path" },
+        default = { "lsp", "easy-dotnet", "path", "buffer", "snippets"},
         providers = {
           ["easy-dotnet"] = {
             name = "easy-dotnet",
