@@ -26,5 +26,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("vim-options")
-require("lazy").setup "plugins"
+require("lazy").setup({
+  spec = {
+    import = "plugins"
+  },
+  change_detection = {
+    enabled = false,
+    notify = false,
+  },
+})
 vim.cmd('filetype plugin on')
