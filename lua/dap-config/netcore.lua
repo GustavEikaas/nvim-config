@@ -28,7 +28,7 @@ M.register_net_dap = function()
     if debug_dll ~= nil then
       return debug_dll
     end
-    local dll = dotnet.get_debug_dll()
+    local dll = dotnet.get_debug_dll(true)
     debug_dll = dll
     return dll
   end

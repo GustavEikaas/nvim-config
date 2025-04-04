@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
+  dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local dotnet = require "easy-dotnet"
@@ -43,6 +43,9 @@ return {
           end,
           build = function()
             return string.format("dotnet build %s %s", path, args)
+          end,
+          watch = function()
+            return string.format("dotnet watch --project %s %s", path, args)
           end,
         }
 
