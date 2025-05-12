@@ -44,6 +44,9 @@ return {
           build = function()
             return string.format("dotnet build %s %s", path, args)
           end,
+          watch = function()
+            return string.format("dotnet watch --project %s %s", path, args)
+          end,
         }
 
         local command = commands[action]() .. "\r"

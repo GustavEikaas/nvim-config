@@ -1,5 +1,6 @@
 ---@diagnostic disable-next-line: unused-local
 local extensions = require "extensions"
+require("vim-options")
 
 require "general.use-pwsh"
 require "general.reload-buf"
@@ -24,7 +25,14 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
-require "vim-options"
-require("lazy").setup "plugins"
-vim.cmd "filetype plugin on"
 
+require("lazy").setup({
+  spec = {
+    import = "plugins"
+  },
+  change_detection = {
+    enabled = false,
+    notify = false,
+  },
+})
+vim.cmd('filetype plugin on')

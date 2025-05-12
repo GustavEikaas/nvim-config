@@ -22,6 +22,7 @@ return {
         'dirvish',
         'fugitive',
         "NvimTree",
+        'neo-tree',
         "alpha",
         "markdown",
         "TelescopePrompt",
