@@ -6,7 +6,7 @@ return {
         lua = { "stylua" },
         rust = { "rustfmt", lsp_format = "fallback" },
         javascript = { "prettierd", "prettier", stop_after_first = true },
-        -- cs = { "csharpier" },
+        cs = { lsp_format = "fallback" },
       },
     }
     vim.keymap.set("n", "<leader>fm", require("conform").format, {})
