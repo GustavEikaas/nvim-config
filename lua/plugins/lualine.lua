@@ -10,6 +10,8 @@ return {
       color = { fg = "#FFFFFF", bg = "#1DB954" },
     }
 
+    local job_indicator = { require("easy-dotnet.ui-modules.jobs").lualine }
+
     local pin_indicator = {
       function()
         local cur_buf = vim.api.nvim_get_current_buf()
@@ -55,7 +57,7 @@ return {
       },
       sections = {
         lualine_a = { "mode", debugger },
-        lualine_b = {},
+        lualine_b = { job_indicator },
         lualine_c = {},
         lualine_x = { "encoding", "filetype" },
         lualine_y = { pin_indicator },
