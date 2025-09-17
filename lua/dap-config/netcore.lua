@@ -13,8 +13,8 @@ M.register_net_dap = function()
     },
   }
 
-  dap.adapters.coreclr = function(callback, config)
-    callback { type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 }
+  dap.adapters.coreclr = function(callback)
+    callback { type = "server", host = "127.0.0.1", port = 8086 }
   end
 end
 
