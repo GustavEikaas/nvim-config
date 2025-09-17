@@ -9,7 +9,7 @@ return {
         return not vim.list_contains(disabled_filetypes, vim.bo.filetype)
       end,
       fuzzy = {
-        implementation = "prefer_rust_with_warning",
+        implementation = "prefer_rust",
       },
       keymap = {
         ["<CR>"] = { "select_and_accept", "fallback" },
