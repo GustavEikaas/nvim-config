@@ -29,6 +29,9 @@ return {
         ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
         log_level = "Verbose",
       },
+      debugger = {
+        bin_path = "netcoredbg",
+      },
       test_runner = {
         enable_buffer_test_execution = true,
         -- viewmode = "float",
