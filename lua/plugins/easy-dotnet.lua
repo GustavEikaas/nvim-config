@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  -- dir = "C:\\Users\\Gustav\\repo\\easy-dotnet.nvim",
+  -- dir = "C:\\Users\\Gusta\\repo\\easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local dotnet = require "easy-dotnet"
@@ -29,20 +29,31 @@ return {
         enable_buffer_test_execution = true,
         viewmode = "float",
       },
-      auto_bootstrap_namespace = true,
-      terminal = function(path, action, args)
+      debugger = {
+        bin_path = "netcoredbg",
+      },
+      auto_bootstrap_namespace = {
+        type = "file_scoped",
+        enabled = true,
+      },
+      server = {
+        use_visual_studio = false,
+        ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
+        -- log_level = "Verbose",
+      },
+      terminal = function(path, action, args, ctx)
         local commands = {
           run = function()
-            return string.format("dotnet run --project %s %s", path, args)
+            return string.format("%s %s", ctx.cmd, args)
           end,
           test = function()
-            return string.format("dotnet test %s %s", path, args)
+            return string.format("%s %s", ctx.cmd, args)
           end,
           restore = function()
-            return string.format("dotnet restore %s %s", path, args)
+            return string.format("%s %s", ctx.cmd, args)
           end,
           build = function()
-            return string.format("dotnet build %s %s", path, args)
+            return string.format("%s %s", ctx.cmd, args)
           end,
           watch = function()
             return string.format("dotnet watch --project %s %s", path, args)
