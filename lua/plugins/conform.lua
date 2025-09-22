@@ -5,8 +5,10 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         rust = { "rustfmt", lsp_format = "fallback" },
-        javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { "prettierd", "prettier", lsp_format = "fallback", stop_after_first = true },
         cs = { lsp_format = "fallback" },
+        typescript = { "prettierd", "prettier", lsp_format = "fallback", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", lsp_format = "fallback", stop_after_first = true },
       },
     }
     vim.keymap.set("n", "<leader>fm", require("conform").format, {})

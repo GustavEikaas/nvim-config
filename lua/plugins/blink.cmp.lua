@@ -13,6 +13,7 @@ return {
       },
       keymap = {
         ["<CR>"] = { "select_and_accept", "fallback" },
+        ["<C-a>"] = {},
         ["<Tab>"] = { "select_next" },
         ["<S-Tab>"] = { "select_prev" },
         ["<C-d>"] = { "scroll_documentation_down" },
