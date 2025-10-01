@@ -20,14 +20,20 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  -- dir = "C:\\Users\\Gusta\\repo\\easy-dotnet.nvim",
+  -- dir = [[C:\Users\gustav.eikaas\repo\easy-dotnet.nvim]],
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local dotnet = require "easy-dotnet"
     dotnet.setup {
+      lsp = {
+        enabled = true,
+      },
       test_runner = {
         enable_buffer_test_execution = true,
         viewmode = "float",
+      },
+      notifications = {
+        handler = false,
       },
       debugger = {
         bin_path = "netcoredbg",
@@ -37,9 +43,9 @@ return {
         enabled = true,
       },
       server = {
-        use_visual_studio = false,
+        use_visual_studio = true,
         ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
-        -- log_level = "Verbose",
+        log_level = "Off",
       },
       terminal = function(path, action, args, ctx)
         local commands = {
