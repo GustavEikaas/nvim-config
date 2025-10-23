@@ -10,7 +10,25 @@ return {
       color = { fg = "#FFFFFF", bg = "#1DB954" },
     }
 
-    local job_indicator = { require("easy-dotnet.ui-modules.jobs").lualine }
+    local function is_fzf_open()
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+        if ft == "fzf" then
+          return true
+        end
+      end
+      return false
+    end
+
+    local job_indicator = {
+      function()
+        if is_fzf_open() then
+          return ""
+        end
+        return require("easy-dotnet.ui-modules.jobs").lualine()
+      end,
+    }
 
     local pin_indicator = {
       function()
