@@ -5,27 +5,23 @@ return {
     local dap = require "dap"
     dap.set_log_level "TRACE"
     local dapui = require "dapui"
-    require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
-
-    dap.listeners.before.attach.dapui_config = function()
-      dapui.open()
-    end
-    dap.listeners.before.launch.dapui_config = function()
-      dapui.open()
-    end
-    dap.listeners.before.event_terminated.dapui_config = function()
-      dapui.close()
-    end
-    dap.listeners.before.event_exited.dapui_config = function()
-      dapui.close()
-    end
+    -- require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
 
     vim.keymap.set("n", "<F5>", dap.continue, {})
 
     vim.keymap.set("n", "q", function()
       dap.close()
-      dapui.close()
     end, {})
+
+    dap.listeners.after.event_stopped["dap_ui"] = function()
+      dapui.open()
+    end
+
+    dap.listeners.on_session["dap_ui"] = function(_, new)
+      if new == nil then
+        dapui.close()
+      end
+    end
 
     vim.keymap.set("n", "<F10>", dap.step_over, {})
     vim.keymap.set("n", "<leader>dO", dap.step_over, {})
