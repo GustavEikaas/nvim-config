@@ -37,6 +37,7 @@ return {
       },
       debugger = {
         bin_path = "netcoredbg",
+        apply_value_converters = true,
       },
       auto_bootstrap_namespace = {
         type = "file_scoped",
