@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  dir = [[C:\Users\Gustav\repo\easy-dotnet.nvim]],
+  dir = [[C:\Users\gustav.eikaas\repo\easy-dotnet.nvim]],
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local dotnet = require "easy-dotnet"
@@ -36,7 +36,7 @@ return {
         handler = false,
       },
       debugger = {
-        bin_path = "netcoredbg",
+        bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg.cmd"),
       },
       auto_bootstrap_namespace = {
         type = "file_scoped",
