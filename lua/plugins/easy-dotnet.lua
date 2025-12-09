@@ -25,9 +25,6 @@ return {
   config = function()
     local dotnet = require "easy-dotnet"
     dotnet.setup {
-      lsp = {
-        enabled = true,
-      },
       test_runner = {
         enable_buffer_test_execution = true,
         viewmode = "float",
@@ -37,7 +34,6 @@ return {
       },
       debugger = {
         bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg.cmd"),
-        apply_value_converters = true,
       },
       auto_bootstrap_namespace = {
         type = "file_scoped",
