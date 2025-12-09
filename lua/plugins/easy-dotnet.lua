@@ -10,7 +10,7 @@ local function add_dotnet_mappings()
   end, { nowait = true })
 
   vim.keymap.set("n", "<C-p>", function()
-    vim.cmd "Dotnet debug default profile"
+    vim.cmd "Dotnet debug profile default"
   end, { nowait = true })
 
   vim.keymap.set("n", "<C-b>", function()
@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  dir = [[C:\Users\Gustav\repo\easy-dotnet.nvim]],
+  dir = "/home/gus/repo/easy-dotnet.nvim",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local dotnet = require "easy-dotnet"
@@ -40,9 +40,9 @@ return {
         enabled = true,
       },
       server = {
-        use_visual_studio = true,
+        use_visual_studio = false,
         ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
-        log_level = "Off",
+        log_level = "Verbose",
       },
       terminal = function(path, action, args, ctx)
         local commands = {
