@@ -20,7 +20,7 @@ end
 
 return {
   "GustavEikaas/easy-dotnet.nvim",
-  dir = "/home/gus/repo/easy-dotnet.nvim",
+  dir = vim.fs.joinpath(vim.loop.os_homedir(), "repo", "easy-dotnet.nvim"),
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
   config = function()
     local dotnet = require "easy-dotnet"
@@ -40,9 +40,9 @@ return {
         enabled = true,
       },
       server = {
-        use_visual_studio = false,
+        use_visual_studio = vim.loop.os_uname().sysname == "Windows_NT",
         ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
-        log_level = "Verbose",
+        log_level = "Off",
       },
       terminal = function(path, action, args, ctx)
         local commands = {
