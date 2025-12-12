@@ -29,6 +29,9 @@ return {
         enable_buffer_test_execution = true,
         viewmode = "float",
       },
+      projx_lsp = {
+        enabled = true,
+      },
       notifications = {
         handler = false,
       },
