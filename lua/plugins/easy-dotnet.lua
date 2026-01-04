@@ -43,7 +43,7 @@ return {
         enabled = true,
       },
       server = {
-        use_visual_studio = vim.loop.os_uname().sysname == "Windows_NT",
+        use_visual_studio = false,
         ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
         log_level = "Off",
       },
@@ -70,13 +70,6 @@ return {
         require("toggleterm").exec(command, nil, nil, nil, "float")
       end,
     }
-
-    vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-        if dotnet.is_dotnet_project() then
-          add_dotnet_mappings()
-        end
-      end,
-    })
+    add_dotnet_mappings()
   end,
 }

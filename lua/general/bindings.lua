@@ -28,11 +28,18 @@ vim.keymap.set("i", "<Esc>", "", { noremap = true, silent = true })
 
 vim.keymap.set("i", "<C-l>", "<Esc>la", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-d>", function()
-  vim.api.nvim_command("normal! 15j")
+  vim.api.nvim_command "normal! 15j"
 end, { noremap = true, silent = true })
 vim.keymap.set("n", "<C-u>", function()
-  vim.api.nvim_command("normal! 15k")
+  vim.api.nvim_command "normal! 15k"
 end, { noremap = true, silent = true })
 
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<S-Tab>", ":bprev<CR>", { noremap = true, silent = true })
+
+vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, {})
+vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, {})
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+vim.keymap.set("n", "<leader>ra", vim.lsp.buf.rename, {})
