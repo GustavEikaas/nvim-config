@@ -28,13 +28,6 @@ return {
             module = "blink.cmp.sources.lsp",
             score_offset = 90,
           },
-          ["easy-dotnet"] = {
-            name = "easy-dotnet",
-            enabled = true,
-            module = "easy-dotnet.completion.blink",
-            score_offset = 10000,
-            async = true,
-          },
           path = {
             name = "Path",
             module = "blink.cmp.sources.path",
