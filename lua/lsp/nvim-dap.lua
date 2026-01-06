@@ -1,3 +1,14 @@
+local function open_repl_only()
+  local dapui = require "dapui"
+  dapui.close()
+  dapui.open { layout = 1 }
+end
+local function open_full_dap()
+  local dapui = require "dapui"
+  dapui.close()
+  dapui.open()
+end
+
 return {
   "mfussenegger/nvim-dap",
   enabled = true,
@@ -14,12 +25,18 @@ return {
     end, {})
 
     dap.listeners.after.event_stopped["dap_ui"] = function()
-      dapui.open()
+      open_full_dap()
+    end
+
+    dap.listeners.after.event_continued["dap_ui"] = function()
+      open_repl_only()
     end
 
     dap.listeners.on_session["dap_ui"] = function(_, new)
       if new == nil then
         dapui.close()
+      else
+        open_repl_only()
       end
     end
 
@@ -63,12 +80,17 @@ return {
           layouts = {
             {
               elements = {
-                { id = "scopes", size = 1 },
-                -- {
-                --   id = "repl",
-                --   size = 0.66,
-                -- },
+                {
+                  id = "repl",
+                  size = 1,
+                },
               },
+
+              size = 10,
+              position = "bottom",
+            },
+            {
+              elements = { { id = "scopes", size = 1 } },
 
               size = 10,
               position = "bottom",
