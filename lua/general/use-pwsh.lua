@@ -13,5 +13,5 @@ if require("extensions").isWindows() then
   vim.o.shellquote = ""
   vim.o.shellxquote = ""
 else
-  vim.opt.shell = "/usr/bin/zsh"
+  vim.opt.shell = "/usr/bin/bash"
 end

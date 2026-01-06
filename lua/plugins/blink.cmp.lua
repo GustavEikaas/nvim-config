@@ -20,7 +20,7 @@ return {
         ["<C-u>"] = { "scroll_documentation_up" },
       },
       sources = {
-        default = { "lsp", "easy-dotnet", "path", "snippets", "buffer", "emoji" },
+        default = { "lsp", "path", "snippets", "buffer", "emoji" },
         providers = {
           lsp = {
             name = "lsp",

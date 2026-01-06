@@ -36,7 +36,7 @@ return {
         handler = false,
       },
       debugger = {
-        bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg.cmd"),
+        bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg"),
       },
       auto_bootstrap_namespace = {
         type = "file_scoped",
