@@ -37,4 +37,5 @@ require("lazy").setup {
 }
 vim.cmd "filetype plugin on"
 vim.lsp.enable "ts_ls"
+vim.lsp.enable "yamlls"
 vim.lsp.enable "lua_ls"
