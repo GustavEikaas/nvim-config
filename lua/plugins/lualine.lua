@@ -2,10 +2,19 @@ return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   config = function()
-    local debugger = {
+    local debugger_or_sln = {
       function()
         local dap = require "dap"
-        return dap.status()
+        local dap_status = dap.status()
+        if dap_status and dap_status ~= "" then
+          return dap_status
+        end
+        local sln = require("easy-dotnet").try_get_selected_solution()
+
+        if sln and sln.basename then
+          return string.format("󰘐 %s", vim.fn.fnamemodify(sln.path, ":t:r"))
+        end
+        return ""
       end,
       color = { fg = "#FFFFFF", bg = "#1DB954" },
     }
@@ -74,7 +83,7 @@ return {
         },
       },
       sections = {
-        lualine_a = { "mode", debugger },
+        lualine_a = { "mode", debugger_or_sln },
         lualine_b = { job_indicator },
         lualine_c = {},
         lualine_x = { "encoding", "filetype" },
