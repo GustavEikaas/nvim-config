@@ -2,21 +2,29 @@ return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   config = function()
-    local debugger_or_sln = {
+    local debugger = {
       function()
         local dap = require "dap"
-        local dap_status = dap.status()
-        if dap_status and dap_status ~= "" then
-          return dap_status
-        end
-        local sln = require("easy-dotnet").try_get_selected_solution()
-
-        if sln and sln.basename then
-          return string.format("󰘐 %s", vim.fn.fnamemodify(sln.path, ":t:r"))
+        local status = dap.status()
+        if status and status ~= "" then
+          return status
         end
         return ""
       end,
       color = { fg = "#FFFFFF", bg = "#1DB954" },
+    }
+    local sln = {
+      function()
+        if debugger[1]() ~= "" then
+          return ""
+        end
+        local solution = require("easy-dotnet").try_get_selected_solution()
+        if solution and solution.basename then
+          return string.format("󰘐 %s", vim.fn.fnamemodify(solution.path, ":t:r"))
+        end
+        return ""
+      end,
+      color = { fg = "#282a36", bg = "#bd93f9", gui = "bold" },
     }
 
     local function is_fzf_open()
@@ -83,7 +91,7 @@ return {
         },
       },
       sections = {
-        lualine_a = { "mode", debugger_or_sln },
+        lualine_a = { "mode", debugger, sln },
         lualine_b = { job_indicator },
         lualine_c = {},
         lualine_x = { "encoding", "filetype" },
