@@ -32,11 +32,15 @@ return {
       projx_lsp = {
         enabled = true,
       },
+      lsp = {
+        auto_refresh_codelens = true,
+      },
       notifications = {
         handler = false,
       },
       debugger = {
-        bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg"),
+        bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg.cmd"),
+        -- bin_path = "C:/Program Files (x86)/netcoredbg/netcoredbg.exe"
       },
       auto_bootstrap_namespace = {
         type = "file_scoped",

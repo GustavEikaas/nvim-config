@@ -5,7 +5,7 @@ return {
   name = "dracula",
   priority = 1000,
   config = function()
-    local dracula = require("dracula")
+    local dracula = require "dracula"
     local bright_red = "#FF6E6E"
     local bright_green = "#69FF94"
     local diff_add = "#1db954"
@@ -14,7 +14,7 @@ return {
     local bright_white = "#FFFFFF"
     local orange = "#FFB86C"
     local diff_text_color = "#0c0d10"
-    dracula.setup({
+    dracula.setup {
       colors = {
         bg = background,
         fg = "#F8F8F2",
@@ -41,10 +41,10 @@ return {
         white = "#ABB2BF",
         black = "#191A21",
       },
-      show_end_of_buffer = false,   -- default false
-      transparent_bg = true,        -- default false
+      show_end_of_buffer = false, -- default false
+      transparent_bg = true, -- default false
       lualine_bg_color = "#44475a", -- default nil
-      italic_comment = true,        -- default false
+      italic_comment = true, -- default false
       overrides = {
         -- Diff
         OctoUser = { bg = "#22272E", fg = orange },
@@ -72,9 +72,12 @@ return {
         -- Illuminate
         IlluminatedWordRead = { bg = selection, underline = true },
         IlluminatedWordWrite = { bg = selection, underline = true },
-        IlluminatedWordText = { bg = selection, underline = true }
+        IlluminatedWordText = { bg = selection, underline = true },
+
+        LspCodeLens = { fg = "#717171", italic = true },
       },
-    })
+    }
+
     vim.cmd.colorscheme "dracula"
   end,
 }
