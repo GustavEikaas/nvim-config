@@ -28,12 +28,10 @@ return {
       test_runner = {
         enable_buffer_test_execution = true,
         viewmode = "float",
+        noBuild = false,
       },
       projx_lsp = {
         enabled = true,
-      },
-      lsp = {
-        auto_refresh_codelens = true,
       },
       notifications = {
         handler = false,

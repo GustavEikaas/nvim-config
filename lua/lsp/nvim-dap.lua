@@ -18,7 +18,10 @@ return {
     local dapui = require "dapui"
     -- require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
 
-    vim.keymap.set("n", "<F5>", dap.continue, {})
+    vim.keymap.set("n", "<F5>", function()
+      open_repl_only()
+      dap.continue()
+    end, {})
 
     vim.keymap.set("n", "q", function()
       dap.close()
@@ -26,10 +29,6 @@ return {
 
     dap.listeners.after.event_stopped["dap_ui"] = function()
       open_full_dap()
-    end
-
-    dap.listeners.after.event_continued["dap_ui"] = function()
-      open_repl_only()
     end
 
     dap.listeners.on_session["dap_ui"] = function(_, new)
@@ -84,14 +83,20 @@ return {
                   id = "repl",
                   size = 1,
                 },
+                -- {
+                --   id = "easy-dotnet_cpu",
+                --   size = 0.5,
+                -- },
+                -- {
+                --   id = "netcoredbg_cpu",
+                --   size = 0.5,
+                -- },
               },
-
               size = 10,
               position = "bottom",
             },
             {
               elements = { { id = "scopes", size = 1 } },
-
               size = 10,
               position = "bottom",
             },
