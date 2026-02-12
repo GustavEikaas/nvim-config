@@ -69,16 +69,6 @@ return {
             multi_file = {},
           },
         },
-        win_config = function()
-          local editor_width = vim.o.columns
-          local editor_height = vim.o.lines
-          return {
-            type = "split",
-            position = "bottom",
-            height = 0.2 * editor_height,
-            row = math.floor(editor_height * 0.5 - (0.2 * editor_height) * 0.5),
-          }
-        end,
       },
       commit_log_panel = {
         win_config = { -- See ':h diffview-config-win_config'
