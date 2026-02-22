@@ -25,6 +25,11 @@ return {
   config = function()
     local dotnet = require "easy-dotnet"
     dotnet.setup {
+      server = {
+        ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
+        log_level = "Off",
+        use_visual_studio = false,
+      },
       test_runner = {
         enable_buffer_test_execution = true,
         viewmode = "float",
@@ -38,16 +43,12 @@ return {
       },
       debugger = {
         bin_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason/bin/netcoredbg.cmd"),
+        console = "externalTerminal",
         -- bin_path = "C:/Program Files (x86)/netcoredbg/netcoredbg.exe"
       },
       auto_bootstrap_namespace = {
         type = "file_scoped",
         enabled = true,
-      },
-      server = {
-        use_visual_studio = false,
-        ---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
-        log_level = "Off",
       },
       terminal = function(path, action, args, ctx)
         local commands = {

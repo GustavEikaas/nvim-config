@@ -39,3 +39,7 @@ vim.cmd "filetype plugin on"
 vim.lsp.enable "ts_ls"
 vim.lsp.enable "yamlls"
 vim.lsp.enable "lua_ls"
+
+vim.api.nvim_create_user_command("LspLog", function()
+  vim.cmd("tabnew " .. vim.lsp.log.get_filename())
+end, {})

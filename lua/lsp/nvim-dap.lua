@@ -1,3 +1,5 @@
+local extensions = require "extensions"
+
 local function open_repl_only()
   local dapui = require "dapui"
   dapui.close()
@@ -16,6 +18,12 @@ return {
     local dap = require "dap"
     dap.set_log_level "TRACE"
     local dapui = require "dapui"
+    if extensions.isWindows() then
+      dap.defaults.fallback.external_terminal = {
+        command = "wt",
+        args = { "-w", "-1", "nt", "--" },
+      }
+    end
     -- require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
 
     vim.keymap.set("n", "<F5>", function()
@@ -80,7 +88,7 @@ return {
             {
               elements = {
                 {
-                  id = "repl",
+                  id = "console",
                   size = 1,
                 },
                 -- {
@@ -103,7 +111,7 @@ return {
             {
               elements = {
                 "breakpoints",
-                -- "console",
+                "console",
                 "stacks",
                 "watches",
               },
